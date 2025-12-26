@@ -1,0 +1,44 @@
+## Interface: 120000
+## Title: |cffC69B6DMy Addon|r
+## Author: Slackluster
+## IconTexture: Interface\AddOns\???\assets\???_icon.blp
+## AddonCompartmentFunc: MyAddon_Click
+## AddonCompartmentFuncOnEnter: MyAddon_Enter
+## AddonCompartmentFuncOnLeave: MyAddon_Leave
+## Version: @project-version@
+## X-Curse-Project-ID: ???
+## X-Wago-ID: ???
+
+## SavedVariables: MyAddon_Settings, MyAddon_Cache
+## SavedVariablesPerCharacter:
+
+## Category-enUS: https://warcraft.wiki.gg/wiki/Addon_Categories
+## Category-deDE:
+## Category-esES:
+## Category-esMX:
+## Category-frFR:
+## Category-itIT:
+## Category-koKR:
+## Category-ptBR:
+## Category-ruRU:
+## Category-zhCN:
+## Category-zhTW:
+
+libs\ChatThrottleLib\ChatThrottleLib.xml
+libs\LibDBIcon-1.0\embeds.xml
+libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
+Core.lua
+Database.lua
+Settings.lua
+FrameTemplates.xml
+locales\enUS.lua
+locales\deDE.lua
+locales\esES.lua
+locales\esMX.lua
+locales\frFR.lua
+locales\itIT.lua
+locales\koKR.lua
+locales\ptBR.lua
+locales\ruRU.lua
+locales\zhCN.lua
+locales\zhTW.lua
