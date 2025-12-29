@@ -62,15 +62,15 @@ function app.CreateMinimapButton()
 		end,
 	})
 
-	local icon = LibStub("LibDBIcon-1.0", true)
-	icon:Register(appName, miniButton, Watchtower_Settings)
+	app.MinimapIcon = LibStub("LibDBIcon-1.0", true)
+	app.MinimapIcon:Register(appName, miniButton, Watchtower_Settings)
 
-	if Watchtower_Settings["minimapIcon"] == true then
+	if Watchtower_Settings["minimapIcon"] then
 		Watchtower_Settings["hide"] = false
-		icon:Show(appName)
+		app.MinimapIcon:Show(appName)
 	else
 		Watchtower_Settings["hide"] = true
-		icon:Hide(appName)
+		app.MinimapIcon:Hide(appName)
 	end
 end
 
@@ -158,4 +158,17 @@ function app.CreateSettings()
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://github.com/Slackluster/Watchtower/issues") end, L.SETTINGS_ISSUES_DESC, true))
 
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(C_AddOns.GetAddOnMetadata(appName, "Version")))
+
+	local variable, name, tooltip = "minimapIcon", L.SETTINGS_MINIMAP, L.SETTINGS_MINIMAP_DESC
+	local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, true)
+	Settings.CreateCheckbox(category, setting, tooltip)
+	setting:SetValueChangedCallback(function()
+		if Watchtower_Settings["minimapIcon"] then
+			Watchtower_Settings["hide"] = false
+			app.MinimapIcon:Show(appName)
+		else
+			Watchtower_Settings["hide"] = true
+			app.MinimapIcon:Hide(appName)
+		end
+	end)
 end
