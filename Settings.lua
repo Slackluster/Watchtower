@@ -145,7 +145,7 @@ function app.CreateSettings()
 		self.Text:SetTextToFit(data.text)
 	end
 
-	local data = {text = L.SETTINGS_SUPPORT_TEXTLONG}
+	local data = { text = L.SETTINGS_SUPPORT_TEXTLONG }
 	local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
 	function text:GetExtent()
 		return 28 + select(2, string.gsub(data.text, "\n", "")) * 12
@@ -170,5 +170,12 @@ function app.CreateSettings()
 			Watchtower_Settings["hide"] = true
 			app.MinimapIcon:Hide(appName)
 		end
+	end)
+
+	local variable, name, tooltip = "statusTrackerLocked", L.SETTINGS_LOCKED, L.SETTINGS_LOCKED_DESC
+	local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, true)
+	Settings.CreateCheckbox(category, setting, tooltip)
+	setting:SetValueChangedCallback(function()
+
 	end)
 end

@@ -12,4 +12,31 @@
 			</Layer>
 		</Layers>
 	</Frame>
+
+	<Button name="Watchtower_ListItem" virtual="true">
+		<Size x="200" y="40" />
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="LeftText1" inherits="GameFontNormal" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="LEFT" x="0" />
+					</Anchors>
+					<Size x="400" y="0" />
+				</FontString>
+				<FontString parentKey="LeftText2" inherits="GameFontNormal" justifyH="LEFT" wordwrap="false">
+					<Anchors>
+						<Anchor point="LEFT" x="18" />
+						<Anchor point="RIGHT" x="-18" />
+					</Anchors>
+					<Size x="400" y="0" />
+				</FontString>
+				<FontString parentKey="RightText" inherits="GameFontNormal" justifyH="RIGHT">
+					<Anchors>
+						<Anchor point="RIGHT" x="-5" />
+					</Anchors>
+					<Size x="400" y="0" />
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
 </Ui>
