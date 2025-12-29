@@ -104,8 +104,11 @@ end)
 --------------------
 
 function app.CreateSlashCommands()
-	SLASH_MyAddon1 = "/watch"
-	function SlashCmdList.MyAddon(msg, editBox)
+	SLASH_RELOADUI1 = "/rl"
+	SlashCmdList.RELOADUI = ReloadUI
+
+	SLASH_Watchtower1 = "/watch"
+	function SlashCmdList.Watchtower(msg, editBox)
 		local command, rest = msg:match("^(%S*)%s*(.-)$")
 
 		if command == "settings" then
