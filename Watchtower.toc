@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Title: |cffC69B6DWatchtower|r
+## Title: |cff3FC7EBWatchtower|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\Watchtower\assets\wt_icon.blp
 ## AddonCompartmentFunc: Watchtower_Click
