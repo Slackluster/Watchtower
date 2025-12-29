@@ -1,6 +1,6 @@
-------------------------
--- My Addon: ptBR.lua --
-------------------------
+--------------------------
+-- Watchtower: ptBR.lua --
+--------------------------
 -- Portuguese (Brazil) localisation
 -- Translator(s):
 

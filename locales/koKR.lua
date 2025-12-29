@@ -1,6 +1,6 @@
-------------------------
--- My Addon: koKR.lua --
-------------------------
+--------------------------
+-- Watchtower: koKR.lua --
+--------------------------
 -- Korean (Korea) localisation
 -- Translator(s):
 

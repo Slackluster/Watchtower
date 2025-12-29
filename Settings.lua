@@ -1,6 +1,6 @@
-----------------------------
--- My Addon: Settings.lua --
-----------------------------
+------------------------------
+-- Watchtower: Settings.lua --
+------------------------------
 
 local appName, app = ...
 local L = app.locales
@@ -11,10 +11,10 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		MyAddon_Settings = MyAddon_Settings or {}
+		Watchtower_Settings = Watchtower_Settings or {}
 
-		MyAddon_Settings["minimapIcon"] = true
-		MyAddon_Settings["hide"] = false
+		Watchtower_Settings["minimapIcon"] = true
+		Watchtower_Settings["hide"] = false
 
 		app.CreateMinimapButton()
 		app.CreateSettings()
@@ -29,7 +29,7 @@ function app.OpenSettings()
 	Settings.OpenToCategory(app.Settings:GetID())
 end
 
-function MyAddon_Click(self, button)
+function Watchtower_Click(self, button)
 	if button == "LeftButton" then
 		-- ???
 	elseif button == "RightButton" then
@@ -37,14 +37,14 @@ function MyAddon_Click(self, button)
 	end
 end
 
-function MyAddon_Enter(self, button)
+function Watchtower_Enter(self, button)
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
 	GameTooltip:AddLine(L.SETTINGS_TOOLTIP)
 	GameTooltip:Show()
 end
 
-function MyAddon_Leave()
+function Watchtower_Leave()
 	GameTooltip:Hide()
 end
 
@@ -54,7 +54,7 @@ function app.CreateMinimapButton()
 		text = app.NameLong,
 		icon = app.Icon,
 
-		OnClick = MyAddon_Click,
+		OnClick = Watchtower_Click,
 
 		OnTooltipShow = function(tooltip)
 			if not tooltip or not tooltip.AddLine then return end
@@ -63,13 +63,13 @@ function app.CreateMinimapButton()
 	})
 
 	local icon = LibStub("LibDBIcon-1.0", true)
-	icon:Register(appName, miniButton, MyAddon_Settings)
+	icon:Register(appName, miniButton, Watchtower_Settings)
 
-	if MyAddon_Settings["minimapIcon"] == true then
-		MyAddon_Settings["hide"] = false
+	if Watchtower_Settings["minimapIcon"] == true then
+		Watchtower_Settings["hide"] = false
 		icon:Show(appName)
 	else
-		MyAddon_Settings["hide"] = true
+		Watchtower_Settings["hide"] = true
 		icon:Hide(appName)
 	end
 end
@@ -100,7 +100,7 @@ function app.CreateSettings()
 		app.LinkCopiedFrame:Hide()
 	end)
 
-	StaticPopupDialogs["MYADDON_URL"] = {
+	StaticPopupDialogs["WATCHTOWER_URL"] = {
 		text = L.SETTINGS_URL_COPY,
 		button1 = CLOSE,
 		whileDead = true,
@@ -139,23 +139,23 @@ function app.CreateSettings()
 	Settings.RegisterAddOnCategory(category)
 	app.Settings = category
 
-	MyAddon_SettingsTextMixin = {}
-	function MyAddon_SettingsTextMixin:Init(initializer)
+	Watchtower_SettingsTextMixin = {}
+	function Watchtower_SettingsTextMixin:Init(initializer)
 		local data = initializer:GetData()
 		self.Text:SetTextToFit(data.text)
 	end
 
 	local data = {text = L.SETTINGS_SUPPORT_TEXTLONG}
-	local text = layout:AddInitializer(Settings.CreateElementInitializer("MyAddon_SettingsText", data))
+	local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
 	function text:GetExtent()
 		return 28 + select(2, string.gsub(data.text, "\n", "")) * 12
 	end
 
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, function() StaticPopup_Show("MYADDON_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end, L.SETTINGS_SUPPORT_DESC, true))
+	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end, L.SETTINGS_SUPPORT_DESC, true))
 
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, function() StaticPopup_Show("MYADDON_URL", nil, nil, "https://discord.gg/hGvF59hstx") end, L.SETTINGS_HELP_DESC, true))
+	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://discord.gg/hGvF59hstx") end, L.SETTINGS_HELP_DESC, true))
 
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, function() StaticPopup_Show("MYADDON_URL", nil, nil, "https://github.com/Slackluster/???/issues") end, L.SETTINGS_ISSUES_DESC, true))
+	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://github.com/Slackluster/Watchtower/issues") end, L.SETTINGS_ISSUES_DESC, true))
 
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(C_AddOns.GetAddOnMetadata(appName, "Version")))
 end

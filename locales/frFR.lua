@@ -1,6 +1,6 @@
-------------------------
--- My Addon: frFR.lua --
-------------------------
+--------------------------
+-- Watchtower: frFR.lua --
+--------------------------
 -- French (France) localisation
 -- Translator(s): Klep-Ysondre
 

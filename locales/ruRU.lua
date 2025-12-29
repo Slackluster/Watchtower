@@ -1,6 +1,6 @@
-------------------------
--- My Addon: ruRU.lua --
-------------------------
+--------------------------
+-- Watchtower: ruRU.lua --
+--------------------------
 -- Russian (Russia) localisation
 -- Translator(s): ZamestoTV
 

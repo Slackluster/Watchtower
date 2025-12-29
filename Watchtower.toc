@@ -1,0 +1,44 @@
+## Interface: 120000
+## Title: |cffC69B6DWatchtower|r
+## Author: Slackluster
+## IconTexture: Interface\AddOns\Watchtower\assets\wt_icon.blp
+## AddonCompartmentFunc: Watchtower_Click
+## AddonCompartmentFuncOnEnter: Watchtower_Enter
+## AddonCompartmentFuncOnLeave: Watchtower_Leave
+## Version: @project-version@
+## X-Curse-Project-ID: 1416019
+## X-Wago-ID: nGvpl26x
+
+## SavedVariables: Watchtower_Settings
+## SavedVariablesPerCharacter:
+
+## Category: Quests
+## Category-deDE: Quests
+## Category-esES: Misiones
+## Category-esMX: Misiones
+## Category-frFR: Quêtes
+## Category-itIT: Missioni
+## Category-koKR: 퀘스트
+## Category-ptBR: Missões
+## Category-ruRU: Задания
+## Category-zhCN: 任务
+## Category-zhTW: 任務
+
+libs\ChatThrottleLib\ChatThrottleLib.xml
+libs\LibDBIcon-1.0\embeds.xml
+libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
+Core.lua
+Database.lua
+Settings.lua
+FrameTemplates.xml
+locales\enUS.lua
+locales\deDE.lua
+locales\esES.lua
+locales\esMX.lua
+locales\frFR.lua
+locales\itIT.lua
+locales\koKR.lua
+locales\ptBR.lua
+locales\ruRU.lua
+locales\zhCN.lua
+locales\zhTW.lua

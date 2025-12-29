@@ -1,6 +1,6 @@
-------------------------
--- My Addon: Core.lua --
-------------------------
+--------------------------
+-- Watchtower: Core.lua --
+--------------------------
 
 local appName, app = ...
 app.locales = {}
@@ -104,7 +104,7 @@ end)
 --------------------
 
 function app.CreateSlashCommands()
-	SLASH_MyAddon1 = "/???";
+	SLASH_MyAddon1 = "/watch"
 	function SlashCmdList.MyAddon(msg, editBox)
 		local command, rest = msg:match("^(%S*)%s*(.-)$")
 

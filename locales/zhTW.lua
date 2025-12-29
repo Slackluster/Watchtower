@@ -1,6 +1,6 @@
-------------------------
--- My Addon: zhTW.lua --
-------------------------
+--------------------------
+-- Watchtower: zhTW.lua --
+--------------------------
 -- Chinese (Traditional, Taiwan) localisation
 -- Translator(s):
 

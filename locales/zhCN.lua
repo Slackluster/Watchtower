@@ -1,6 +1,6 @@
-------------------------
--- My Addon: zhCN.lua --
-------------------------
+--------------------------
+-- Watchtower: zhCN.lua --
+--------------------------
 -- Chinese (Simplified, PRC) localisation
 -- Translator(s):
 

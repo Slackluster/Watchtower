@@ -1,6 +1,6 @@
-------------------------
--- My Addon: esES.lua --
-------------------------
+--------------------------
+-- Watchtower: esES.lua --
+--------------------------
 -- Spanish (Spain) localisation
 -- Translator(s):
 

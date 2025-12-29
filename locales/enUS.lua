@@ -1,6 +1,6 @@
-------------------------
--- My Addon: enUS.lua --
-------------------------
+--------------------------
+-- Watchtower: enUS.lua --
+--------------------------
 -- English (United States) localisation
 -- Translator(s): N/A
 

@@ -1,6 +1,6 @@
-------------------------
--- My Addon: esMX.lua --
-------------------------
+--------------------------
+-- Watchtower: esMX.lua --
+--------------------------
 -- Spanish (Mexico) localisation
 -- Translator(s):
 

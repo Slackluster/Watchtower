@@ -1,17 +1,17 @@
-----------------------------
--- My Addon: Database.lua --
-----------------------------
+------------------------------
+-- Watchtower: Database.lua --
+------------------------------
 
 local appName, app = ...
 
 -- Strings
-app.Name = "My Addon"
+app.Name = "Watchtower"
 app.NameLong = app.Colour(app.Name)
-app.NameShort = app.Colour("???")
-app.NamePrefix = "MyAddon"
+app.NameShort = app.Colour("WT")
+app.NamePrefix = "Watchtower"
 
 -- Textures
-app.Icon = "Interface\\AddOns\\???\\assets\\???_icon.blp"
+app.Icon = "Interface\\AddOns\\Watchtower\\assets\\wt_icon.blp"
 app.IconReady = "Interface\\RaidFrame\\ReadyCheck-Ready"
 app.IconNotReady = "Interface\\RaidFrame\\ReadyCheck-NotReady"
 app.IconLMB = "Interface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283"

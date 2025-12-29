@@ -1,6 +1,6 @@
-------------------------
--- My Addon: deDE.lua --
-------------------------
+--------------------------
+-- Watchtower: deDE.lua --
+--------------------------
 -- German (Germany) localisation
 -- Translator(s):
 

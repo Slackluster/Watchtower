@@ -1,6 +1,6 @@
-------------------------
--- My Addon: itIT.lua --
-------------------------
+--------------------------
+-- Watchtower: itIT.lua --
+--------------------------
 -- 	Italian (Italy) localisation
 -- Translator(s):
 
