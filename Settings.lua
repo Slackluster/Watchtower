@@ -52,7 +52,7 @@ function app.CreateMinimapButton()
 	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(appName, {
 		type = "data source",
 		text = app.NameLong,
-		icon = app.Icon,
+		icon = 236351,
 
 		OnClick = Watchtower_Click,
 
