@@ -173,7 +173,7 @@ function app.CreateSettings()
 	end)
 
 	local variable, name, tooltip = "statusTrackerLocked", L.SETTINGS_LOCKED, L.SETTINGS_LOCKED_DESC
-	local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, true)
+	local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, false)
 	Settings.CreateCheckbox(category, setting, tooltip)
 	setting:SetValueChangedCallback(function()
 

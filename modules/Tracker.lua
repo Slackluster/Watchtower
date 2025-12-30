@@ -11,6 +11,8 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
+		Watchtower_Settings["statusTrackerPosition"] = Watchtower_Settings["statusTrackerPosition"] or { ["height"] = 412.8004760742188, ["width"] = 232.7999114990234, ["left"] = 92.40211486816406, ["bottom"] = 205.1995391845703 }
+
 		app.CreateStatusTracker()
 		app.UpdateStatusTracker()
 		app.ShowStatusTracker()
@@ -115,7 +117,6 @@ function app.CreateStatusTracker()
 		--if data.index then
 			listItem.Text:SetText("|T" .. data.icon .. ":16|t" .. " " .. data.text)
 			listItem.Text:SetFont("Fonts\\FRIZQT__.TTF", 20)
-			listItem:SetHeight(30)
 		--end
 
 		listItem:EnableMouse(true)
@@ -124,7 +125,7 @@ function app.CreateStatusTracker()
 		listItem:SetScript("OnDragStop", function() app.SaveStatusTracker() end)
 	end
 
-	app.ScrollView:SetElementInitializer("Watchtower_ListItem", Initializer)
+	app.ScrollView:SetElementInitializer("Watchtower_ListItem30", Initializer)
 end
 
 function app.UpdateStatusTracker()
