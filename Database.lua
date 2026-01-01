@@ -7,7 +7,7 @@ local appName, app = ...
 -- Strings
 app.Name = "Watchtower"
 app.NameLong = app.Colour(app.Name)
-app.NameShort = app.Colour("WT")
+app.NameShort = app.Colour("WST")
 app.NamePrefix = "Watchtower"
 
 -- Textures

@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Title: |cff3FC7EBWatchtower|r
+## Title: |cff3FC7EBWatchtower: Status Tracker|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\Watchtower\assets\icon.png
 ## AddonCompartmentFunc: Watchtower_Click
