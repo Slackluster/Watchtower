@@ -107,7 +107,8 @@ function app.CreateSlashCommands()
 	SLASH_RELOADUI1 = "/rl"
 	SlashCmdList.RELOADUI = ReloadUI
 
-	SLASH_Watchtower1 = "/watch"
+	SLASH_Watchtower1 = "/wst"
+	SLASH_Watchtower2 = "/watch"
 	function SlashCmdList.Watchtower(msg, editBox)
 		local command, rest = msg:match("^(%S*)%s*(.-)$")
 
