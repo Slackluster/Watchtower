@@ -1,0 +1,5 @@
+<Bindings>
+  <Binding name="???_FEATURE" category="My Addon">
+    MyAddon.Feature()
+  </Binding>
+</Bindings>

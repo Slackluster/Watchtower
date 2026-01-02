@@ -135,20 +135,70 @@ function app.CreateSettings()
 		end,
 	}
 
+	Watchtower_SettingsTextMixin = {}
+	function Watchtower_SettingsTextMixin:Init(initializer)
+		local data = initializer:GetData()
+		self.LeftText:SetTextToFit(data.leftText)
+		self.MiddleText:SetTextToFit(data.middleText)
+		self.RightText:SetTextToFit(data.rightText)
+	end
+
+	Watchtower_SettingsExpandMixin = CreateFromMixins(SettingsExpandableSectionMixin)
+
+	function Watchtower_SettingsExpandMixin:Init(initializer)
+		SettingsExpandableSectionMixin.Init(self, initializer)
+		self.data = initializer.data
+	end
+
+	function Watchtower_SettingsExpandMixin:OnExpandedChanged(expanded)
+		SettingsInbound.RepairDisplay()
+	end
+
+	function Watchtower_SettingsExpandMixin:CalculateHeight()
+		return 24
+	end
+
+	function Watchtower_SettingsExpandMixin:OnExpandedChanged(expanded)
+		self:EvaluateVisibility(expanded)
+        SettingsInbound.RepairDisplay()
+	end
+
+	function Watchtower_SettingsExpandMixin:EvaluateVisibility(expanded)
+		if expanded then
+			self.Button.Right:SetAtlas("Options_ListExpand_Right_Expanded", TextureKitConstants.UseAtlasSize)
+		else
+			self.Button.Right:SetAtlas("Options_ListExpand_Right", TextureKitConstants.UseAtlasSize)
+		end
+	end
+
+	local function createExpandableSection(layout, name)
+		local initializer = CreateFromMixins(SettingsExpandableSectionInitializer)
+		local data = { name = name, expanded = false }
+
+		initializer:Init("Watchtower_SettingsExpandTemplate", data)
+		initializer.GetExtent = ScrollBoxFactoryInitializerMixin.GetExtent
+
+		layout:AddInitializer(initializer)
+
+		return initializer, function()
+			return initializer.data.expanded
+		end
+	end
+
 	local category, layout = Settings.RegisterVerticalLayoutCategory(app.Name)
 	Settings.RegisterAddOnCategory(category)
 	app.Settings = category
 
-	Watchtower_SettingsTextMixin = {}
-	function Watchtower_SettingsTextMixin:Init(initializer)
-		local data = initializer:GetData()
-		self.Text:SetTextToFit(data.text)
-	end
-
-	local data = { text = L.SETTINGS_SUPPORT_TEXTLONG }
+	local data = { leftText = L.SETTINGS_VERSION .. " |cffFFFFFF" .. C_AddOns.GetAddOnMetadata(appName, "Version") }
 	local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
 	function text:GetExtent()
-		return 28 + select(2, string.gsub(data.text, "\n", "")) * 12
+		return 14
+	end
+
+	local data = { leftText = L.SETTINGS_SUPPORT_TEXTLONG }
+	local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
+	function text:GetExtent()
+		return 28 + select(2, string.gsub(data.leftText, "\n", "")) * 12
 	end
 
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end, L.SETTINGS_SUPPORT_DESC, true))
@@ -157,25 +207,26 @@ function app.CreateSettings()
 
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://github.com/Slackluster/Watchtower/issues") end, L.SETTINGS_ISSUES_DESC, true))
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(C_AddOns.GetAddOnMetadata(appName, "Version")))
+	local expandInitializer, isExpanded = createExpandableSection(layout, L.SETTINGS_KEYSLASH_TITLE)
 
-	local variable, name, tooltip = "minimapIcon", L.SETTINGS_MINIMAP, L.SETTINGS_MINIMAP_DESC
-	local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-	setting:SetValueChangedCallback(function()
-		if Watchtower_Settings["minimapIcon"] then
-			Watchtower_Settings["hide"] = false
-			app.MinimapIcon:Show(appName)
-		else
-			Watchtower_Settings["hide"] = true
-			app.MinimapIcon:Hide(appName)
+		local action = "???_FEATURE"
+		local bindingIndex = C_KeyBindings.GetBindingIndex(action)
+		local initializer = CreateKeybindingEntryInitializer(bindingIndex, true)
+		local keybind = layout:AddInitializer(initializer)
+		keybind:AddShownPredicate(isExpanded)
+
+		local data = { leftText = "|cffFFFFFF"
+			.. "/???" .. "\n\n"
+			.. "/??? settings",
+		middleText =
+			"" .. "\n\n" ..
+			L.SETTINGS_SLASH_SETTINGS
+		}
+		local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
+		function text:GetExtent()
+			return 28 + select(2, string.gsub(data.leftText, "\n", "")) * 12
 		end
-	end)
+		text:AddShownPredicate(isExpanded)
 
-	local variable, name, tooltip = "statusTrackerLocked", L.SETTINGS_LOCKED, L.SETTINGS_LOCKED_DESC
-	local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, false)
-	Settings.CreateCheckbox(category, setting, tooltip)
-	setting:SetValueChangedCallback(function()
-
-	end)
+	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
 end
