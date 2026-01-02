@@ -86,7 +86,7 @@ function app.CreateSettings()
 	text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
 	text:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
 	text:SetJustifyH("CENTER")
-	text:SetText(L.SETTINGS_URL_COPIED)
+	text:SetText(app.ShowIcon(app.IconReady) .. " " .. L.SETTINGS_URL_COPIED)
 
 	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()
 	local fadeOut = app.LinkCopiedFrame.animation:CreateAnimation("Alpha")
