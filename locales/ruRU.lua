@@ -15,7 +15,7 @@ L.INVALID_COMMAND =						"Неверная команда."
 L.NEW_VERSION_AVAILABLE =				"Доступна новая версия " .. app.NameLong .. ":"
 
 -- Settings
--- L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app.ShowIcon(app.IconLMB) .. ": ???\n" .. app.ShowIcon(app.IconRMB) .. ": Open the settings"
+-- L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF" .. app:ShowIcon(app.IconLMB) .. ": ???\n" .. app:ShowIcon(app.IconRMB) .. ": Open the settings"
 
 -- L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
 L.SETTINGS_SUPPORT_TEXTLONG =			"Разработка этого аддона требует значительного времени и усилий.\nПожалуйста, рассмотрите возможность финансовой поддержки разработчика."

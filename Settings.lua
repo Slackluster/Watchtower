@@ -16,8 +16,8 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		Watchtower_Settings["minimapIcon"] = true
 		Watchtower_Settings["hide"] = false
 
-		app.CreateMinimapButton()
-		app.CreateSettings()
+		app:CreateMinimapButton()
+		app:CreateSettings()
 	end
 end)
 
@@ -25,7 +25,7 @@ end)
 -- SETTINGS --
 --------------
 
-function app.OpenSettings()
+function app:OpenSettings()
 	Settings.OpenToCategory(app.Settings:GetID())
 end
 
@@ -33,7 +33,7 @@ function Watchtower_Click(self, button)
 	if button == "LeftButton" then
 		-- ???
 	elseif button == "RightButton" then
-		app.OpenSettings()
+		app:OpenSettings()
 	end
 end
 
@@ -48,7 +48,7 @@ function Watchtower_Leave()
 	GameTooltip:Hide()
 end
 
-function app.CreateMinimapButton()
+function app:CreateMinimapButton()
 	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(appName, {
 		type = "data source",
 		text = app.NameLong,
@@ -74,7 +74,7 @@ function app.CreateMinimapButton()
 	end
 end
 
-function app.CreateSettings()
+function app:CreateSettings()
 	app.LinkCopiedFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.LinkCopiedFrame:SetPoint("CENTER")
 	app.LinkCopiedFrame:SetFrameStrata("TOOLTIP")
@@ -86,7 +86,7 @@ function app.CreateSettings()
 	text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
 	text:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
 	text:SetJustifyH("CENTER")
-	text:SetText(app.ShowIcon(app.IconReady) .. " " .. L.SETTINGS_URL_COPIED)
+	text:SetText(app:ShowIcon(app.IconReady) .. " " .. L.SETTINGS_URL_COPIED)
 
 	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()
 	local fadeOut = app.LinkCopiedFrame.animation:CreateAnimation("Alpha")

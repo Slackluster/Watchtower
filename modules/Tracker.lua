@@ -13,9 +13,9 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		Watchtower_Settings["statusTrackerPosition"] = Watchtower_Settings["statusTrackerPosition"] or { ["height"] = 412.8004760742188, ["width"] = 232.7999114990234, ["left"] = 92.40211486816406, ["bottom"] = 205.1995391845703 }
 
-		app.CreateStatusTracker()
-		app.UpdateStatusTracker()
-		app.ShowStatusTracker()
+		app:CreateStatusTracker()
+		app:UpdateStatusTracker()
+		app:ShowStatusTracker()
 	end
 end)
 
@@ -23,13 +23,13 @@ end)
 -- STATUS TRACKER --
 --------------------
 
-function app.MoveStatusTracker()
+function app:MoveStatusTracker()
 	if not Watchtower_Settings["statusTrackerLocked"] then
 		app.StatusTracker:StartMoving()
 	end
 end
 
-function app.SaveStatusTracker()
+function app:SaveStatusTracker()
 	app.StatusTracker:StopMovingOrSizing()
 
 	local left = app.StatusTracker:GetLeft()
@@ -38,24 +38,24 @@ function app.SaveStatusTracker()
 	Watchtower_Settings["statusTrackerPosition"] = { ["left"] = left, ["bottom"] = bottom, ["width"] = width, ["height"] = height }
 end
 
-function app.ShowStatusTracker()
+function app:ShowStatusTracker()
 	app.StatusTracker:ClearAllPoints()
 	app.StatusTracker:SetSize(Watchtower_Settings["statusTrackerPosition"].width, Watchtower_Settings["statusTrackerPosition"].height)
 	app.StatusTracker:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", Watchtower_Settings["statusTrackerPosition"].left, Watchtower_Settings["statusTrackerPosition"].bottom)
 
-	app.UpdateStatusTracker()
+	app:UpdateStatusTracker()
 	app.StatusTracker:Show()
 end
 
-function app.ToggleStatusTracker()
+function app:ToggleStatusTracker()
 	if app.StatusTracker:IsShown() then
 		app.StatusTracker:Hide()
 	else
-		app.ShowStatusTracker()
+		app:ShowStatusTracker()
 	end
 end
 
-function app.CreateStatusTracker()
+function app:CreateStatusTracker()
 	app.StatusTracker = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.StatusTracker:SetPoint("CENTER")
 	app.StatusTracker:SetSize(300, 300)
@@ -75,8 +75,8 @@ function app.CreateStatusTracker()
 	app.StatusTracker:SetClampedToScreen(true)
 	app.StatusTracker:RegisterForDrag("LeftButton")
 	app.StatusTracker:SetClampRectInsets(10, -10, -10, 10)
-	app.StatusTracker:SetScript("OnDragStart", function() app.MoveStatusTracker() end)
-	app.StatusTracker:SetScript("OnDragStop", function() app.SaveStatusTracker() end)
+	app.StatusTracker:SetScript("OnDragStart", function() app:MoveStatusTracker() end)
+	app.StatusTracker:SetScript("OnDragStop", function() app:SaveStatusTracker() end)
 	--app.StatusTracker:Hide()
 
 	local scrollBox = CreateFrame("Frame", nil, app.StatusTracker, "WowScrollBoxList")
@@ -84,8 +84,8 @@ function app.CreateStatusTracker()
 	scrollBox:SetPoint("BOTTOMRIGHT", app.StatusTracker, "BOTTOMRIGHT", -18, 4)
 	scrollBox:EnableMouse(true)
 	scrollBox:RegisterForDrag("LeftButton")
-	scrollBox:SetScript("OnDragStart", function() app.MoveStatusTracker() end)
-	scrollBox:SetScript("OnDragStop", function() app.SaveStatusTracker() end)
+	scrollBox:SetScript("OnDragStart", function() app:MoveStatusTracker() end)
+	scrollBox:SetScript("OnDragStop", function() app:SaveStatusTracker() end)
 
 	local scrollBar = CreateFrame("EventFrame", nil, app.StatusTracker, "MinimalScrollBar")
 	scrollBar:SetPoint("TOPLEFT", scrollBox, "TOPRIGHT")
@@ -106,7 +106,7 @@ function app.CreateStatusTracker()
 	app.StatusTracker.Corner:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
 	app.StatusTracker.Corner:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
 	app.StatusTracker.Corner:SetScript("OnMouseDown", function() app.StatusTracker:StartSizing("BOTTOMRIGHT") end)
-	app.StatusTracker.Corner:SetScript("OnMouseUp", function() app.SaveStatusTracker() end)
+	app.StatusTracker.Corner:SetScript("OnMouseUp", function() app:SaveStatusTracker() end)
 
 	app.ScrollView = CreateScrollBoxListTreeListView()
 	ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, scrollBar, app.ScrollView)
@@ -121,14 +121,14 @@ function app.CreateStatusTracker()
 
 		listItem:EnableMouse(true)
 		listItem:RegisterForDrag("LeftButton")
-		listItem:SetScript("OnDragStart", function() app.MoveStatusTracker() end)
-		listItem:SetScript("OnDragStop", function() app.SaveStatusTracker() end)
+		listItem:SetScript("OnDragStart", function() app:MoveStatusTracker() end)
+		listItem:SetScript("OnDragStop", function() app:SaveStatusTracker() end)
 	end
 
 	app.ScrollView:SetElementInitializer("Watchtower_ListItem30", Initializer)
 end
 
-function app.UpdateStatusTracker()
+function app:UpdateStatusTracker()
 	local DataProvider = CreateTreeDataProvider()
 
 	for k, v in ipairs(app.Table) do
