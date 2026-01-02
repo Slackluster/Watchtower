@@ -9,7 +9,7 @@ local appName, app = ...
 local L = app.locales
 
 -- Slash commands
--- L.INVALID_COMMAND =						"Invalid command."
+L.INVALID_COMMAND =						"Commande non valide."
 
 -- Version comms
 L.NEW_VERSION_AVAILABLE =				"Une nouvelle version de " .. app.NameLong .. " est disponible :"

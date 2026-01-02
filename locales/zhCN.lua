@@ -2,7 +2,7 @@
 -- Watchtower: zhCN.lua --
 --------------------------
 -- Chinese (Simplified, PRC) localisation
--- Translator(s):
+-- Translator(s): cikichen
 
 if GetLocale() ~= "zhCN" then return end
 local appName, app = ...
@@ -33,6 +33,6 @@ local L = app.locales
 
 -- L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands"	-- "Keybindings"
 -- _G["BINDING_NAME_???_FEATURE"] =		"Feature Name"
--- L.SETTINGS_SLASH_SETTINGS =				"Open the settings"
+L.SETTINGS_SLASH_SETTINGS =				"打开设置"
 
 -- L.GENERAL =								GENERAL	-- "General"
