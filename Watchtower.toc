@@ -2,12 +2,13 @@
 ## Title: |cff3FC7EBWatchtower: Status Tracker|r
 ## Author: Slackluster
 ## IconTexture: Interface\AddOns\Watchtower\assets\icon.png
-## AddonCompartmentFunc: Watchtower_Click
-## AddonCompartmentFuncOnEnter: Watchtower_Enter
-## AddonCompartmentFuncOnLeave: Watchtower_Leave
 ## Version: @project-version@
 ## X-Curse-Project-ID: 1416019
 ## X-Wago-ID: nGvpl26x
+
+## AddonCompartmentFunc: Watchtower_Click
+## AddonCompartmentFuncOnEnter: Watchtower_Enter
+## AddonCompartmentFuncOnLeave: Watchtower_Leave
 
 ## SavedVariables: Watchtower_Settings
 ## SavedVariablesPerCharacter:
