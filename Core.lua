@@ -66,12 +66,10 @@ end)
 
 app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
 	if prefix == app.NamePrefix then
-		if not app.Flag.VersionCheck then app.Flag.VersionCheck = 0 end
-
 		local version = text:match("version:(.+)")
-		if version then
-			if version ~= "@project-version@" then
-				local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
+		if version and not app.Flag.VersionCheck then
+			local expansion, major, minor, iteration = version:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
+			if expansion then
 				expansion = string.format("%02d", expansion)
 				major = string.format("%02d", major)
 				minor = string.format("%02d", minor)
@@ -79,19 +77,17 @@ app.Event:Register("CHAT_MSG_ADDON", function(prefix, text, channel, sender, tar
 				local otherAddonVersion = tonumber(iteration)
 
 				local localVersion = C_AddOns.GetAddOnMetadata(appName, "Version")
-				if localVersion ~= "@project-version@" then
-					expansion, major, minor, iteration = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
-					expansion = string.format("%02d", expansion)
-					major = string.format("%02d", major)
-					minor = string.format("%02d", minor)
-					local localGameVersion = tonumber(expansion .. major .. minor)
-					local localAddonVersion = tonumber(iteration)
+				local expansion2, major2, minor2, iteration2 = localVersion:match("v(%d+)%.(%d+)%.(%d+)%-(%d+)")
+				if expansion2 then
+					expansion2 = string.format("%02d", expansion2)
+					major2 = string.format("%02d", major2)
+					minor2 = string.format("%02d", minor2)
+					local localGameVersion = tonumber(expansion2 .. major2 .. minor2)
+					local localAddonVersion = tonumber(iteration2)
 
 					if otherGameVersion > localGameVersion or (otherGameVersion == localGameVersion and otherAddonVersion > localAddonVersion) then
-						if GetServerTime() - app.Flag.VersionCheck > 600 then
-							app:Print(L.NEW_VERSION_AVAILABLE, version)
-							app.Flag.VersionCheck = GetServerTime()
-						end
+						app:Print(L.NEW_VERSION_AVAILABLE, version)
+						app.Flag.VersionCheck = true
 					end
 				end
 			end
