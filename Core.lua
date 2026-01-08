@@ -154,3 +154,26 @@ end
 function app:Print(...)
 	print(app.NameShort .. ":", ...)
 end
+
+function app:SetBorder(parent, a, b, c, d)
+	local border = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+	border:SetPoint("TOPLEFT", parent, a or 0, b or 0)
+	border:SetPoint("BOTTOMRIGHT", parent, c or 0, d or 0)
+	border:SetBackdrop({
+		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+		edgeSize = 14,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	border:SetBackdropColor(0, 0, 0, 0)
+	border:SetBackdropBorderColor(0.25, 0.78, 0.92)
+end
+
+function app:MakeButton(parent, text)
+	local frame = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+	frame:SetText(text)
+	frame:SetWidth(frame:GetTextWidth()+20)
+
+	app:SetBorder(frame, 0, 0, 0, -1)
+	return frame
+end
