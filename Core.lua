@@ -110,6 +110,8 @@ function app:CreateSlashCommands()
 
 		if command == "settings" then
 			app:OpenSettings()
+		elseif command == "" then
+			app:ToggleEditPanel()
 		else
 			app:Print(L.INVALID_COMMAND)
 		end

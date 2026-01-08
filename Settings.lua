@@ -4,6 +4,7 @@
 
 local appName, app = ...
 local L = app.locales
+local api = app.api
 
 -------------
 -- ON LOAD --
@@ -190,18 +191,18 @@ function app:CreateSettings()
 
 	local expandInitializer, isExpanded = createExpandableSection(layout, L.SETTINGS_KEYSLASH_TITLE)
 
-		local action = "???_FEATURE"
+		local action = "WATCHTOWER_TOGGLE"
 		local bindingIndex = C_KeyBindings.GetBindingIndex(action)
 		local initializer = CreateKeybindingEntryInitializer(bindingIndex, true)
 		local keybind = layout:AddInitializer(initializer)
 		keybind:AddShownPredicate(isExpanded)
 
 		local data = { leftText = "|cffFFFFFF"
-			.. "/???" .. "\n\n"
-			.. "/??? settings",
+			.. "/watch|R " .. L.OR .. " |cffFFFFFF/wst" .. "\n\n"
+			.. "/watch settings",
 		middleText =
-			"" .. "\n\n" ..
-			L.SETTINGS_SLASH_SETTINGS
+			L.SLASH_TOGGLE_EDITPANEL .. "\n\n" ..
+			L.SLASH_OPEN_SETTINGS
 		}
 		local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
 		function text:GetExtent()
