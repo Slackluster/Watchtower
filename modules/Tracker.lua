@@ -4,6 +4,7 @@
 
 local appName, app = ...
 local L = app.locales
+local api = app.api
 
 -------------
 -- ON LOAD --
