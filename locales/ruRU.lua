@@ -25,9 +25,8 @@ L.SETTINGS_URL_COPIED =					"Ссылка скопирована в буфер �
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Слэш-команды"	-- "Keybindings"
 -- _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	"Toggle Edit Panel"
-L.INVALID_COMMAND =						"Неверная команда."
--- L.SLASH_OPEN_SETTINGS =					"Откройте настройки"
 -- L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
+-- L.SLASH_OPEN_SETTINGS =					"Откройте настройки"
 
 -- L.GENERAL =								GENERAL	-- "General"
 
@@ -37,4 +36,5 @@ L.NEW_VERSION_AVAILABLE =				"Доступна новая версия " .. app.
 -- 										.. app:ShowIcon(app.IconLMB) .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n"
 -- 										.. app:ShowIcon(app.IconRMB) .. ": " .. L.SLASH_OPEN_SETTINGS
 
+L.INVALID_COMMAND =						"Неверная команда."
 -- L.OR =									"or"

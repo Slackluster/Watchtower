@@ -25,9 +25,8 @@ L.SETTINGS_URL_COPIED =					"Lien copié dans le presse-papiers"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Slash »"	-- "Keybindings"
 -- _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	"Toggle Edit Panel"
-L.INVALID_COMMAND =						"Commande non valide."
--- L.SLASH_OPEN_SETTINGS =					"Ouvrir les paramètres"
 -- L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
+-- L.SLASH_OPEN_SETTINGS =					"Ouvrir les paramètres"
 
 -- L.GENERAL =								GENERAL	-- "General"
 
@@ -37,4 +36,5 @@ L.NEW_VERSION_AVAILABLE =				"Une nouvelle version de " .. app.NameLong .. " est
 -- 										.. app:ShowIcon(app.IconLMB) .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n"
 -- 										.. app:ShowIcon(app.IconRMB) .. ": " .. L.SLASH_OPEN_SETTINGS
 
+L.INVALID_COMMAND =						"Commande non valide."
 -- L.OR =									"or"
