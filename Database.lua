@@ -11,6 +11,7 @@ app.NameShort = app:Colour("WST")
 app.NamePrefix = "Watchtower"
 
 -- Textures
+app.Texture = 236351
 app.Icon = "Interface\\AddOns\\Watchtower\\assets\\icon.png"
 app.IconReady = "Interface\\RaidFrame\\ReadyCheck-Ready"
 app.IconNotReady = "Interface\\RaidFrame\\ReadyCheck-NotReady"
