@@ -29,25 +29,6 @@ function app:OpenSettings()
 	Settings.OpenToCategory(app.Settings:GetID())
 end
 
-function Watchtower_Click(self, button)
-	if button == "LeftButton" then
-		-- ???
-	elseif button == "RightButton" then
-		app:OpenSettings()
-	end
-end
-
-function Watchtower_Enter(self, button)
-	GameTooltip:ClearLines()
-	GameTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
-	GameTooltip:AddLine(L.SETTINGS_TOOLTIP)
-	GameTooltip:Show()
-end
-
-function Watchtower_Leave()
-	GameTooltip:Hide()
-end
-
 function app:CreateMinimapButton()
 	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(appName, {
 		type = "data source",
