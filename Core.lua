@@ -111,7 +111,7 @@ function app:CreateSlashCommands()
 		if command == "settings" then
 			app:OpenSettings()
 		elseif command == "" then
-			app:ToggleEditPanel()
+			api:ToggleEditPanel()
 		else
 			app:Print(L.INVALID_COMMAND)
 		end
@@ -124,7 +124,7 @@ end
 
 function Watchtower_Click(self, button)
 	if button == "LeftButton" then
-		app:ToggleEditPanel()
+		api:ToggleEditPanel()
 	elseif button == "RightButton" then
 		app:OpenSettings()
 	end
