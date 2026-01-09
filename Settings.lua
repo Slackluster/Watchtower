@@ -198,7 +198,7 @@ function app:CreateSettings()
 		keybind:AddShownPredicate(isExpanded)
 
 		local data = { leftText = "|cffFFFFFF"
-			.. "/watch|R " .. L.OR .. " |cffFFFFFF/wst" .. "\n\n"
+			.. "/watch|r " .. L.OR .. " |cffFFFFFF/wst" .. "\n\n"
 			.. "/watch settings",
 		middleText =
 			L.SLASH_TOGGLE_EDITPANEL .. "\n\n" ..

@@ -146,7 +146,7 @@ end
 ----------------------
 
 function app:Colour(string)
-	return "|cff3FC7EB" .. string .. "|R"
+	return "|cff3FC7EB" .. string .. "|r"
 end
 
 function app:ShowIcon(iconPath)
