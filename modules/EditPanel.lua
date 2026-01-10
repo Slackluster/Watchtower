@@ -59,7 +59,7 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function makeNew()
-		table.insert(app.Table, { text = "New Flag", icon = 134400 })
+		table.insert(app.Table, { id = #app.Table + 1, text = "New Flag", icon = 134400 })
 		app.ScrollView2.Selection = #app.Table
 		app:UpdateStatusList()
 	end
@@ -80,8 +80,30 @@ function app:CreateEditPanel()
 	scrollBar:SetPoint("TOPLEFT", scrollBox, "TOPRIGHT")
 	scrollBar:SetPoint("BOTTOMLEFT", scrollBox, "BOTTOMRIGHT")
 
+	local divider = app.EditPanel.StatusList:CreateTexture(nil, "ARTWORK")
+	divider:SetSize(240,20)
+	divider:SetAtlas("CovenantChoice-Celebration-KyrianGlowLine")
+	divider:Hide()
+
 	app.ScrollView2 = CreateScrollBoxListTreeListView()
 	ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, scrollBar, app.ScrollView2)
+
+	local function reIndexTable(tbl)
+		table.sort(tbl, function(a, b)
+			return a.id < b.id
+		end)
+
+		for i, entry in ipairs(tbl) do
+			entry.id = i
+		end
+
+		app:UpdateStatusList()
+	end
+
+	local function moveTableEntry(tbl, oldIndex, targetIndex)
+		tbl[oldIndex].id = targetIndex + 0.5
+		reIndexTable(tbl)
+	end
 
 	local function Initializer(listItem, node)
 		local data = node:GetData()
@@ -107,8 +129,36 @@ function app:CreateEditPanel()
 
 		listItem:EnableMouse(true)
 		listItem:RegisterForDrag("LeftButton")
-		-- listItem:SetScript("OnDragStart", function() app.EditPanel:StartMoving() end)
-		-- listItem:SetScript("OnDragStop", function() app.EditPanel:StopMovingOrSizing() end)
+		listItem:SetScript("OnDragStart", function(self)
+			app.Flag.Dragging = true
+			self:SetAlpha(0.5)
+		end)
+		listItem:SetScript("OnDragStop", function(self)
+			if not app.Flag.Dragging then return end
+			app.Flag.Dragging = false
+			self:SetAlpha(1)
+			divider:Hide()
+
+			if not (data.id == app.Flag.Hover) then
+				moveTableEntry(app.Table, data.id, app.Flag.Hover)
+			end
+		end)
+		listItem:SetScript("OnEnter", function(self)
+			if app.Flag.Dragging then
+				app.Flag.Hover = data.id
+				RunNextFrame(function()
+					divider:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, 10)
+					divider:Show()
+				end)
+			end
+		end)
+		listItem:SetScript("OnLeave", function(self)
+			if app.Flag.Dragging then
+				if not(data.id == #app.Table and app.Flag.Hover == #app.Table) then
+					divider:Hide()
+				end
+			end
+		end)
 		listItem:SetScript("OnClick", function()
 			app.ScrollView2.Selection = data.id
 			app:UpdateStatusList()
@@ -219,6 +269,7 @@ function app:CreateEditPanel()
 	app.EditPanel.DeleteButton:SetScript("OnClick", function()
 		-- TODO: confirm dialog
 		table.remove(app.Table, app.ScrollView2.Selection)
+		reIndexTable(app.Table)
 		app.ScrollView2.Selection = max(1, app.ScrollView2.Selection - 1)
 		if #app.Table == 0 then
 			makeNew()
@@ -241,7 +292,7 @@ function app:UpdateStatusList()
 	local DataProvider = CreateTreeDataProvider()
 
 	for k, v in ipairs(app.Table) do
-		DataProvider:Insert({ id = k, icon = v.icon, text = v.text })
+		DataProvider:Insert({ id = v.id, icon = v.icon, text = v.text })
 	end
 
 	app.ScrollView2:SetDataProvider(DataProvider, true)
