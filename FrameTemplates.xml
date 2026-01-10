@@ -25,7 +25,7 @@
 
 	<Button name="Watchtower_ListButton" virtual="true">
 		<Size x="200" y="20" />
-		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD" setAllPoints="true" />
+		<HighlightTexture atlas="Options_List_Hover" setAllPoints="true" />
 		<Layers>
 			<Layer level="OVERLAY">
 				<FontString parentKey="LeftText1" inherits="GameFontNormal" justifyH="LEFT">
@@ -36,7 +36,7 @@
 				</FontString>
 				<FontString parentKey="LeftText2" inherits="GameFontNormal" justifyH="LEFT" wordwrap="false">
 					<Anchors>
-						<Anchor point="LEFT" x="22" />
+						<Anchor point="LEFT" x="22" y="1" />
 						<Anchor point="RIGHT" x="-22" />
 					</Anchors>
 					<Size x="400" y="24" />
