@@ -6,8 +6,8 @@ local appName, app = ...
 app.locales = {}
 app.api = {}
 Watchtower = app.api
-local L = app.locales
 local api = app.api
+local L = app.locales
 
 ---------------------------
 -- WOW API EVENT HANDLER --

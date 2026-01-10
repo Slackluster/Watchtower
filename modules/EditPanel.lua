@@ -3,8 +3,8 @@
 -------------------------------
 
 local appName, app = ...
-local L = app.locales
 local api = app.api
+local L = app.locales
 
 -------------
 -- ON LOAD --
