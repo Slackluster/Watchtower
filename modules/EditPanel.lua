@@ -117,8 +117,7 @@ function app:CreateEditPanel()
 		if not listItem.Highlight then
 			listItem.Highlight = listItem:CreateTexture(nil, "ARTWORK")
 			listItem.Highlight:SetAtlas("Options_List_Active")
-			listItem.Highlight:SetAllPoints()  -- usually needed to cover the button
-			listItem.Highlight:SetBlendMode("ADD") -- optional, matches Blizzard glow style
+			listItem.Highlight:SetAllPoints()
 		end
 		listItem.Highlight:Hide()
 
@@ -227,11 +226,13 @@ function app:CreateEditPanel()
 	string1:SetText("Title")
 	string1:SetPoint("TOPLEFT", app.EditPanel.Page["General"], 10, -20)
 	app.EditPanel.Options.Title = CreateFrame("EditBox", nil, app.EditPanel.Page["General"], "InputBoxTemplate")
-	app.EditPanel.Options.Title:SetSize(80,20)
+	app.EditPanel.Options.Title:SetSize(200,20)
 	app.EditPanel.Options.Title:SetPoint("LEFT", string1, "RIGHT", 20, 0)
 
 	app.EditPanel.Options.Title:SetAutoFocus(false)
-	app.EditPanel.Options.Title:SetAutoFocus(false)
+	app.EditPanel.Options.Title:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText(0, 0)
+	end)
 	app.EditPanel.Options.Title:SetScript("OnEnterPressed", function(self)
 		self:ClearFocus()
 	end)
@@ -248,10 +249,13 @@ function app:CreateEditPanel()
 	string2:SetText("Icon")
 	string2:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, -20)
 	app.EditPanel.Options.Icon = CreateFrame("EditBox", nil, app.EditPanel.Page["General"], "InputBoxTemplate")
-	app.EditPanel.Options.Icon:SetSize(80,20)
+	app.EditPanel.Options.Icon:SetSize(200,20)
 	app.EditPanel.Options.Icon:SetPoint("LEFT", string2, "RIGHT", 20, 0)
 
 	app.EditPanel.Options.Icon:SetAutoFocus(false)
+	app.EditPanel.Options.Icon:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText(0, 0)
+	end)
 	app.EditPanel.Options.Icon:SetScript("OnEnterPressed", function(self)
 		self:ClearFocus()
 	end)
@@ -262,6 +266,64 @@ function app:CreateEditPanel()
 	app.EditPanel.Options.Icon:SetScript("OnEditFocusLost", function(self)
 		app.Table[app.ScrollView2.Selection].icon = self:GetText()
 		app:UpdateStatusList()
+	end)
+
+	local string4 = app.EditPanel.Page["General"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string4:SetText("Trigger")
+	string4:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, -20)
+
+	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Page["General"], "BackdropTemplate")
+	backdrop:SetSize(300,100)
+	backdrop:SetPoint("TOPLEFT", string4, "TOPRIGHT", 20, 0)
+	backdrop:SetBackdrop({
+		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+		edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 1)
+
+	local scrollFrame1 = CreateFrame("ScrollFrame", nil, backdrop, "UIPanelScrollFrameTemplate")
+	scrollFrame1:SetPoint("TOPLEFT", 5, -5)
+	scrollFrame1:SetPoint("BOTTOMRIGHT", -27, 4)
+	scrollFrame1:SetScript("OnMouseDown", function()
+		app.EditPanel.Options.Trigger:SetFocus()
+	end)
+
+	app.EditPanel.Options.Trigger = CreateFrame("EditBox", nil, scrollFrame1)
+	app.EditPanel.Options.Trigger:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 12, "")
+	app.EditPanel.Options.Trigger:SetWidth(300)
+	app.EditPanel.Options.Trigger:SetMultiLine(true)
+	app.EditPanel.Options.Trigger:SetTextColor(0.612, 0.863, 0.996, 1)
+	scrollFrame1:SetScrollChild(app.EditPanel.Options.Trigger)
+
+	app.EditPanel.Options.Trigger:SetAutoFocus(false)
+	app.EditPanel.Options.Trigger:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.Table[app.ScrollView2.Selection].trigger or "")
+		self:ClearFocus()
+	end)
+	app.EditPanel.Options.Trigger:SetScript("OnEditFocusLost", function(self)
+		app.Table[app.ScrollView2.Selection].trigger = self:GetText()
+		app:UpdateStatusList()
+	end)
+
+	IndentationLib.enable(app.EditPanel.Options.Trigger, nil, 3)
+
+	app.EditPanel.TestButton = app:MakeButton(app.EditPanel.Page["General"], "Test")
+	app.EditPanel.TestButton:SetPoint("TOPLEFT", app.EditPanel.Options.Trigger, "TOPRIGHT")
+	app.EditPanel.TestButton:SetScript("OnClick", function()
+		if not app.Table[app.ScrollView2.Selection].trigger then
+			app:Print("There is no code to test.")
+			return
+		end
+		local func, errorMessage = loadstring(app.Table[app.ScrollView2.Selection].trigger)
+		if errorMessage then
+			app:Print("There is an error in your trigger code:")
+			DevTools_Dump(errorMessage)
+		else
+			app:Print("No syntax errors found in your code. :)")
+			func()
+		end
 	end)
 
 	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel.Page["General"], "Delete")
@@ -297,8 +359,11 @@ function app:UpdateStatusList()
 
 	app.ScrollView2:SetDataProvider(DataProvider, true)
 
-	app.EditPanel.Options.Title:SetText(app.Table[app.ScrollView2.Selection].text or "")
-	app.EditPanel.Options.Icon:SetText(app.Table[app.ScrollView2.Selection].icon or "")
+	if app.Table[app.ScrollView2.Selection] then
+		app.EditPanel.Options.Title:SetText(app.Table[app.ScrollView2.Selection].text or "")
+		app.EditPanel.Options.Icon:SetText(app.Table[app.ScrollView2.Selection].icon or "")
+		app.EditPanel.Options.Trigger:SetText(app.Table[app.ScrollView2.Selection].trigger or "")
+	end
 
 	if app.ScrollView then app:UpdateStatusTracker() end
 end
