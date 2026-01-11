@@ -1,5 +1,5 @@
 <Bindings>
-  <Binding name="WATCHTOWER_TOGGLE" category="|cff3FC7EBWatchtower: Status Tracker|r">
+  <Binding name="WATCHTOWER_TOGGLE" category="|cff3FC7EBWatchtower|r">
     Watchtower:ToggleEditPanel()
   </Binding>
 </Bindings>
