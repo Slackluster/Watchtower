@@ -59,8 +59,8 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function makeNew()
-		table.insert(app.Table, { id = #app.Table + 1, text = "New Flag", icon = 134400 })
-		app.ScrollView2.Selection = #app.Table
+		table.insert(Watchtower_Flags, { id = #Watchtower_Flags + 1, text = "New Flag", icon = 134400, trigger = "return true" })
+		app.ScrollView2.Selection = #Watchtower_Flags
 		app:UpdateStatusList()
 	end
 
@@ -139,7 +139,7 @@ function app:CreateEditPanel()
 			divider:Hide()
 
 			if not (data.id == app.Flag.Hover) then
-				moveTableEntry(app.Table, data.id, app.Flag.Hover)
+				moveTableEntry(Watchtower_Flags, data.id, app.Flag.Hover)
 			end
 		end)
 		listItem:SetScript("OnEnter", function(self)
@@ -153,7 +153,7 @@ function app:CreateEditPanel()
 		end)
 		listItem:SetScript("OnLeave", function(self)
 			if app.Flag.Dragging then
-				if not(data.id == #app.Table and app.Flag.Hover == #app.Table) then
+				if not(data.id == #Watchtower_Flags and app.Flag.Hover == #Watchtower_Flags) then
 					divider:Hide()
 				end
 			end
@@ -238,11 +238,11 @@ function app:CreateEditPanel()
 		self:ClearFocus()
 	end)
 	app.EditPanel.Options.Title:SetScript("OnEscapePressed", function(self)
-		self:SetText(app.Table[app.ScrollView2.Selection].text or "")
+		self:SetText(Watchtower_Flags[app.ScrollView2.Selection].text or "")
 		self:ClearFocus()
 	end)
 	app.EditPanel.Options.Title:SetScript("OnEditFocusLost", function(self)
-		app.Table[app.ScrollView2.Selection].text = self:GetText()
+		Watchtower_Flags[app.ScrollView2.Selection].text = self:GetText()
 		app:UpdateStatusList()
 	end)
 
@@ -261,11 +261,11 @@ function app:CreateEditPanel()
 		self:ClearFocus()
 	end)
 	app.EditPanel.Options.Icon:SetScript("OnEscapePressed", function(self)
-		self:SetText(app.Table[app.ScrollView2.Selection].icon or "")
+		self:SetText(Watchtower_Flags[app.ScrollView2.Selection].icon or "")
 		self:ClearFocus()
 	end)
 	app.EditPanel.Options.Icon:SetScript("OnEditFocusLost", function(self)
-		app.Table[app.ScrollView2.Selection].icon = self:GetText()
+		Watchtower_Flags[app.ScrollView2.Selection].icon = self:GetText()
 		app:UpdateStatusList()
 	end)
 
@@ -300,41 +300,52 @@ function app:CreateEditPanel()
 
 	app.EditPanel.Options.Trigger:SetAutoFocus(false)
 	app.EditPanel.Options.Trigger:SetScript("OnEscapePressed", function(self)
-		self:SetText(app.Table[app.ScrollView2.Selection].trigger or "")
+		self:SetText(Watchtower_Flags[app.ScrollView2.Selection].trigger or "")
 		self:ClearFocus()
 	end)
 	app.EditPanel.Options.Trigger:SetScript("OnEditFocusLost", function(self)
-		app.Table[app.ScrollView2.Selection].trigger = self:GetText()
+		Watchtower_Flags[app.ScrollView2.Selection].trigger = self:GetText()
 		app:UpdateStatusList()
 	end)
 
 	IndentationLib.enable(app.EditPanel.Options.Trigger, nil, 3)
 
+	function app.RunTrigger(id, debug)
+		if not Watchtower_Flags[id].trigger then
+			if debug then
+				app:Print("There is no code to test.")
+			end
+			return false
+		end
+		local func, errorMessage = loadstring(Watchtower_Flags[id].trigger)
+		if errorMessage then
+			if debug then
+				app:Print("There is an error in your trigger code:")
+				DevTools_Dump(errorMessage)
+			end
+			return false
+		else
+			if debug then
+				app:Print("No syntax errors found in your code. :)")
+			end
+			return func()
+		end
+	end
+
 	app.EditPanel.TestButton = app:MakeButton(app.EditPanel.Page["General"], "Test")
 	app.EditPanel.TestButton:SetPoint("TOPLEFT", app.EditPanel.Options.Trigger, "TOPRIGHT")
 	app.EditPanel.TestButton:SetScript("OnClick", function()
-		if not app.Table[app.ScrollView2.Selection].trigger then
-			app:Print("There is no code to test.")
-			return
-		end
-		local func, errorMessage = loadstring(app.Table[app.ScrollView2.Selection].trigger)
-		if errorMessage then
-			app:Print("There is an error in your trigger code:")
-			DevTools_Dump(errorMessage)
-		else
-			app:Print("No syntax errors found in your code. :)")
-			func()
-		end
+		app.RunTrigger(app.ScrollView2.Selection, true)
 	end)
 
 	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel.Page["General"], "Delete")
 	app.EditPanel.DeleteButton:SetPoint("TOPRIGHT", app.EditPanel.Page["General"], -10, -10)
 	app.EditPanel.DeleteButton:SetScript("OnClick", function()
 		-- TODO: confirm dialog
-		table.remove(app.Table, app.ScrollView2.Selection)
-		reIndexTable(app.Table)
+		table.remove(Watchtower_Flags, app.ScrollView2.Selection)
+		reIndexTable(Watchtower_Flags)
 		app.ScrollView2.Selection = max(1, app.ScrollView2.Selection - 1)
-		if #app.Table == 0 then
+		if #Watchtower_Flags == 0 then
 			makeNew()
 		else
 			app:UpdateStatusList()
@@ -354,16 +365,16 @@ end
 function app:UpdateStatusList()
 	local DataProvider = CreateTreeDataProvider()
 
-	for k, v in ipairs(app.Table) do
+	for k, v in ipairs(Watchtower_Flags) do
 		DataProvider:Insert({ id = v.id, icon = v.icon, text = v.text })
 	end
 
 	app.ScrollView2:SetDataProvider(DataProvider, true)
 
-	if app.Table[app.ScrollView2.Selection] then
-		app.EditPanel.Options.Title:SetText(app.Table[app.ScrollView2.Selection].text or "")
-		app.EditPanel.Options.Icon:SetText(app.Table[app.ScrollView2.Selection].icon or "")
-		app.EditPanel.Options.Trigger:SetText(app.Table[app.ScrollView2.Selection].trigger or "")
+	if Watchtower_Flags[app.ScrollView2.Selection] then
+		app.EditPanel.Options.Title:SetText(Watchtower_Flags[app.ScrollView2.Selection].text or "")
+		app.EditPanel.Options.Icon:SetText(Watchtower_Flags[app.ScrollView2.Selection].icon or "")
+		app.EditPanel.Options.Trigger:SetText(Watchtower_Flags[app.ScrollView2.Selection].trigger or "")
 	end
 
 	if app.ScrollView then app:UpdateStatusTracker() end

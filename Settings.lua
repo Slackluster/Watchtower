@@ -13,6 +13,7 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		Watchtower_Settings = Watchtower_Settings or {}
+		Watchtower_Flags = Watchtower_Flags or { [1] = { id = 1, text = "New Flag", icon = 134400, trigger = "return true" } }
 
 		Watchtower_Settings["minimapIcon"] = true
 		Watchtower_Settings["hide"] = false

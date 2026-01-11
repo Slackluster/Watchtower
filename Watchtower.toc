@@ -10,7 +10,7 @@
 ## AddonCompartmentFuncOnEnter: Watchtower_Enter
 ## AddonCompartmentFuncOnLeave: Watchtower_Leave
 
-## SavedVariables: Watchtower_Settings
+## SavedVariables: Watchtower_Settings, Watchtower_Flags
 ## SavedVariablesPerCharacter:
 
 ## Category: Quests

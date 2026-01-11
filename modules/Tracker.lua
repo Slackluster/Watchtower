@@ -132,25 +132,11 @@ end
 function app:UpdateStatusTracker()
 	local DataProvider = CreateTreeDataProvider()
 
-	for k, v in ipairs(app.Table) do
-		DataProvider:Insert({ icon = v.icon, text = v.text })
+	for k, v in ipairs(Watchtower_Flags) do
+		if app.RunTrigger(k) then
+			DataProvider:Insert({ id = v.id, icon = v.icon, text = v.text })
+		end
 	end
 
 	app.ScrollView:SetDataProvider(DataProvider, true)
 end
-
-app.Table = {
-	{ id = 1, icon = "Interface\\Icons\\ui_profession_blacksmithing", text = "Blacksmithing" },
-	{ id = 2, icon = "Interface\\Icons\\ui_profession_leatherworking", text = "Leatherworking" },
-	{ id = 3, icon = "Interface\\Icons\\ui_profession_alchemy", text = "Alchemy" },
-	{ id = 4, icon = "Interface\\Icons\\ui_profession_tailoring", text = "Tailoring" },
-	{ id = 5, icon = "Interface\\Icons\\ui_profession_cooking", text = "Cooking" },
-	{ id = 6, icon = "Interface\\Icons\\ui_profession_fishing", text = "Fishing" },
-	{ id = 7, icon = "Interface\\Icons\\ui_profession_herbalism", text = "Herbalism" },
-	{ id = 8, icon = "Interface\\Icons\\ui_profession_mining", text = "Mining" },
-	{ id = 9, icon = "Interface\\Icons\\ui_profession_engineering", text = "Engineering" },
-	{ id = 10, icon = "Interface\\Icons\\ui_profession_enchanting", text = "Enchanting" },
-	{ id = 11, icon = "Interface\\Icons\\ui_profession_skinning", text = "Skinning" },
-	{ id = 12, icon = "Interface\\Icons\\ui_profession_jewelcrafting", text = "Jewelcrafting" },
-	{ id = 13, icon = "Interface\\Icons\\ui_profession_inscription", text = "Inscription" },
-}
