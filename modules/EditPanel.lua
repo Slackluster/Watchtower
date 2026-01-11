@@ -61,13 +61,14 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function newFlag()
-		table.insert(Watchtower_Flags, { id = #Watchtower_Flags, text = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
+		table.insert(Watchtower_Flags, { id = #Watchtower_Flags + 1, text = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
 		app.ScrollView2.Selection = #Watchtower_Flags
 		app:UpdateStatusList()
 	end
 
 	local function deleteFlag()
 		-- TODO: confirm dialog
+		app:DeRegisterEvents(Watchtower_Flags[app.ScrollView2.Selection])
 		table.remove(Watchtower_Flags, app.ScrollView2.Selection)
 		app.ReIndexTable(Watchtower_Flags)
 		app.ScrollView2.Selection = max(1, app.ScrollView2.Selection - 1)
@@ -499,15 +500,17 @@ function app:UpdateStatusList()
 	if app.ScrollView then app:UpdateStatusTracker() end
 end
 
+function app:DeRegisterEvents(flag)
+	if flag.handles then
+		for _, handle in ipairs(flag.handles) do
+			app.Event:Unregister(handle)
+		end
+	end
+	flag.handles = {}
+end
+
 function app:RegisterEvents(flagID)
 	local function handleEvents(flag)
-		if flag.handles then
-			for _, handle in ipairs(flag.handles) do
-				app.Event:Unregister(handle)
-			end
-		end
-		flag.handles = {}
-
 		local func, error = loadstring(flag.trigger)
 		if not error then
 			for _, event in ipairs(flag.events) do
@@ -527,9 +530,11 @@ function app:RegisterEvents(flagID)
 	end
 
 	if flagID then
+		app:DeRegisterEvents(Watchtower_Flags[flagID])
 		handleEvents(Watchtower_Flags[flagID])
 	else
 		for _, flag in ipairs(Watchtower_Flags) do
+			app:DeRegisterEvents(flag)
 			handleEvents(flag)
 		end
 	end
