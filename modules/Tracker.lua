@@ -133,7 +133,7 @@ function app:UpdateStatusTracker()
 	local DataProvider = CreateTreeDataProvider()
 
 	for k, v in ipairs(Watchtower_Flags) do
-		if app.RunTrigger(k) then
+		if type(v.lastResult) == "boolean" and v.lastResult then
 			DataProvider:Insert({ id = v.id, icon = v.icon, text = v.text })
 		end
 	end

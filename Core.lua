@@ -15,22 +15,44 @@ local L = app.locales
 
 app.Event = CreateFrame("Frame")
 app.Event.handlers = {}
+app.Event.nextId = 0
 
 function app.Event:Register(eventName, func)
+	self.nextId = self.nextId + 1
+	local id = self.nextId
+
 	if not self.handlers[eventName] then
 		self.handlers[eventName] = {}
 		self:RegisterEvent(eventName)
 	end
-	table.insert(self.handlers[eventName], func)
+
+	self.handlers[eventName][id] = func
+	return { event = eventName, id = id }
 end
 
 app.Event:SetScript("OnEvent", function(self, event, ...)
-	if self.handlers[event] then
-		for _, handler in ipairs(self.handlers[event]) do
-			handler(...)
-		end
+	local handlers = self.handlers[event]
+	if not handlers then return end
+
+	for _, handler in pairs(handlers) do
+		handler(...)
 	end
 end)
+
+function app.Event:Unregister(handle)
+	local event = handle.event
+	local id = handle.id
+
+	local handlers = self.handlers[event]
+	if not handlers then return end
+
+	handlers[id] = nil
+
+	if not next(handlers) then
+		self.handlers[event] = nil
+		self:UnregisterEvent(event)
+	end
+end
 
 -------------
 -- ON LOAD --
