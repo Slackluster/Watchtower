@@ -174,6 +174,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Options.Background = app.EditPanel.Options:CreateTexture(nil, "BACKGROUND")
 	app.EditPanel.Options.Background:SetAtlas("thewarwithin-landingpage-background")
 	app.EditPanel.Options.Background:SetAllPoints()
+	app.EditPanel.Options.Background:SetTexCoord(1, 0, 0, 1)
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.Options, "InsetFrameTemplate")
 
 	app.EditPanel.Options.Tabs = {}
