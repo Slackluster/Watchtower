@@ -70,7 +70,7 @@ function app:CreateEditPanel()
 		-- TODO: confirm dialog
 		app:DeRegisterEvents(Watchtower_Flags[app.ScrollView2.Selection])
 		table.remove(Watchtower_Flags, app.ScrollView2.Selection)
-		app.ReIndexTable(Watchtower_Flags)
+		app:ReIndexTable(Watchtower_Flags)
 		app.ScrollView2.Selection = max(1, app.ScrollView2.Selection - 1)
 		if #Watchtower_Flags == 0 then
 			newFlag()
@@ -123,7 +123,7 @@ function app:CreateEditPanel()
 	app.ScrollView2 = CreateScrollBoxListTreeListView()
 	ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, scrollBar, app.ScrollView2)
 
-	function app.ReIndexTable(tbl)
+	function app:ReIndexTable(tbl)
 		table.sort(tbl, function(a, b)
 			return a.id < b.id
 		end)
@@ -135,9 +135,9 @@ function app:CreateEditPanel()
 		app:UpdateStatusList()
 	end
 
-	function app.MoveTableEntry(tbl, oldIndex, targetIndex)
+	function app:MoveTableEntry(tbl, oldIndex, targetIndex)
 		tbl[oldIndex].id = targetIndex + 0.5
-		app.ReIndexTable(tbl)
+		app:ReIndexTable(tbl)
 	end
 
 	local function Initializer(listItem, node)
@@ -174,7 +174,7 @@ function app:CreateEditPanel()
 			divider:Hide()
 
 			if not (data.id == app.Flag.Hover) then
-				app.MoveTableEntry(Watchtower_Flags, data.id, app.Flag.Hover)
+				app:MoveTableEntry(Watchtower_Flags, data.id, app.Flag.Hover)
 			end
 		end)
 		listItem:SetScript("OnEnter", function(self)
@@ -364,13 +364,14 @@ function app:CreateEditPanel()
 
 	IndentationLib.enable(app.EditPanel.Options.Trigger, nil, 3)
 
-	function app.RunTrigger(id, debug)
+	function app:RunTrigger(id, debug)
 		if not Watchtower_Flags[id].trigger then
 			if debug then
 				app:Print("There is no code to test.")
 			end
 			return false
 		end
+
 		local func, error = loadstring(Watchtower_Flags[id].trigger)
 		if error then
 			if debug then
@@ -378,18 +379,31 @@ function app:CreateEditPanel()
 				DevTools_Dump(error)
 			end
 			return false
-		else
-			if debug then
-				app:Print("No syntax errors found in your code. :)")
-			end
-			return func()
 		end
+
+		local env = app:CreateTriggerEnv()
+		setfenv(func, env)
+
+		local ok, result = pcall(func)
+		if not ok then
+			if debug then
+				app:Print("There is an error in your trigger code:")
+				app:Print(result)
+			end
+			return false
+		end
+
+		if debug then
+			app:Print("No syntax errors found in your trigger. :)")
+		end
+
+		return result
 	end
 
 	app.EditPanel.TestButton = app:MakeButton(app.EditPanel.Pages[1], "Test")
 	app.EditPanel.TestButton:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", -2, -6)
 	app.EditPanel.TestButton:SetScript("OnClick", function()
-		Watchtower_Flags[app.ScrollView2.Selection].lastResult = app.RunTrigger(app.ScrollView2.Selection, true)
+		Watchtower_Flags[app.ScrollView2.Selection].lastResult = app:RunTrigger(app.ScrollView2.Selection, true)
 		app:UpdateStatusTracker()
 	end)
 
@@ -407,7 +421,7 @@ function app:CreateEditPanel()
 		return true
 	end
 
-	function app.MakeCsvTable(str)
+	function app:MakeCsvTable(str)
 		local tbl = {}
 		if not str or str == "" then return tbl end
 
@@ -425,7 +439,7 @@ function app:CreateEditPanel()
 		return tbl
 	end
 
-	function app.MakeCsvString(tbl)
+	function app:MakeCsvString(tbl)
 		if not tbl or tbl == "" then return "" end
 		return table.concat(tbl, ", ")
 	end
@@ -465,11 +479,11 @@ function app:CreateEditPanel()
 
 	app.EditPanel.Options.Events:SetAutoFocus(false)
 	app.EditPanel.Options.Events:SetScript("OnEscapePressed", function(self)
-		self:SetText(app.MakeCsvString(Watchtower_Flags[app.ScrollView2.Selection].events or ""))
+		self:SetText(app:MakeCsvString(Watchtower_Flags[app.ScrollView2.Selection].events or ""))
 		self:ClearFocus()
 	end)
 	app.EditPanel.Options.Events:SetScript("OnEditFocusLost", function(self)
-		Watchtower_Flags[app.ScrollView2.Selection].events = app.MakeCsvTable(self:GetText())
+		Watchtower_Flags[app.ScrollView2.Selection].events = app:MakeCsvTable(self:GetText())
 		app:RegisterEvents(app.ScrollView2.Selection)
 		app:UpdateStatusList()
 	end)
@@ -494,11 +508,68 @@ function app:UpdateStatusList()
 		app.EditPanel.Options.Title:SetText(Watchtower_Flags[app.ScrollView2.Selection].text or "")
 		app.EditPanel.Options.Icon:SetText(Watchtower_Flags[app.ScrollView2.Selection].icon or "")
 		app.EditPanel.Options.Trigger:SetText(Watchtower_Flags[app.ScrollView2.Selection].trigger or "")
-		app.EditPanel.Options.Events:SetText(app.MakeCsvString(Watchtower_Flags[app.ScrollView2.Selection].events or ""))
+		app.EditPanel.Options.Events:SetText(app:MakeCsvString(Watchtower_Flags[app.ScrollView2.Selection].events or ""))
 	end
 
 	if app.ScrollView then app:UpdateStatusTracker() end
 end
+
+function app:CreateTriggerEnv()
+	local env = {}
+
+	local safeG = setmetatable({}, {
+		__index = function(_, key)
+			if app.Blocked[key] then
+				error(("Access to '%s' is blocked"):format(tostring(key)), 2)
+			end
+			return _G[key]
+		end,
+			__newindex = function(_, key, value)
+			if app.Blocked[key] then
+				error(("Assignment to '%s' is blocked"):format(tostring(key)), 2)
+			end
+			_G[key] = value
+		end,
+	})
+	env._G = safeG
+
+	setmetatable(env, {
+		__index = function(tbl, key)
+			if app.Blocked[key] then
+				error(("Access to '%s' is blocked"):format(tostring(key)), 2)
+			end
+			local v = rawget(tbl, key)
+			if v ~= nil then return v end
+			return _G[key]
+		end,
+		__newindex = function(tbl, key, value)
+			if app.Blocked[key] then
+				error(("Assignment to '%s' is blocked"):format(tostring(key)), 2)
+			end
+			rawset(tbl, key, value)
+		end,
+	})
+
+	return env
+end
+
+function app:ValidateTrigger(flag)
+	local func, error = loadstring(flag.trigger)
+	if not func then
+		return false, error
+	end
+
+	local env = app:CreateTriggerEnv()
+	setfenv(func, env)
+
+	local ok, runtimeErr = pcall(func)
+	if not ok then
+		return false, runtimeErr
+	end
+
+	return true
+end
+
 
 function app:DeRegisterEvents(flag)
 	if flag.handles then
