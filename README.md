@@ -1,5 +1,5 @@
 # Watchtower
-A World of Warcraft addon. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/watchtower-status-tracker) | [Wago](https://addons.wago.io/addons/wst)
+A World of Warcraft addon. Download locations: [CurseForge](https://www.curseforge.com/wow/addons/watchtower-status-tracker) | [Wago](https://addons.wago.io/addons/watchtower)
 
 [![](https://media.forgecdn.net/attachments/1439/398/buymeacoffee-png.png)](https://www.buymeacoffee.com/Slackluster)
 
