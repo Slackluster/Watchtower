@@ -78,7 +78,6 @@ function app:CreateStatusTracker()
 	app.StatusTracker:SetClampRectInsets(10, -10, -10, 10)
 	app.StatusTracker:SetScript("OnDragStart", function() app:MoveStatusTracker() end)
 	app.StatusTracker:SetScript("OnDragStop", function() app:SaveStatusTracker() end)
-	--app.StatusTracker:Hide()
 
 	local scrollBox = CreateFrame("Frame", nil, app.StatusTracker, "WowScrollBoxList")
 	scrollBox:SetPoint("TOPLEFT", app.StatusTracker, "TOPLEFT", 8, -4)
