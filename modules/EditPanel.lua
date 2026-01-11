@@ -592,6 +592,7 @@ function app:RegisterEvents(flagID)
 					else
 						flag.lastResult = false
 					end
+					RunNextFrame(function() app:UpdateStatusTracker() end)
 				end
 
 				local handle = app.Event:Register(event, wrapper)
