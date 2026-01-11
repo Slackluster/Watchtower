@@ -44,7 +44,7 @@ function app:CreateEditPanel()
 	app.EditPanel:SetScript("OnDragStart", function() app.EditPanel:StartMoving() end)
 	app.EditPanel:SetScript("OnDragStop", function() app.EditPanel:StopMovingOrSizing() end)
 	app.EditPanel:SetTitle(app.NameLong)
-	--app.EditPanel:Hide()
+	app.EditPanel:Hide()
 
 	app.EditPanel.CloseButton = CreateFrame("Button", nil, app.EditPanel, "UIPanelCloseButtonDefaultAnchors")
 	app.EditPanel.CloseButton:SetScript("OnClick", function()
@@ -61,7 +61,7 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function newFlag()
-		table.insert(Watchtower_Flags, { id = #Watchtower_Flags + 1, text = "New Flag", icon = 134400, trigger = "return true", events = "PLAYER_ENTERING_WORLD" })
+		table.insert(Watchtower_Flags, { id = #Watchtower_Flags, text = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
 		app.ScrollView2.Selection = #Watchtower_Flags
 		app:UpdateStatusList()
 	end

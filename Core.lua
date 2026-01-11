@@ -15,43 +15,46 @@ local L = app.locales
 
 app.Event = CreateFrame("Frame")
 app.Event.handlers = {}
-app.Event.nextId = 0
 
 function app.Event:Register(eventName, func)
-	self.nextId = self.nextId + 1
-	local id = self.nextId
+    if not self.handlers[eventName] then
+        self.handlers[eventName] = {}
+        self:RegisterEvent(eventName)
+    end
 
-	if not self.handlers[eventName] then
-		self.handlers[eventName] = {}
-		self:RegisterEvent(eventName)
-	end
+    table.insert(self.handlers[eventName], func)
 
-	self.handlers[eventName][id] = func
-	return { event = eventName, id = id }
+    return {
+        event = eventName,
+        func  = func,
+    }
 end
 
 app.Event:SetScript("OnEvent", function(self, event, ...)
-	local handlers = self.handlers[event]
-	if not handlers then return end
+    local handlers = self.handlers[event]
+    if not handlers then return end
 
-	for _, handler in pairs(handlers) do
-		handler(...)
-	end
+    -- Guaranteed order
+    for _, handler in ipairs(handlers) do
+        handler(...)
+    end
 end)
 
 function app.Event:Unregister(handle)
-	local event = handle.event
-	local id = handle.id
+    local handlers = self.handlers[handle.event]
+    if not handlers then return end
 
-	local handlers = self.handlers[event]
-	if not handlers then return end
+    for i, fn in ipairs(handlers) do
+        if fn == handle.func then
+            table.remove(handlers, i)
+            break
+        end
+    end
 
-	handlers[id] = nil
-
-	if not next(handlers) then
-		self.handlers[event] = nil
-		self:UnregisterEvent(event)
-	end
+    if #handlers == 0 then
+        self.handlers[handle.event] = nil
+        self:UnregisterEvent(handle.event)
+    end
 end
 
 -------------
