@@ -418,7 +418,7 @@ function app:CreateEditPanel()
 			if not exists then
 				app:Print(error)
 			else
-				table.insert(tbl, event)
+				table.insert(tbl, string.upper(event))
 			end
 		end
 
