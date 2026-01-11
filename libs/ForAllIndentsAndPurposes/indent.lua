@@ -1240,7 +1240,7 @@ if not IndentationLib.revision or revision > IndentationLib.revision then
     defaultColorTable = {}
     lib.defaultColorTable = defaultColorTable
     defaultColorTable[tokens.TOKEN_SPECIAL] = "|c00ff99ff"
-    defaultColorTable[tokens.TOKEN_KEYWORD] = "|c00569CD6"
+    defaultColorTable[tokens.TOKEN_KEYWORD] = "|c00C586C0"
     defaultColorTable[tokens.TOKEN_COMMENT_SHORT] = "|c006A9955"
     defaultColorTable[tokens.TOKEN_COMMENT_LONG] = "|c006A9955"
 
