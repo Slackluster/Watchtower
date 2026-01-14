@@ -1,0 +1,225 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+    <Script file="IconSelectorBackdrops.lua"/>
+    <Script file="IconButton.lua"/>
+    <Script file="IconSelector.lua"/>
+    <Script file="IconSelectorProvider.lua"/>
+
+    <Font name="LibIconPicker_LabelFont" inherits="GameFontWhiteTiny"
+          justifyH="LEFT" virtual="true">
+        <Color color="WHITE_FONT_COLOR"/>
+    </Font>
+
+    <Button name="LibIconPicker_IconButtonTemplate"
+            mixin="LibIconPicker_IconButtonMixin"
+            virtual="true">
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+        <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentIcon" parentKey="icon">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Button>
+
+    <Frame name="LibIconPicker_IconRowTemplate" virtual="true">
+        <Size x="1" y="36"/>
+        <Scripts>
+            <OnLoad>LibIconPicker_IconSelectorMixin.OnLoadRow(self)</OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="LibIconPicker_IconSelectorFrameTemplate" virtual="true"
+           mixin="LibIconPicker_IconSelectorMixin"
+           hidden="true" movable="true" enableMouse="true"
+           frameStrata="DIALOG" clampedToScreen="true">
+
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+
+        <Size x="444" y="450"/>
+        <Anchors>
+            <Anchor point="CENTER" x="0" y="0"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="$parentTitleFrameHeader" parentKey="TitleFrameHeader"
+                         file="Interface\DialogFrame\UI-DialogBox-Header">
+                    <Size x="256" y="64"/>
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="TOP" x="0" y="12"/>
+                    </Anchors>
+                    <Scripts>
+                        <OnMouseDown>
+                            if button == "LeftButton" then
+                            self:GetParent():StartMoving()
+                            end
+                        </OnMouseDown>
+
+                        <OnMouseUp>
+                            self:GetParent():StopMovingOrSizing()
+                        </OnMouseUp>
+                    </Scripts>
+                </Texture>
+                <FontString name="$parentDialogTitle" parentKey="HeaderTitle"
+                            inherits="GameFontNormal">
+                    <Size>
+                        <AbsDimension x="185" y="12"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="TOP" x="0" y="-2" />
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <!-- Scroll area for icons -->
+        <Frames>
+            <Button parentKey="CloseButton" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-5" y="-7"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():OnClickClose()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button parentKey="CancelButton" name="$parentCancelButton"
+                    inherits="UIPanelButtonTemplate"
+                    text="Cancel">
+                <Size x="90" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" x="-18" y="25"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>self:GetParent():OnClickCancel()</OnClick>
+                </Scripts>
+            </Button>
+            <Button parentKey="OkayButton" name="$parentOkayButton"
+                    inherits="UIPanelButtonTemplate"
+                    text="Okay">
+                <Size x="90" y="22"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.CancelButton"
+                            relativePoint="LEFT"
+                            x="-5" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>self:GetParent():OnClickOkay()</OnClick>
+                </Scripts>
+            </Button>
+            <Frame name="$parentFirstRow" parentKey="FirstRow" inherits="BackdropTemplate">
+                <Size y="80"/>
+                <!--<KeyValues>
+                    <KeyValue key="backdropInfo" value="BACKDROP_TOAST_12_12" type="global"/>
+                </KeyValues>-->
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-24"/>
+                    <Anchor point="TOPRIGHT" x="-20"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentLabel" parentKey="Label"
+                                    inherits="LibIconPicker_LabelFont">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="65" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <Frame name="$parentIconTypeDropdown"
+                           parentKey="IconTypeDropdown"
+                           inherits="UIDropDownMenuTemplate">
+                        <Anchors>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parent"
+                                    relativePoint="BOTTOMRIGHT" x="0" y="-1"/>
+                        </Anchors>
+                    </Frame>
+                    <EditBox name="$parentEditBox" parentKey="EditBox"
+                             inherits="InputBoxTemplate">
+                        <Size x="200" y="32"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeKey="$parent.Label"
+                                    relativePoint="BOTTOMLEFT" x="2" y="5"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnEscapePressed>self:GetParent():GetParent():OnClickClose()</OnEscapePressed>
+                        </Scripts>
+                    </EditBox>
+                    <Button name="$parentIconButton" parentKey="SelectedIconButton"
+                            inherits="UIPanelButtonTemplate"
+                            mixin="LibIconPicker_IconButtonMixin">
+                        <Scripts>
+                            <OnLoad method="OnLoad"/>
+                        </Scripts>
+                        <Size x="50" y="50"/>
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativeKey="$parent.Label"
+                                    relativePoint="TOPLEFT" x="-10" y="8"/>
+                        </Anchors>
+
+                        <NormalTexture file="Interface\Icons\INV_Misc_QuestionMark"/>
+                        <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentIcon" parentKey="icon">
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT"/>
+                                        <Anchor point="BOTTOMRIGHT"/>
+                                    </Anchors>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                    </Button>
+                </Frames>
+            </Frame>
+            <ScrollFrame name="$parentScrollBox" parentKey="ScrollFrame"
+                         inherits="HybridScrollFrameTemplate,BackdropTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" x="16" y="-50"/>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.FirstRow"
+                            relativePoint="BOTTOMLEFT" />
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.CancelButton"
+                            relativePoint="TOPRIGHT" x="-5" y="10"/>
+                </Anchors>
+                <Frames>
+                    <!-- See HybridScrollFrame.xml#HybridScrollBarTrimTemplate -->
+                    <Slider name="$parentScrollBar" parentKey="scrollBar"
+                            inherits="HybridScrollBarTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="$parent"
+                                    relativePoint="TOPRIGHT" x="-20" y="-20" />
+                            <Anchor point="BOTTOMLEFT" relativeTo="$parent"
+                                    relativePoint="BOTTOMRIGHT" x="-20" y="14" />
+                        </Anchors>
+                    </Slider>
+                </Frames>
+                <ScrollChild>
+                    <Frame name="$parentScrollChild" parentKey="scrollChild">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" />
+                            <Anchor point="BOTTOMRIGHT" />
+                        </Anchors>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+
+    <Frame name="LibIconPicker_IconSelector" hidden="true" movable="true" enableMouse="true"
+           inherits="BackdropTemplate, LibIconPicker_IconSelectorFrameTemplate">
+    </Frame>
+</Ui>
