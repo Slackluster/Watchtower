@@ -61,52 +61,72 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function newFlag()
-		table.insert(Watchtower_Flags, { id = #Watchtower_Flags + 1, text = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
-		app.ScrollView2.Selection = #Watchtower_Flags
+		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
+		app.FlagsList.SelFlag = #Watchtower_Flags[app.FlagsList.SelGroup].flags
+		app:SetSelected()
 		app:UpdateStatusList()
 	end
 
-	local function deleteFlag()
+	local function delete()
 		-- TODO: confirm dialog
-		app:DeRegisterEvents(Watchtower_Flags[app.ScrollView2.Selection])
-		table.remove(Watchtower_Flags, app.ScrollView2.Selection)
-		app:ReIndexTable(Watchtower_Flags)
-		app.ScrollView2.Selection = max(1, app.ScrollView2.Selection - 1)
-		if #Watchtower_Flags == 0 then
-			newFlag()
+		if app.FlagsList.SelFlag == 0 then
+			if app.FlagsList.SelGroup == 1 then
+				app:Print("Cannot delete this group.")	-- TODO: Turn into Disabled + tooltip
+			elseif #Watchtower_Flags[app.FlagsList.SelGroup].flags >= 1 then
+				app:Print("Can only delete empty groups.")	-- TODO: Turn into Disabled + tooltip
+			else
+				table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
+				app:ReIndexTable(Watchtower_Flags)
+			end
 		else
-			app:UpdateStatusList()
+			app:DeRegisterEvents(app.FlagsList.Selected)
+			table.remove(Watchtower_Flags[app.FlagsList.SelGroup].flags, app.FlagsList.SelFlag)
+			app:ReIndexTable(Watchtower_Flags[app.FlagsList.SelGroup].flags)
+			app.FlagsList.SelFlag = app.FlagsList.SelFlag - 1
 		end
+		app:UpdateStatusList()
 	end
 
-	local function importFlag()
+	local function newGroup()
+		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", flags = {} })
+		app.FlagsList.SelGroup = #Watchtower_Flags
+		app.FlagsList.SelFlag = 0
+		app:SetSelected()
+		app:UpdateStatusList()
 	end
 
-	local function exportFlag()
+	local function import()
 	end
 
-	app.EditPanel.NewButton = app:MakeButton(app.EditPanel, "New")
-	app.EditPanel.NewButton:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, "TOPRIGHT", 0, 2)
-	app.EditPanel.NewButton:SetScript("OnClick", newFlag)
+	local function export()
+	end
 
-	app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, "Import")
-	app.EditPanel.ImportButton:SetPoint("TOPRIGHT", app.EditPanel.NewButton, "TOPLEFT", -2, 0)
-	app.EditPanel.ImportButton:SetScript("OnClick", importFlag)
-	app.EditPanel.ImportButton:Disable()
+	app.EditPanel.NewFlagButton = app:MakeButton(app.EditPanel, "New Flag")
+	app.EditPanel.NewFlagButton:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, "TOPRIGHT", 0, 2)
+	app.EditPanel.NewFlagButton:SetScript("OnClick", newFlag)
+
+	app.EditPanel.NewGroupButton = app:MakeButton(app.EditPanel, "New Group")
+	app.EditPanel.NewGroupButton:SetPoint("TOPRIGHT", app.EditPanel.NewFlagButton, "TOPLEFT", -2, 0)
+	app.EditPanel.NewGroupButton:SetScript("OnClick", newGroup)
 
 	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, "Delete")
-	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewButton)
+	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewFlagButton)
 	app.EditPanel.DeleteButton:SetPoint("RIGHT", app.EditPanel, -6, 0)
-	app.EditPanel.DeleteButton:SetScript("OnClick", deleteFlag)
+	app.EditPanel.DeleteButton:SetScript("OnClick", delete)
 
 	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, "Export")
 	app.EditPanel.ExportButton:SetPoint("TOPRIGHT", app.EditPanel.DeleteButton, "TOPLEFT", -2, 0)
-	app.EditPanel.ExportButton:SetScript("OnClick", exportFlag)
+	app.EditPanel.ExportButton:SetScript("OnClick", export)
 	app.EditPanel.ExportButton:Disable()
+
+	app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, "Import")
+	app.EditPanel.ImportButton:SetPoint("TOPRIGHT", app.EditPanel.ExportButton, "TOPLEFT", -2, 0)
+	app.EditPanel.ImportButton:SetScript("OnClick", import)
+	app.EditPanel.ImportButton:Disable()
 
 	-- Flag list
 	local scrollBox = CreateFrame("Frame", nil, app.EditPanel.StatusList, "WowScrollBoxList")
-	scrollBox:SetPoint("TOPLEFT", app.EditPanel.StatusList, 7, -6)
+	scrollBox:SetPoint("TOPLEFT", app.EditPanel.StatusList, 2, -4)
 	scrollBox:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, -18, 4)
 	scrollBox:EnableMouse(true)
 	scrollBox:RegisterForDrag("LeftButton")
@@ -122,34 +142,40 @@ function app:CreateEditPanel()
 	divider:SetAtlas("CovenantChoice-Celebration-KyrianGlowLine")
 	divider:Hide()
 
-	app.ScrollView2 = CreateScrollBoxListTreeListView()
-	ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, scrollBar, app.ScrollView2)
-
-	function app:ReIndexTable(tbl)
-		table.sort(tbl, function(a, b)
-			return a.id < b.id
-		end)
-
-		for i, entry in ipairs(tbl) do
-			entry.id = i
-		end
-
-		app:UpdateStatusList()
-	end
-
-	function app:MoveTableEntry(tbl, oldIndex, targetIndex)
-		tbl[oldIndex].id = targetIndex + 0.5
-		app:ReIndexTable(tbl)
-	end
+	app.FlagsList = CreateScrollBoxListTreeListView()
+	ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, scrollBar, app.FlagsList)
 
 	local function Initializer(listItem, node)
 		local data = node:GetData()
 
-		--if data.index then
+		if data.icon then
 			listItem.LeftText1:SetText("|T" .. data.icon .. ":18|t")
-			listItem.LeftText2:SetText(data.text)
-			listItem.LeftText2:SetFont("Fonts\\FRIZQT__.TTF", 14)
-		--end
+		elseif data.flagID == 0 then	-- Header
+			if not listItem.iconButton then
+				listItem.iconButton = CreateFrame("Button", nil, listItem)
+				listItem.iconButton:SetSize(18, 18)
+				listItem.iconButton:SetPoint("LEFT", listItem, "LEFT", 2, 0)
+				listItem.iconButton:SetFrameLevel(listItem:GetFrameLevel() + 1)
+				listItem.iconButton:SetHighlightAtlas("common-button-collapseExpand-hover")
+				listItem.iconButton:SetPropagateMouseClicks(false)
+				listItem.iconButton:SetScript("OnClick", function()
+					if data.flagID == 0 then
+						node:ToggleCollapsed()
+						Watchtower_Flags[data.groupID].collapsed = node:IsCollapsed()
+						app:UpdateStatusList()
+					end
+				end)
+			end
+
+			if node:IsCollapsed() then
+				listItem.LeftText1:SetText("|A:common-button-collapseExpand-down:22:22|a")
+			else
+				listItem.LeftText1:SetText("|A:common-button-collapseExpand-up:22:22|a")
+			end
+		end
+
+		listItem.LeftText2:SetText(data.title)
+		listItem.LeftText2:SetFont("Fonts\\FRIZQT__.TTF", 14)
 
 		if not listItem.Highlight then
 			listItem.Highlight = listItem:CreateTexture(nil, "ARTWORK")
@@ -158,8 +184,8 @@ function app:CreateEditPanel()
 		end
 		listItem.Highlight:Hide()
 
-		if app.ScrollView2.Selection == data.id then
-			listItem.LeftText2:SetText("|cffFFFFFF" .. data.text)
+		if app.FlagsList.SelGroup == data.groupID and app.FlagsList.SelFlag == data.flagID then
+			listItem.LeftText2:SetText("|cffFFFFFF" .. data.title)
 			listItem.Highlight:Show()
 		end
 
@@ -167,6 +193,7 @@ function app:CreateEditPanel()
 		listItem:RegisterForDrag("LeftButton")
 		listItem:SetScript("OnDragStart", function(self)
 			app.Flag.Dragging = true
+			app.Flag.Hover = { groupID = data.groupID, flagID = data.flagID }
 			self:SetAlpha(0.5)
 		end)
 		listItem:SetScript("OnDragStop", function(self)
@@ -175,13 +202,15 @@ function app:CreateEditPanel()
 			self:SetAlpha(1)
 			divider:Hide()
 
-			if not (data.id == app.Flag.Hover) then
-				app:MoveTableEntry(Watchtower_Flags, data.id, app.Flag.Hover)
+			if data.groupID == 1 and data.flagID == 0 then
+				app:Print("Can't move this group")	-- Make it undraggable from the start
+			elseif not ({ groupID = data.groupID, flagID = data.flagID } == app.Flag.Hover) then
+				app:MoveTableEntry({ groupID = data.groupID, flagID = data.flagID }, app.Flag.Hover)
 			end
 		end)
 		listItem:SetScript("OnEnter", function(self)
 			if app.Flag.Dragging then
-				app.Flag.Hover = data.id
+				app.Flag.Hover = { groupID = data.groupID, flagID = data.flagID }
 				RunNextFrame(function()
 					divider:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, 10)
 					divider:Show()
@@ -190,18 +219,21 @@ function app:CreateEditPanel()
 		end)
 		listItem:SetScript("OnLeave", function(self)
 			if app.Flag.Dragging then
-				if not(data.id == #Watchtower_Flags and app.Flag.Hover == #Watchtower_Flags) then
+				if not (app.Flag.Hover.groupID == #Watchtower_Flags and app.Flag.Hover.flagID == #Watchtower_Flags[#Watchtower_Flags].flags and data.groupID == #Watchtower_Flags and data.flagID == #Watchtower_Flags[#Watchtower_Flags].flags) then
+				-- if not(data.id == #Watchtower_Flags and app.Flag.Hover == #Watchtower_Flags) then
 					divider:Hide()
 				end
 			end
 		end)
 		listItem:SetScript("OnClick", function()
-			app.ScrollView2.Selection = data.id
+			app.FlagsList.SelGroup = data.groupID
+			app.FlagsList.SelFlag = data.flagID
+			app:SetSelected()
 			app:UpdateStatusList()
 		end)
 	end
 
-	app.ScrollView2:SetElementInitializer("Watchtower_ListButton", Initializer)
+	app.FlagsList:SetElementInitializer("Watchtower_ListButton", Initializer)
 
 	-- Options frame
 	app.EditPanel.Options = CreateFrame("Frame", nil, app.EditPanel, "NineSlicePanelTemplate")
@@ -228,27 +260,26 @@ function app:CreateEditPanel()
 		PanelTemplates_SetNumTabs(app.EditPanel.Options, #app.EditPanel.Tabs)
 
 		tab:SetScript("OnClick", function()
-			PanelTemplates_SetTab(app.EditPanel.Options, tab:GetID())
-			for tabID, frame in pairs (app.EditPanel.Pages) do
-				if tabID == id then
-					frame:Show()
-				else
-					frame:Hide()
-				end
-			end
+			-- PanelTemplates_SetTab(app.EditPanel.Options, tab:GetID())
+			-- for tabID, frame in pairs (app.EditPanel.Pages) do
+			-- 	if tabID == id then
+			-- 		frame:Show()
+			-- 	else
+			-- 		frame:Hide()
+			-- 	end
+			-- end
 		end)
 
 		return tab
 	end
 
 	app.EditPanel.Tabs = {}
+	app.EditPanel.Pages = {}
 
 	createTab("General", 1)
 
-	app.EditPanel.Pages = {}
 	app.EditPanel.Pages[1] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
 	app.EditPanel.Pages[1]:SetAllPoints(app.EditPanel.Options)
-	app.EditPanel.Pages[1]:Show()
 
 	local leftEdge = 60
 
@@ -267,23 +298,23 @@ function app:CreateEditPanel()
 	})
 	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
-	app.EditPanel.Options.Title = CreateFrame("EditBox", nil, backdrop)
-	app.EditPanel.Options.Title:SetFontObject(ChatFontNormal)
-	app.EditPanel.Options.Title:SetSize(backdrop:GetWidth()-6, backdrop:GetHeight())
-	app.EditPanel.Options.Title:SetPoint("TOPLEFT", backdrop, 6, 0)
-	app.EditPanel.Options.Title:SetAutoFocus(false)
-	app.EditPanel.Options.Title:SetScript("OnEditFocusGained", function(self)
+	app.EditPanel.Pages[1].Title = CreateFrame("EditBox", nil, backdrop)
+	app.EditPanel.Pages[1].Title:SetFontObject(ChatFontNormal)
+	app.EditPanel.Pages[1].Title:SetSize(backdrop:GetWidth()-6, backdrop:GetHeight())
+	app.EditPanel.Pages[1].Title:SetPoint("TOPLEFT", backdrop, 6, 0)
+	app.EditPanel.Pages[1].Title:SetAutoFocus(false)
+	app.EditPanel.Pages[1].Title:SetScript("OnEditFocusGained", function(self)
 		self:HighlightText(0, 0)
 	end)
-	app.EditPanel.Options.Title:SetScript("OnEnterPressed", function(self)
+	app.EditPanel.Pages[1].Title:SetScript("OnEnterPressed", function(self)
 		self:ClearFocus()
 	end)
-	app.EditPanel.Options.Title:SetScript("OnEscapePressed", function(self)
-		self:SetText(Watchtower_Flags[app.ScrollView2.Selection].text or "")
+	app.EditPanel.Pages[1].Title:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.title or "")
 		self:ClearFocus()
 	end)
-	app.EditPanel.Options.Title:SetScript("OnEditFocusLost", function(self)
-		Watchtower_Flags[app.ScrollView2.Selection].text = self:GetText()
+	app.EditPanel.Pages[1].Title:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.title = self:GetText()
 		app:UpdateStatusList()
 	end)
 
@@ -302,44 +333,44 @@ function app:CreateEditPanel()
 	})
 	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
-	app.EditPanel.Options.Icon = CreateFrame("EditBox", nil, backdrop)
-	app.EditPanel.Options.Icon:SetFontObject(ChatFontNormal)
-	app.EditPanel.Options.Icon:SetSize(backdrop:GetWidth()-6, backdrop:GetHeight())
-	app.EditPanel.Options.Icon:SetPoint("TOPLEFT", backdrop, 6, 0)
-	app.EditPanel.Options.Icon:SetAutoFocus(false)
-	app.EditPanel.Options.Icon:SetScript("OnEditFocusGained", function(self)
+	app.EditPanel.Pages[1].Icon = CreateFrame("EditBox", nil, backdrop)
+	app.EditPanel.Pages[1].Icon:SetFontObject(ChatFontNormal)
+	app.EditPanel.Pages[1].Icon:SetSize(backdrop:GetWidth()-6, backdrop:GetHeight())
+	app.EditPanel.Pages[1].Icon:SetPoint("TOPLEFT", backdrop, 6, 0)
+	app.EditPanel.Pages[1].Icon:SetAutoFocus(false)
+	app.EditPanel.Pages[1].Icon:SetScript("OnEditFocusGained", function(self)
 		self:HighlightText(0, 0)
 	end)
-	app.EditPanel.Options.Icon:SetScript("OnEnterPressed", function(self)
+	app.EditPanel.Pages[1].Icon:SetScript("OnEnterPressed", function(self)
 		self:ClearFocus()
 	end)
-	app.EditPanel.Options.Icon:SetScript("OnEscapePressed", function(self)
-		self:SetText(Watchtower_Flags[app.ScrollView2.Selection].icon or "")
+	app.EditPanel.Pages[1].Icon:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.icon or "")
 		self:ClearFocus()
 	end)
-	app.EditPanel.Options.Icon:SetScript("OnEditFocusLost", function(self)
-		Watchtower_Flags[app.ScrollView2.Selection].icon = self:GetText()
+	app.EditPanel.Pages[1].Icon:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.icon = self:GetText()
 		app:UpdateStatusList()
 	end)
-	app.EditPanel.Options.Icon.Search = CreateFrame("Button", nil, app.EditPanel.Options.Icon, nil)
-	app.EditPanel.Options.Icon.Search:SetSize(14, 14)
-	app.EditPanel.Options.Icon.Search:SetPoint("RIGHT", app.EditPanel.Options.Icon, -6, 0)
-	app.EditPanel.Options.Icon.Search.Icon = app.EditPanel.Options.Icon.Search:CreateTexture(nil, "BACKGROUND")
-	app.EditPanel.Options.Icon.Search.Icon:SetAtlas("common-search-magnifyingglass")
-	app.EditPanel.Options.Icon.Search.Icon:SetAllPoints()
-	app.EditPanel.Options.Icon.Search:SetAlpha(0.5)
-	app.EditPanel.Options.Icon.Search:SetScript("OnEnter", function()
-		app.EditPanel.Options.Icon.Search:SetAlpha(1.0)
+	app.EditPanel.Pages[1].Icon.Search = CreateFrame("Button", nil, app.EditPanel.Pages[1].Icon, nil)
+	app.EditPanel.Pages[1].Icon.Search:SetSize(14, 14)
+	app.EditPanel.Pages[1].Icon.Search:SetPoint("RIGHT", app.EditPanel.Pages[1].Icon, -6, 0)
+	app.EditPanel.Pages[1].Icon.Search.Icon = app.EditPanel.Pages[1].Icon.Search:CreateTexture(nil, "BACKGROUND")
+	app.EditPanel.Pages[1].Icon.Search.Icon:SetAtlas("common-search-magnifyingglass")
+	app.EditPanel.Pages[1].Icon.Search.Icon:SetAllPoints()
+	app.EditPanel.Pages[1].Icon.Search:SetAlpha(0.5)
+	app.EditPanel.Pages[1].Icon.Search:SetScript("OnEnter", function()
+		app.EditPanel.Pages[1].Icon.Search:SetAlpha(1.0)
 	end)
-	app.EditPanel.Options.Icon.Search:SetScript("OnLeave", function()
-		app.EditPanel.Options.Icon.Search:SetAlpha(0.5)
+	app.EditPanel.Pages[1].Icon.Search:SetScript("OnLeave", function()
+		app.EditPanel.Pages[1].Icon.Search:SetAlpha(0.5)
 	end)
-	app.EditPanel.Options.Icon.Search:SetScript("OnClick", function()
-		app.EditPanel.Options.Icon.Search:SetAlpha(0.5)
+	app.EditPanel.Pages[1].Icon.Search:SetScript("OnClick", function()
+		app.EditPanel.Pages[1].Icon.Search:SetAlpha(0.5)
 		LibIconPicker:Open(function(sel)
-			Watchtower_Flags[app.ScrollView2.Selection].icon = sel.icon
+			app.FlagsList.Selected.icon = sel.icon
 			app:UpdateStatusList()
-		end, { icon = Watchtower_Flags[app.ScrollView2.Selection].icon })
+		end, { icon = app.FlagsList.Selected.icon })
 	end)
 
 	local string3 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -349,7 +380,7 @@ function app:CreateEditPanel()
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
 	backdrop:SetPoint("TOPLEFT", string3, "TOPLEFT", leftEdge, 0)
 	backdrop:SetPoint("BOTTOMLEFT", string3, "TOPLEFT", leftEdge, -118)
-	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Options, "RIGHT", -10, 0)
+	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
 	backdrop:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -362,109 +393,36 @@ function app:CreateEditPanel()
 	scrollFrame1:SetPoint("TOPLEFT", 5, -5)
 	scrollFrame1:SetPoint("BOTTOMRIGHT", -27, 4)
 	scrollFrame1:SetScript("OnMouseDown", function()
-		app.EditPanel.Options.Trigger:SetFocus()
+		app.EditPanel.Pages[1].Trigger:SetFocus()
 	end)
 
-	app.EditPanel.Options.Trigger = CreateFrame("EditBox", nil, scrollFrame1)
-	app.EditPanel.Options.Trigger:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
-	app.EditPanel.Options.Trigger:SetWidth(scrollFrame1:GetWidth())
-	app.EditPanel.Options.Trigger:SetPoint("TOPLEFT")
-	app.EditPanel.Options.Trigger:SetMultiLine(true)
-	app.EditPanel.Options.Trigger:SetTextColor(0.612, 0.863, 0.996, 1)
-	scrollFrame1:SetScrollChild(app.EditPanel.Options.Trigger)
+	app.EditPanel.Pages[1].Trigger = CreateFrame("EditBox", nil, scrollFrame1)
+	app.EditPanel.Pages[1].Trigger:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
+	app.EditPanel.Pages[1].Trigger:SetWidth(scrollFrame1:GetWidth())
+	app.EditPanel.Pages[1].Trigger:SetPoint("TOPLEFT")
+	app.EditPanel.Pages[1].Trigger:SetMultiLine(true)
+	app.EditPanel.Pages[1].Trigger:SetTextColor(0.612, 0.863, 0.996, 1)
+	scrollFrame1:SetScrollChild(app.EditPanel.Pages[1].Trigger)
 
-	app.EditPanel.Options.Trigger:SetAutoFocus(false)
-	app.EditPanel.Options.Trigger:SetScript("OnEscapePressed", function(self)
-		self:SetText(Watchtower_Flags[app.ScrollView2.Selection].trigger or "")
+	app.EditPanel.Pages[1].Trigger:SetAutoFocus(false)
+	app.EditPanel.Pages[1].Trigger:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.trigger or "")
 		self:ClearFocus()
 	end)
-	app.EditPanel.Options.Trigger:SetScript("OnEditFocusLost", function(self)
-		Watchtower_Flags[app.ScrollView2.Selection].trigger = self:GetText()
-		app:RegisterEvents(app.ScrollView2.Selection)
+	app.EditPanel.Pages[1].Trigger:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.trigger = self:GetText()
+		app:RegisterEvents(app.FlagsList.Selected)
 		app:UpdateStatusList()
 	end)
 
-	IndentationLib.enable(app.EditPanel.Options.Trigger, nil, 3)
-
-	function app:RunTrigger(id, debug)
-		if not Watchtower_Flags[id].trigger then
-			if debug then
-				app:Print("There is no code to test.")
-			end
-			return false
-		end
-
-		local func, error = loadstring(Watchtower_Flags[id].trigger)
-		if error then
-			if debug then
-				app:Print("There is an error in your trigger code:")
-				DevTools_Dump(error)
-			end
-			return false
-		end
-
-		local env = app:CreateTriggerEnv()
-		setfenv(func, env)
-
-		local ok, result = pcall(func)
-		if not ok then
-			if debug then
-				app:Print("There is an error in your trigger code:")
-				app:Print(result)
-			end
-			return false
-		end
-
-		if debug then
-			app:Print("No syntax errors found in your trigger. :)")
-		end
-
-		return result
-	end
+	IndentationLib.enable(app.EditPanel.Pages[1].Trigger, nil, 3)
 
 	app.EditPanel.TestButton = app:MakeButton(app.EditPanel.Pages[1], "Test")
 	app.EditPanel.TestButton:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", -2, -6)
 	app.EditPanel.TestButton:SetScript("OnClick", function()
-		Watchtower_Flags[app.ScrollView2.Selection].lastResult = app:RunTrigger(app.ScrollView2.Selection, true)
+		app.FlagsList.Selected.lastResult = app:TestTrigger(app.FlagsList.Selected)
 		app:UpdateStatusTracker()
 	end)
-
-	local f = CreateFrame("Frame")
-	local function doesEventExist(event)
-		if type(event) ~= "string" or event == "" then
-			return false, "Attempt to register unknown event"
-		end
-
-		local exists, error = pcall(f.RegisterEvent, f, event)
-		if not exists then
-			return false, error
-		end
-
-		return true
-	end
-
-	function app:MakeCsvTable(str)
-		local tbl = {}
-		if not str or str == "" then return tbl end
-
-		for value in string.gmatch(str, "[^,;]+") do	-- Separate by , and ;
-			local event = value:match("^%s*(.-)%s*$")	-- Trim whitespace
-
-			local exists, error = doesEventExist(event)
-			if not exists then
-				app:Print(error)
-			else
-				table.insert(tbl, string.upper(event))
-			end
-		end
-
-		return tbl
-	end
-
-	function app:MakeCsvString(tbl)
-		if not tbl or tbl == "" then return "" end
-		return table.concat(tbl, ", ")
-	end
 
 	local string4 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string4:SetText("Events")
@@ -473,7 +431,7 @@ function app:CreateEditPanel()
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
 	backdrop:SetPoint("TOPLEFT", string4, "TOPLEFT", leftEdge, 0)
 	backdrop:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -36)
-	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Options, "RIGHT", -10, 0)
+	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
 	backdrop:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -488,51 +446,205 @@ function app:CreateEditPanel()
 	scrollFrame2:SetPoint("TOPLEFT", 5, -5)
 	scrollFrame2:SetPoint("BOTTOMRIGHT", -27, 4)
 	scrollFrame2:SetScript("OnMouseDown", function()
-		app.EditPanel.Options.Events:SetFocus()
+		app.EditPanel.Pages[1].Events:SetFocus()
 	end)
 
-	app.EditPanel.Options.Events = CreateFrame("EditBox", nil, scrollFrame2)
-	app.EditPanel.Options.Events:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
-	app.EditPanel.Options.Events:SetWidth(scrollFrame2:GetWidth())
-	app.EditPanel.Options.Events:SetPoint("TOPLEFT")
-	app.EditPanel.Options.Events:SetMultiLine(true)
-	app.EditPanel.Options.Events:SetTextColor(0.612, 0.863, 0.996, 1)
-	scrollFrame2:SetScrollChild(app.EditPanel.Options.Events)
+	app.EditPanel.Pages[1].Events = CreateFrame("EditBox", nil, scrollFrame2)
+	app.EditPanel.Pages[1].Events:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
+	app.EditPanel.Pages[1].Events:SetWidth(scrollFrame2:GetWidth())
+	app.EditPanel.Pages[1].Events:SetPoint("TOPLEFT")
+	app.EditPanel.Pages[1].Events:SetMultiLine(true)
+	app.EditPanel.Pages[1].Events:SetTextColor(0.612, 0.863, 0.996, 1)
+	scrollFrame2:SetScrollChild(app.EditPanel.Pages[1].Events)
 
-	app.EditPanel.Options.Events:SetAutoFocus(false)
-	app.EditPanel.Options.Events:SetScript("OnEscapePressed", function(self)
-		self:SetText(app:MakeCsvString(Watchtower_Flags[app.ScrollView2.Selection].events or ""))
+	app.EditPanel.Pages[1].Events:SetAutoFocus(false)
+	app.EditPanel.Pages[1].Events:SetScript("OnEscapePressed", function(self)
+		self:SetText(app:MakeCsvString(app.FlagsList.Selected.events or ""))
 		self:ClearFocus()
 	end)
-	app.EditPanel.Options.Events:SetScript("OnEditFocusLost", function(self)
-		Watchtower_Flags[app.ScrollView2.Selection].events = app:MakeCsvTable(self:GetText())
-		app:RegisterEvents(app.ScrollView2.Selection)
+	app.EditPanel.Pages[1].Events:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.events = app:MakeCsvTable(self:GetText())
+		app:RegisterEvents(app.FlagsList.Selected)
+		app:UpdateStatusList()
+	end)
+
+	app.EditPanel.Pages[2] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[2]:SetAllPoints(app.EditPanel.Options)
+
+	local leftEdge = 60
+
+	local string1 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string1:SetText("Title")
+	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[2], 10, -20)
+
+	app.EditPanel.Pages[2].TitleBackdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[2], "BackdropTemplate")
+	app.EditPanel.Pages[2].TitleBackdrop:SetSize(200, 23)
+	app.EditPanel.Pages[2].TitleBackdrop:SetPoint("LEFT", string1, "LEFT", leftEdge, 0)
+	app.EditPanel.Pages[2].TitleBackdrop:SetBackdrop({
+		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+		edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	app.EditPanel.Pages[2].TitleBackdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+
+	app.EditPanel.Pages[2].Title = CreateFrame("EditBox", nil, app.EditPanel.Pages[2].TitleBackdrop)
+	app.EditPanel.Pages[2].Title:SetFontObject(ChatFontNormal)
+	app.EditPanel.Pages[2].Title:SetSize(app.EditPanel.Pages[2].TitleBackdrop :GetWidth()-6, app.EditPanel.Pages[2].TitleBackdrop:GetHeight())
+	app.EditPanel.Pages[2].Title:SetPoint("TOPLEFT", app.EditPanel.Pages[2].TitleBackdrop, 6, 0)
+	app.EditPanel.Pages[2].Title:SetAutoFocus(false)
+	app.EditPanel.Pages[2].Title:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText(0, 0)
+	end)
+	app.EditPanel.Pages[2].Title:SetScript("OnEnterPressed", function(self)
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[2].Title:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.title or "")
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[2].Title:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.title = self:GetText()
 		app:UpdateStatusList()
 	end)
 
 	PanelTemplates_SetTab(app.EditPanel.Options, 1)
 	PanelTemplates_UpdateTabs(app.EditPanel.Options)
 
-	app.ScrollView2.Selection = 1
+	app.FlagsList.SelGroup = 1
+	app.FlagsList.SelFlag = 0
+	app:SetSelected()
 	app:UpdateStatusList()
+end
+
+function app:SetSelected()
+	if app.FlagsList.SelFlag == 0 then
+		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup]
+	else
+		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup].flags[app.FlagsList.SelFlag]
+	end
+
+	if app.FlagsList.Selected.icon then
+		app.EditPanel.Pages[1]:Show()
+		app.EditPanel.Pages[2]:Hide()
+
+		app.EditPanel.DeleteButton:SetText("Delete Flag")
+		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
+
+		app.EditPanel.Pages[1].Title:SetText(app.FlagsList.Selected.title or "")
+		app.EditPanel.Pages[1].Icon:SetText(app.FlagsList.Selected.icon or "")
+		app.EditPanel.Pages[1].Trigger:SetText(app.FlagsList.Selected.trigger or "")
+		app.EditPanel.Pages[1].Events:SetText(app:MakeCsvString(app.FlagsList.Selected.events or ""))
+	else
+		app.EditPanel.Pages[1]:Hide()
+		app.EditPanel.Pages[2]:Show()
+
+		app.EditPanel.DeleteButton:SetText("Delete Group")
+		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
+
+		if app.FlagsList.SelGroup == 1 then
+			app.EditPanel.Pages[2].Title:Disable()
+			app.EditPanel.Pages[2].Title:SetText("|cff9d9d9d" .. (app.FlagsList.Selected.title or ""))
+			app.EditPanel.Pages[2].TitleBackdrop:SetBackdropBorderColor(0.7, 0.7, 0.7, 1)
+		else
+			app.EditPanel.Pages[2].Title:Enable()
+			app.EditPanel.Pages[2].Title:SetText(app.FlagsList.Selected.title or "")
+			app.EditPanel.Pages[2].TitleBackdrop:SetBackdropBorderColor(1, 1, 1, 1)
+		end
+	end
+end
+
+function app:ReIndexTable(tbl)
+	table.sort(tbl, function(a, b)
+		if a and b then
+			if a.flagID then
+				return a.flagID < b.flagID
+			elseif a.groupID then
+				return a.groupID < b.groupID
+			end
+		end
+	end)
+
+	for i, entry in ipairs(tbl) do
+		if entry.flagID then
+			entry.flagID = i
+		elseif entry.groupID then
+			entry.groupID = i
+		end
+	end
+
+	app:UpdateStatusList()
+end
+
+function app:MoveTableEntry(old, target)
+	app.FlagsList.SelGroup = target.groupID
+	app.FlagsList.SelFlag = target.flagID + 1
+
+	if old.flagID == 0 then
+		Watchtower_Flags[old.groupID].groupID = target.groupID + 0.5
+		app:ReIndexTable(Watchtower_Flags)
+	elseif old.groupID == target.groupID then
+		Watchtower_Flags[old.groupID].flags[old.flagID].flagID = target.flagID + 0.5
+		app:ReIndexTable(Watchtower_Flags[old.groupID].flags)
+	else
+		local flag = table.remove(Watchtower_Flags[old.groupID].flags, old.flagID)
+		table.insert(Watchtower_Flags[target.groupID].flags, flag)
+		Watchtower_Flags[target.groupID].flags[#Watchtower_Flags[target.groupID].flags].flagID = target.flagID + 0.5
+		app:ReIndexTable(Watchtower_Flags[old.groupID].flags)
+		app:ReIndexTable(Watchtower_Flags[target.groupID].flags)
+	end
+end
+
+function app:MakeCsvTable(str)
+	local f = CreateFrame("Frame")
+	local function doesEventExist(event)
+		if type(event) ~= "string" or event == "" then
+			return false, "Attempt to register unknown event"
+		end
+
+		local exists, error = pcall(f.RegisterEvent, f, event)
+		if not exists then
+			return false, error
+		end
+
+		return true
+	end
+
+	local tbl = {}
+	if not str or str == "" then return tbl end
+
+	for value in string.gmatch(str, "[^,;]+") do	-- Separate by , and ;
+		local event = value:match("^%s*(.-)%s*$")	-- Trim whitespace
+
+		local exists, error = doesEventExist(event)
+		if not exists then
+			app:Print(error)
+		else
+			table.insert(tbl, string.upper(event))
+		end
+	end
+
+	return tbl
+end
+
+function app:MakeCsvString(tbl)
+	if not tbl or tbl == "" then return "" end
+	return table.concat(tbl, ", ")
 end
 
 function app:UpdateStatusList()
 	local DataProvider = CreateTreeDataProvider()
 
-	for k, v in ipairs(Watchtower_Flags) do
-		DataProvider:Insert({ id = v.id, icon = v.icon, text = v.text })
+	for gID, group in ipairs(Watchtower_Flags) do
+		local groupNode = DataProvider:Insert({ groupID = group.groupID, flagID = 0, title = group.title })
+		if group.collapsed then groupNode:ToggleCollapsed() end
+		for fID, flag in ipairs (Watchtower_Flags[gID].flags) do
+			groupNode:Insert({ groupID = group.groupID, flagID = flag.flagID, icon = flag.icon, title = flag.title })
+		end
 	end
 
-	app.ScrollView2:SetDataProvider(DataProvider, true)
-
-	if Watchtower_Flags[app.ScrollView2.Selection] then
-		app.EditPanel.Options.Title:SetText(Watchtower_Flags[app.ScrollView2.Selection].text or "")
-		app.EditPanel.Options.Icon:SetText(Watchtower_Flags[app.ScrollView2.Selection].icon or "")
-		app.EditPanel.Options.Trigger:SetText(Watchtower_Flags[app.ScrollView2.Selection].trigger or "")
-		app.EditPanel.Options.Events:SetText(app:MakeCsvString(Watchtower_Flags[app.ScrollView2.Selection].events or ""))
-	end
-
+	app.FlagsList:SetDataProvider(DataProvider, true)
+	app:SetSelected()
 	if app.ScrollView then app:UpdateStatusTracker() end
 end
 
@@ -575,23 +687,33 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	return env
 end
 
-function app:ValidateTrigger(flag)
+function app:TestTrigger(flag)
+	if not flag.trigger then
+		app:Print("There is no code to test.")
+		return false
+	end
+
 	local func, error = loadstring(flag.trigger)
-	if not func then
-		return false, error
+	if error then
+		app:Print("There is an error in your trigger code:")
+		DevTools_Dump(error)
+		return false
 	end
 
 	local env = app:CreateTriggerEnv()
 	setfenv(func, env)
 
-	local ok, runtimeErr = pcall(func)
+	local ok, result = pcall(func)
 	if not ok then
-		return false, runtimeErr
+		app:Print("There is an error in your trigger code:")
+		app:Print(result)
+		return false
 	end
 
-	return true
-end
+	app:Print("No syntax errors found in your trigger. :)")
 
+	return result
+end
 
 function app:DeRegisterEvents(flag)
 	if flag.handles then
@@ -602,7 +724,7 @@ function app:DeRegisterEvents(flag)
 	flag.handles = {}
 end
 
-function app:RegisterEvents(flagID)
+function app:RegisterEvents(flag)
 	local function handleEvents(flag)
 		local func, error = loadstring(flag.trigger)
 		if not error then
@@ -614,7 +736,7 @@ function app:RegisterEvents(flagID)
 					else
 						flag.lastResult = false
 					end
-					RunNextFrame(function() app:UpdateStatusTracker() end)
+					--RunNextFrame(function() app:UpdateStatusTracker() end)
 				end
 
 				local handle = app.Event:Register(event, wrapper)
@@ -623,13 +745,15 @@ function app:RegisterEvents(flagID)
 		end
 	end
 
-	if flagID then
-		app:DeRegisterEvents(Watchtower_Flags[flagID])
-		handleEvents(Watchtower_Flags[flagID])
+	if flag then
+		app:DeRegisterEvents(flag)
+		handleEvents(flag)
 	else
-		for _, flag in ipairs(Watchtower_Flags) do
-			app:DeRegisterEvents(flag)
-			handleEvents(flag)
+		for _, header in ipairs(Watchtower_Flags) do
+			for _, flg in ipairs(header) do
+				app:DeRegisterEvents(flg)
+				handleEvents(flg)
+			end
 		end
 	end
 end
