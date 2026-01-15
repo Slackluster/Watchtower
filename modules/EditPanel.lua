@@ -92,6 +92,7 @@ function app:CreateEditPanel()
 	app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, "Import")
 	app.EditPanel.ImportButton:SetPoint("TOPRIGHT", app.EditPanel.NewButton, "TOPLEFT", -2, 0)
 	app.EditPanel.ImportButton:SetScript("OnClick", importFlag)
+	app.EditPanel.ImportButton:Disable()
 
 	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, "Delete")
 	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewButton)
@@ -101,6 +102,7 @@ function app:CreateEditPanel()
 	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, "Export")
 	app.EditPanel.ExportButton:SetPoint("TOPRIGHT", app.EditPanel.DeleteButton, "TOPLEFT", -2, 0)
 	app.EditPanel.ExportButton:SetScript("OnClick", exportFlag)
+	app.EditPanel.ExportButton:Disable()
 
 	-- Flag list
 	local scrollBox = CreateFrame("Frame", nil, app.EditPanel.StatusList, "WowScrollBoxList")
