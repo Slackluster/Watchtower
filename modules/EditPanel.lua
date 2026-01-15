@@ -153,25 +153,26 @@ function app:CreateEditPanel()
 		elseif data.flagID == 0 then	-- Header
 			if not listItem.iconButton then
 				listItem.iconButton = CreateFrame("Button", nil, listItem)
-				listItem.iconButton:SetSize(18, 18)
-				listItem.iconButton:SetPoint("LEFT", listItem, "LEFT", 2, 0)
+				listItem.iconButton:SetSize(22, 22)
 				listItem.iconButton:SetFrameLevel(listItem:GetFrameLevel() + 1)
 				listItem.iconButton:SetHighlightAtlas("common-button-collapseExpand-hover")
 				listItem.iconButton:SetPropagateMouseClicks(false)
-				listItem.iconButton:SetScript("OnClick", function()
-					if data.flagID == 0 then
-						node:ToggleCollapsed()
-						Watchtower_Flags[data.groupID].collapsed = node:IsCollapsed()
-						app:UpdateStatusList()
-					end
-				end)
+				listItem.iconButton.texture = listItem.iconButton:CreateTexture(nil, "ARTWORK")
+				listItem.iconButton.texture:SetAllPoints()
 			end
-
 			if node:IsCollapsed() then
-				listItem.LeftText1:SetText("|A:common-button-collapseExpand-down:22:22|a")
+				listItem.iconButton.texture:SetTexture("Interface\\AddOns\\Watchtower\\assets\\button-right.png")
 			else
-				listItem.LeftText1:SetText("|A:common-button-collapseExpand-up:22:22|a")
+				listItem.iconButton.texture:SetTexture("Interface\\AddOns\\Watchtower\\assets\\button-down.png")
 			end
+			listItem.iconButton:SetPoint("LEFT", listItem, "LEFT", 0, 1)
+			listItem.iconButton:SetScript("OnClick", function()
+				if data.flagID == 0 then
+					node:ToggleCollapsed()
+					Watchtower_Flags[data.groupID].collapsed = node:IsCollapsed()
+					app:UpdateStatusList()
+				end
+			end)
 		end
 
 		listItem.LeftText2:SetText(data.title)
@@ -192,6 +193,10 @@ function app:CreateEditPanel()
 		listItem:EnableMouse(true)
 		listItem:RegisterForDrag("LeftButton")
 		listItem:SetScript("OnDragStart", function(self)
+			if data.groupID == 1 and data.flagID == 0 then
+				app:Print("Can't move this group")
+				return
+			end
 			app.Flag.Dragging = true
 			app.Flag.Hover = { groupID = data.groupID, flagID = data.flagID }
 			self:SetAlpha(0.5)
@@ -202,9 +207,7 @@ function app:CreateEditPanel()
 			self:SetAlpha(1)
 			divider:Hide()
 
-			if data.groupID == 1 and data.flagID == 0 then
-				app:Print("Can't move this group")	-- TODO: Make it undraggable from the start
-			elseif not ({ groupID = data.groupID, flagID = data.flagID } == app.Flag.Hover) then
+			if not ({ groupID = data.groupID, flagID = data.flagID } == app.Flag.Hover) then
 				app:MoveTableEntry({ groupID = data.groupID, flagID = data.flagID }, app.Flag.Hover)
 			end
 		end)
@@ -220,7 +223,6 @@ function app:CreateEditPanel()
 		listItem:SetScript("OnLeave", function(self)
 			if app.Flag.Dragging then
 				if not (app.Flag.Hover.groupID == #Watchtower_Flags and app.Flag.Hover.flagID == #Watchtower_Flags[#Watchtower_Flags].flags and data.groupID == #Watchtower_Flags and data.flagID == #Watchtower_Flags[#Watchtower_Flags].flags) then
-				-- if not(data.id == #Watchtower_Flags and app.Flag.Hover == #Watchtower_Flags) then
 					divider:Hide()
 				end
 			end
@@ -578,15 +580,16 @@ end
 
 function app:MoveTableEntry(old, target)
 	app.FlagsList.SelGroup = target.groupID
-	app.FlagsList.SelFlag = target.flagID + 1
-
 	if old.flagID == 0 then
+		app.FlagsList.SelFlag = 0
 		Watchtower_Flags[old.groupID].groupID = target.groupID + 0.5
 		app:ReIndexTable(Watchtower_Flags)
 	elseif old.groupID == target.groupID then
+		app.FlagsList.SelFlag = target.flagID
 		Watchtower_Flags[old.groupID].flags[old.flagID].flagID = target.flagID + 0.5
 		app:ReIndexTable(Watchtower_Flags[old.groupID].flags)
 	else
+		app.FlagsList.SelFlag = target.flagID + 1
 		local flag = table.remove(Watchtower_Flags[old.groupID].flags, old.flagID)
 		table.insert(Watchtower_Flags[target.groupID].flags, flag)
 		Watchtower_Flags[target.groupID].flags[#Watchtower_Flags[target.groupID].flags].flagID = target.flagID + 0.5
