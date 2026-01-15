@@ -654,13 +654,13 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	local safeG = setmetatable({}, {
 		__index = function(_, key)
 			if app.Blocked[key] then
-				error(("Access to '%s' is blocked"):format(tostring(key)), 2)
+				error(("Access to \"%s\" is blocked"):format(tostring(key)), 2)
 			end
 			return _G[key]
 		end,
 			__newindex = function(_, key, value)
 			if app.Blocked[key] then
-				error(("Assignment to '%s' is blocked"):format(tostring(key)), 2)
+				error(("Assignment to \"%s\" is blocked"):format(tostring(key)), 2)
 			end
 			_G[key] = value
 		end,
@@ -670,7 +670,7 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	setmetatable(env, {
 		__index = function(tbl, key)
 			if app.Blocked[key] then
-				error(("Access to '%s' is blocked"):format(tostring(key)), 2)
+				error(("Access to \"%s\" is blocked"):format(tostring(key)), 2)
 			end
 			local v = rawget(tbl, key)
 			if v ~= nil then return v end
@@ -678,7 +678,7 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 		end,
 		__newindex = function(tbl, key, value)
 			if app.Blocked[key] then
-				error(("Assignment to '%s' is blocked"):format(tostring(key)), 2)
+				error(("Assignment to \"%s\" is blocked"):format(tostring(key)), 2)
 			end
 			rawset(tbl, key, value)
 		end,
