@@ -536,7 +536,7 @@ function app:UpdateStatusList()
 	if app.ScrollView then app:UpdateStatusTracker() end
 end
 
-function app:CreateTriggerEnv()
+function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	local env = {}
 
 	local safeG = setmetatable({}, {
