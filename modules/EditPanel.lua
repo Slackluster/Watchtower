@@ -203,7 +203,7 @@ function app:CreateEditPanel()
 			divider:Hide()
 
 			if data.groupID == 1 and data.flagID == 0 then
-				app:Print("Can't move this group")	-- Make it undraggable from the start
+				app:Print("Can't move this group")	-- TODO: Make it undraggable from the start
 			elseif not ({ groupID = data.groupID, flagID = data.flagID } == app.Flag.Hover) then
 				app:MoveTableEntry({ groupID = data.groupID, flagID = data.flagID }, app.Flag.Hover)
 			end
