@@ -622,13 +622,13 @@ function app:CreateEditPanel()
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -20)
 
 	local LSM = LibStub("LibSharedMedia-3.0")
-	local fonts = {}
+	app.Fonts = {}
 	for _, handle in ipairs(LSM:List("font")) do
-		table.insert(fonts, { name = handle, path = LSM:Fetch("font", handle) })
+		table.insert(app.Fonts, { name = handle, path = LSM:Fetch("font", handle) })
 	end
 
 	local FontObjects = {}
-	for _, font in ipairs(fonts) do
+	for _, font in ipairs(app.Fonts) do
 		local fo = CreateFont("WatchtowerFont_" .. font.name)
 		fo:SetFont(font.path, 13, "")
 		FontObjects[font.path] = fo
@@ -640,7 +640,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[2].Font:SetDefaultText("Select font")
 	local dropdown = app.EditPanel.Pages[2].Font
 	app.EditPanel.Pages[2].Font:SetupMenu(function(dropdown, root)
-		for _, font in ipairs(fonts) do
+		for _, font in ipairs(app.Fonts) do
 			local radio = root:CreateRadio(font.name, function()
 				if app.FlagsList.Selected then
 					return app.FlagsList.Selected.font == font.name
@@ -655,17 +655,6 @@ function app:CreateEditPanel()
 				button.fontString:SetFontObject(FontObjects[font.path])
 			end)
 		end
-	end)
-
-	hooksecurefunc(app.EditPanel.Pages[2].Font, "SetText", function(_, text)
-		local fontPath
-		for _, font in ipairs(fonts) do
-			if font.name == app.FlagsList.Selected.font then
-				fontPath = font.path
-				break
-			end
-		end
-		app.EditPanel.Pages[2].Font.Text:SetFont(fontPath, 13, "")
 	end)
 
 	local string5 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -735,6 +724,13 @@ function app:SetSelected()
 			app.EditPanel.Pages[2].Anchor:OverrideText(L.GROUP_ANCHOR[app.FlagsList.Selected.anchor])
 			app.EditPanel.Pages[2].Font:OverrideText(app.FlagsList.Selected.font)
 			app.EditPanel.Pages[2].Scale:SetValue(app.FlagsList.Selected.scale)
+
+			for _, font in ipairs(app.Fonts) do
+				if font.name == app.FlagsList.Selected.font then
+					app.EditPanel.Pages[2].Font.Text:SetFont(font.path, 13, "")
+					break
+				end
+			end
 		end
 	end
 end
