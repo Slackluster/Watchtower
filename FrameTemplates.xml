@@ -22,6 +22,10 @@
 		</Layers>
 	</Frame>
 
+	<Frame name="Watchtower_SettingsExpandTemplate" inherits="SettingsExpandableSectionTemplate" mixin="Watchtower_SettingsExpandMixin" virtual="true">
+		<Size y="24" />
+	</Frame>
+
 	<Button name="Watchtower_ListButton" virtual="true">
 		<Size x="200" y="20" />
 		<HighlightTexture atlas="Options_List_Hover" setAllPoints="true" />
@@ -50,21 +54,17 @@
 		</Layers>
 	</Button>
 
-	<Button name="Watchtower_ListItem30" virtual="true">
-		<Size x="1000" y="30" />
+	<Button name="Watchtower_TrackerItem" virtual="true">
+		<Size x="0" y="30" />
 		<Layers>
 			<Layer level="OVERLAY">
 				<FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
 					<Anchors>
 						<Anchor point="LEFT" x="0" />
 					</Anchors>
-					<Size x="1000" y="0" />
+					<Size x="0" y="0" />
 				</FontString>
 			</Layer>
 		</Layers>
 	</Button>
-
-	<Frame name="Watchtower_SettingsExpandTemplate" inherits="SettingsExpandableSectionTemplate" mixin="Watchtower_SettingsExpandMixin" virtual="true">
-		<Size y="24" />
-	</Frame>
 </Ui>

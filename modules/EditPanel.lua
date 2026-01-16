@@ -136,7 +136,7 @@ function app:CreateEditPanel()
 	end
 
 	local function newGroup()
-		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", style = 1, font = "Friz Quadrata TT", scale = 100, flags = {} })
+		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, flags = {} })
 		app.FlagsList.SelGroup = #Watchtower_Flags
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
@@ -586,7 +586,7 @@ function app:CreateEditPanel()
 				end
 			end,
 			function()
-				app.FlagsList.Selected.style = style
+				app.FlagsList.Selected.style = i
 				app:SetSelected()
 			end)
 		end
@@ -614,8 +614,9 @@ function app:CreateEditPanel()
 				end
 			end,
 			function()
-				app.FlagsList.Selected.anchor = anchor
+				app.FlagsList.Selected.anchor = i
 				app:SetSelected()
+				app:UpdateTracker(app.FlagsList.SelGroup)
 			end)
 		end
 	end)
@@ -652,6 +653,7 @@ function app:CreateEditPanel()
 			function()
 				app.FlagsList.Selected.font = font.name
 				app:SetSelected()
+				app:UpdateTracker(app.FlagsList.SelGroup)
 			end)
 
 			radio:AddInitializer(function(button)
@@ -678,6 +680,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[2].Scale:Init(100, options.minValue, options.maxValue, options.steps, options.formatters)
 	app.EditPanel.Pages[2].Scale:RegisterCallback("OnValueChanged", function(self, value)
 		app.FlagsList.Selected.scale = value
+		app:ShowTracker(app.FlagsList.SelGroup)
 	end)
 
 	PanelTemplates_SetTab(app.EditPanel.Options, 1)

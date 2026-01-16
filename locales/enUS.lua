@@ -33,7 +33,7 @@ L.GENERAL =								GENERAL	-- "General"
 -- Edit Panel
 L.GROUP_STYLE = {}
 L.GROUP_STYLE[1] =						"Icons and Text"
-L.GROUP_STYLE[2] =						"Icons Only"
+L.GROUP_STYLE[2] =						"|cff9d9d9dIcons Only (Soon™)"
 L.GROUP_ANCHOR = {}
 L.GROUP_ANCHOR[1] =						"Top Left"
 L.GROUP_ANCHOR[2] =						"Top Right"
