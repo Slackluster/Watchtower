@@ -30,6 +30,16 @@ L.SLASH_OPEN_SETTINGS =					"Open the settings"
 
 L.GENERAL =								GENERAL	-- "General"
 
+-- Edit Panel
+L.GROUP_STYLE = {}
+L.GROUP_STYLE[1] =						"Icons and Text"
+L.GROUP_STYLE[2] =						"Icons Only"
+L.GROUP_ANCHOR = {}
+L.GROUP_ANCHOR[1] =						"Top Left"
+L.GROUP_ANCHOR[2] =						"Top Right"
+L.GROUP_ANCHOR[3] =						"Bottom Left"
+L.GROUP_ANCHOR[4] =						"Bottom Right"
+
 -- General
 L.NEW_VERSION_AVAILABLE =				"There is a newer version of " .. app.NameLong .. " available:"
 L.SETTINGS_TOOLTIP =					app.NameLong .. "\n|cffFFFFFF"

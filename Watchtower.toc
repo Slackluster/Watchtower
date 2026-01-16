@@ -30,6 +30,7 @@ libs\ForAllIndentsAndPurposes\indent.lua
 libs\LibDBIcon-1.0\embeds.xml
 libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
 libs\LibIconPicker\Core\_Core.xml
+libs\LibSharedMedia-3.0\lib.xml
 Core.lua
 Database.lua
 Settings.lua

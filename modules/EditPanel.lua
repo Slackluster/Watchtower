@@ -135,7 +135,7 @@ function app:CreateEditPanel()
 	end
 
 	local function newGroup()
-		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", flags = {} })
+		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", style = 1, font = "Fonts\\FRIZQT__.TTF", scale = 100, flags = {} })
 		app.FlagsList.SelGroup = #Watchtower_Flags
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
@@ -338,7 +338,7 @@ function app:CreateEditPanel()
 
 	local string1 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string1:SetText("Title")
-	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[1], 10, -20)
+	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[1], 10, -16)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
 	backdrop:SetSize(200, 23)
@@ -431,7 +431,7 @@ function app:CreateEditPanel()
 	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, -20)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
-	backdrop:SetPoint("TOPLEFT", string3, "TOPLEFT", leftEdge, 0)
+	backdrop:SetPoint("TOPLEFT", string3, "TOPLEFT", leftEdge, 4)
 	backdrop:SetPoint("BOTTOMLEFT", string3, "TOPLEFT", leftEdge, -118)
 	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
 	backdrop:SetBackdrop({
@@ -482,7 +482,7 @@ function app:CreateEditPanel()
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -120)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
-	backdrop:SetPoint("TOPLEFT", string4, "TOPLEFT", leftEdge, 0)
+	backdrop:SetPoint("TOPLEFT", string4, "TOPLEFT", leftEdge, 4)
 	backdrop:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -36)
 	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
 	backdrop:SetBackdrop({
@@ -528,7 +528,7 @@ function app:CreateEditPanel()
 
 	local string1 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string1:SetText("Title")
-	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[2], 10, -20)
+	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[2], 10, -16)
 
 	app.EditPanel.Pages[2].TitleBackdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[2], "BackdropTemplate")
 	app.EditPanel.Pages[2].TitleBackdrop:SetSize(200, 23)
@@ -561,6 +561,133 @@ function app:CreateEditPanel()
 		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
+	local string2 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string2:SetText("Style")
+	string2:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, -20)
+
+	local function setStyle(value)
+		app.FlagsList.Selected.style = value
+		app:UpdateStatusList()
+	end
+
+	app.EditPanel.Pages[2].Style = CreateFrame("DropdownButton", nil, app.EditPanel.Pages[2], "WowStyle1DropdownTemplate")
+	app.EditPanel.Pages[2].Style:SetDefaultText(L.GROUP_STYLE[1])
+	app.EditPanel.Pages[2].Style:SetWidth(196)
+	app.EditPanel.Pages[2].Style:SetPoint("LEFT", string2, leftEdge + 2, 0)
+	local dropdown = app.EditPanel.Pages[2].Style
+	app.EditPanel.Pages[2].Style:SetupMenu(function(dropdown, root)
+		for i, style in ipairs(L.GROUP_STYLE) do
+			local radio = root:CreateRadio(style, function()
+				if app.FlagsList.Selected then
+					return L.GROUP_STYLE[app.FlagsList.Selected.style] == style
+				end
+			end,
+			function()
+				app.FlagsList.Selected.style = style
+				app:SetSelected()
+			end)
+		end
+	end)
+
+	local string3 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string3:SetText("Anchor")
+	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, -20)
+
+	local function setAnchor(value)
+		app.FlagsList.Selected.anchor = value
+		app:UpdateStatusList()
+	end
+
+	app.EditPanel.Pages[2].Anchor = CreateFrame("DropdownButton", nil, app.EditPanel.Pages[2], "WowStyle1DropdownTemplate")
+	app.EditPanel.Pages[2].Anchor:SetDefaultText(L.GROUP_ANCHOR[1])
+	app.EditPanel.Pages[2].Anchor:SetWidth(196)
+	app.EditPanel.Pages[2].Anchor:SetPoint("LEFT", string3, leftEdge + 2, 0)
+	local dropdown = app.EditPanel.Pages[2].Anchor
+	app.EditPanel.Pages[2].Anchor:SetupMenu(function(dropdown, root)
+		for i, anchor in ipairs(L.GROUP_ANCHOR) do
+			local radio = root:CreateRadio(anchor, function()
+				if app.FlagsList.Selected then
+					return L.GROUP_ANCHOR[app.FlagsList.Selected.anchor] == anchor
+				end
+			end,
+			function()
+				app.FlagsList.Selected.anchor = anchor
+				app:SetSelected()
+			end)
+		end
+	end)
+
+	local string4 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string4:SetText("Font")
+	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -20)
+
+	local LSM = LibStub("LibSharedMedia-3.0")
+	local fonts = {}
+	for _, handle in ipairs(LSM:List("font")) do
+		table.insert(fonts, { name = handle, path = LSM:Fetch("font", handle) })
+	end
+
+	local FontObjects = {}
+	for _, font in ipairs(fonts) do
+		local fo = CreateFont("WatchtowerFont_" .. font.name)
+		fo:SetFont(font.path, 13, "")
+		FontObjects[font.path] = fo
+	end
+
+	app.EditPanel.Pages[2].Font = CreateFrame("DropdownButton", nil, app.EditPanel.Pages[2], "WowStyle1DropdownTemplate")
+	app.EditPanel.Pages[2].Font:SetWidth(196)
+	app.EditPanel.Pages[2].Font:SetPoint("LEFT", string4, leftEdge + 2, 0)
+	app.EditPanel.Pages[2].Font:SetDefaultText("Select font")
+	local dropdown = app.EditPanel.Pages[2].Font
+	app.EditPanel.Pages[2].Font:SetupMenu(function(dropdown, root)
+		for _, font in ipairs(fonts) do
+			local radio = root:CreateRadio(font.name, function()
+				if app.FlagsList.Selected then
+					return app.FlagsList.Selected.font == font.name
+				end
+			end,
+			function()
+				app.FlagsList.Selected.font = font.name
+				app:SetSelected()
+			end)
+
+			radio:AddInitializer(function(button)
+				button.fontString:SetFontObject(FontObjects[font.path])
+			end)
+		end
+	end)
+
+	hooksecurefunc(app.EditPanel.Pages[2].Font, "SetText", function(_, text)
+		local fontPath
+		for _, font in ipairs(fonts) do
+			if font.name == app.FlagsList.Selected.font then
+				fontPath = font.path
+				break
+			end
+		end
+		app.EditPanel.Pages[2].Font.Text:SetFont(fontPath, 13, "")
+	end)
+
+	local string5 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string5:SetText("Scale")
+	string5:SetPoint("TOPLEFT", string4, "BOTTOMLEFT", 0, -20)
+
+	local min, max, increment = 50, 200, 5
+	local options = Settings.CreateSliderOptions(min, max, increment)
+	--options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Top, "Scale")
+	--options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Left, value)
+	options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value) return value .. "%" end)
+	options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Max, max)
+	options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Min, min)
+
+	app.EditPanel.Pages[2].Scale = CreateFrame("Frame", nil, app.EditPanel.Pages[2], "MinimalSliderWithSteppersTemplate")
+	app.EditPanel.Pages[2].Scale:SetWidth(204)
+	app.EditPanel.Pages[2].Scale:SetPoint("LEFT", string5, leftEdge - 2, -2)
+	app.EditPanel.Pages[2].Scale:Init(100, options.minValue, options.maxValue, options.steps, options.formatters)
+	app.EditPanel.Pages[2].Scale:RegisterCallback("OnValueChanged", function(self, value)
+		app.FlagsList.Selected.scale = value
+	end)
+
 	PanelTemplates_SetTab(app.EditPanel.Options, 1)
 	PanelTemplates_UpdateTabs(app.EditPanel.Options)
 
@@ -576,7 +703,6 @@ function app:SetSelected()
 	else
 		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup].flags[app.FlagsList.SelFlag]
 	end
-
 	if app.FlagsList.SelGroup == 1 and app.FlagsList.SelFlag == 0 then
 		app.EditPanel.DeleteButton:Disable()
 	else
@@ -602,13 +728,13 @@ function app:SetSelected()
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
 
 		if app.FlagsList.SelGroup == 1 then
-			app.EditPanel.Pages[2].Title:Disable()
-			app.EditPanel.Pages[2].Title:SetText("|cff9d9d9d" .. (app.FlagsList.Selected.title or ""))
-			app.EditPanel.Pages[2].TitleBackdrop:SetBackdropBorderColor(0.7, 0.7, 0.7, 1)
+			app.EditPanel.Pages[2]:Hide()
 		else
-			app.EditPanel.Pages[2].Title:Enable()
 			app.EditPanel.Pages[2].Title:SetText(app.FlagsList.Selected.title or "")
-			app.EditPanel.Pages[2].TitleBackdrop:SetBackdropBorderColor(1, 1, 1, 1)
+			app.EditPanel.Pages[2].Style:OverrideText(L.GROUP_STYLE[app.FlagsList.Selected.style])
+			app.EditPanel.Pages[2].Anchor:OverrideText(L.GROUP_ANCHOR[app.FlagsList.Selected.anchor])
+			app.EditPanel.Pages[2].Font:OverrideText(app.FlagsList.Selected.font)
+			app.EditPanel.Pages[2].Scale:SetValue(app.FlagsList.Selected.scale)
 		end
 	end
 end

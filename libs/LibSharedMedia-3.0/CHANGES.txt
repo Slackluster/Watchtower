@@ -1,0 +1,10 @@
+------------------------------------------------------------------------
+r164 | elkano | 2026-01-13 18:05:26 +0000 (Tue, 13 Jan 2026) | 2 lines
+Changed paths:
+   M /trunk/LibSharedMedia-3.0/LibSharedMedia-3.0.lua
+   M /trunk/LibSharedMedia-3.0.toc
+
+- bump TOCs
+- improved algorithmic complexity when registering new media files
+------------------------------------------------------------------------
+
