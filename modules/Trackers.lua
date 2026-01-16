@@ -118,7 +118,7 @@ function app:CreateTracker(id)
     tracker.content:SetSize(1, 1)
     tracker.content.children = {}
 
-    tracker.pool = CreateFramePool("Button", tracker.content, "Watchtower_TrackerItem")
+    tracker.pool = CreateFramePool("Button", tracker.content, "Watchtower_TrackerItem")	-- I'll be honest, I don't know why it needs this template
 
 	app:ShowTracker(id)
 end
