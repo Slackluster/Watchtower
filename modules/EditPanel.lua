@@ -959,8 +959,8 @@ function app:RegisterEvents(flag)
 		app:DeRegisterEvents(flag)
 		handleEvents(flag)
 	else
-		for _, header in ipairs(Watchtower_Flags) do
-			for _, flg in ipairs(header) do
+		for _, group in ipairs(Watchtower_Flags) do
+			for _, flg in ipairs(group.flags) do
 				app:DeRegisterEvents(flg)
 				handleEvents(flg)
 			end

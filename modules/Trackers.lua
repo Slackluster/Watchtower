@@ -154,7 +154,12 @@ function app:UpdateTracker(id)
 		app.Tracker[id].window.corner:GetPushedTexture():SetRotation(math.pi)
 	end
 
-	local flags = Watchtower_Flags[id].flags or {}
+	local flags = {}
+	for _, flag in ipairs(Watchtower_Flags[id].flags) do
+		if flag.lastResult == true then
+			table.insert(flags, flag)
+		end
+	end
 
 	app.Tracker[id].pool:ReleaseAll()
 	app.Tracker[id].content.children = {}
