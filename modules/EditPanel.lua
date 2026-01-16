@@ -491,13 +491,6 @@ function app:CreateEditPanel()
 
 	IndentationLib.enable(app.EditPanel.Pages[1].Trigger, nil, 3)
 
-	app.EditPanel.TestButton = app:MakeButton(app.EditPanel.Pages[1], "Test")
-	app.EditPanel.TestButton:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", -2, -6)
-	app.EditPanel.TestButton:SetScript("OnClick", function()
-		app.FlagsList.Selected.lastResult = app:TestTrigger(app.FlagsList.Selected)
-		-- app:UpdateStatusTracker()
-	end)
-
 	local string4 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string4:SetText("Events")
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -120)
@@ -897,16 +890,14 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	return env
 end
 
-function app:TestTrigger(flag)
+function app:TestTrigger(flag, returnFuncOnly)
 	if not flag.trigger then
-		app:Print("There is no code to test.")
 		return false
 	end
 
 	local func, error = loadstring(flag.trigger)
 	if error then
-		app:Print("There is an error in your trigger code:")
-		DevTools_Dump(error)
+		app:Print("Function error:" .. " " .. tostring(error))
 		return false
 	end
 
@@ -915,14 +906,16 @@ function app:TestTrigger(flag)
 
 	local ok, result = pcall(func)
 	if not ok then
-		app:Print("There is an error in your trigger code:")
-		app:Print(result)
+		app:Print("Function error:" .. " " .. tostring(result))
 		return false
 	end
 
-	app:Print("No syntax errors found in your trigger. :)")
+	if returnFuncOnly then
+		return true, func, result
+	end
 
-	return result
+	app:Print("Function returns:" .. " " .. tostring(result))
+	return true, func, result
 end
 
 function app:DeRegisterEvents(flag)
@@ -936,22 +929,22 @@ end
 
 function app:RegisterEvents(flag)
 	local function handleEvents(flag)
-		local func, error = loadstring(flag.trigger)
-		if not error then
-			for _, event in ipairs(flag.events) do
-				local wrapper = function(...)
-					local ok, result = pcall(func, ...)
-					if ok then
-						flag.lastResult = result
-					else
-						flag.lastResult = false
-					end
-					RunNextFrame(function() app:UpdateAllTrackers() end)
-				end
+		if not flag.trigger then return end
 
-				local handle = app.Event:Register(event, wrapper)
-				table.insert(flag.handles, handle)
+		local valid, func, result = app:TestTrigger(flag, true)
+		if not valid then return end
+
+		flag.lastResult = result
+
+		for _, event in ipairs(flag.events) do
+			local wrapper = function(...)
+				local ok, r = pcall(func, ...)
+				flag.lastResult = ok and r or false
+				RunNextFrame(function() app:UpdateAllTrackers() end)
 			end
+
+			local handle = app.Event:Register(event, wrapper)
+			table.insert(flag.handles, handle)
 		end
 	end
 
