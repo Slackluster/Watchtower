@@ -51,6 +51,23 @@ function app:CreateEditPanel()
 		app.EditPanel:Hide()
 	end)
 
+	app.EditPanel:SetScript("OnShow", function()
+		for id = 2, #Watchtower_Flags do
+			app.Tracker[id].window:EnableMouse(true)
+			app.Tracker[id].window.corner:Show()
+			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0.5)
+			app.Tracker[id].window:SetBackdropBorderColor(0.25, 0.78, 0.92, 0.5)
+		end
+	end)
+	app.EditPanel:SetScript("OnHide", function()
+		for id = 2, #Watchtower_Flags do
+			app.Tracker[id].window:EnableMouse(false)
+			app.Tracker[id].window.corner:Hide()
+			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0)
+			app.Tracker[id].window:SetBackdropBorderColor(0.25, 0.78, 0.92, 0)
+		end
+	end)
+
 	app.EditPanel.StatusList = CreateFrame("Frame", nil, app.EditPanel, nil)
 	app.EditPanel.StatusList:SetPoint("TOPLEFT", app.EditPanel, 6, -50)
 	app.EditPanel.StatusList:SetPoint("BOTTOMLEFT", app.EditPanel, 6, 9)
@@ -143,6 +160,7 @@ function app:CreateEditPanel()
 		app:UpdateStatusList()
 
 		app:CreateTracker(app.FlagsList.SelGroup)
+		app.EditPanel:GetScript("OnShow")(app.EditPanel)
 	end
 
 	local function import()

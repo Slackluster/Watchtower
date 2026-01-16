@@ -12,8 +12,8 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		for i = 2, #Watchtower_Flags do
-			app:CreateTracker(i)
+		for id = 2, #Watchtower_Flags do
+			app:CreateTracker(id)
 		end
 	end
 end)
@@ -89,9 +89,9 @@ function app:CreateTracker(id)
 		edgeSize = 16,
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
-	app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0.5)
-	app.Tracker[id].window:SetBackdropBorderColor(0.25, 0.78, 0.92, 0.5)
-	app.Tracker[id].window:EnableMouse(true)
+	app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0)
+	app.Tracker[id].window:SetBackdropBorderColor(0.25, 0.78, 0.92, 0)
+	app.Tracker[id].window:EnableMouse(false)
 	app.Tracker[id].window:SetResizable(true)
 	app.Tracker[id].window:SetResizeBounds(140, 140, 2000, 2000)
 	app.Tracker[id].window:SetMovable(true)
@@ -108,6 +108,7 @@ function app:CreateTracker(id)
 	app.Tracker[id].window.corner:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
 	app.Tracker[id].window.corner:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
 	app.Tracker[id].window.corner:SetScript("OnMouseUp", function() app:SaveTracker(id) end)
+	app.Tracker[id].window.corner:Hide()
 
 	local tracker = app.Tracker[id]
 	tracker.window:SetClipsChildren(true)
@@ -119,7 +120,6 @@ function app:CreateTracker(id)
 
     tracker.pool = CreateFramePool("Button", tracker.content, "Watchtower_TrackerItem")
 
-	app:UpdateTracker(id)
 	app:ShowTracker(id)
 end
 
@@ -173,8 +173,6 @@ function app:UpdateTracker(id)
 
 		if not row.Text then
 			row.Text = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-			row.Text:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0)
-			row.Text:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", 0, 0)
 		end
 
 		if alignRight then
@@ -189,13 +187,21 @@ function app:UpdateTracker(id)
 				break
 			end
 		end
-		--row.Text:SetFont("Fonts\\FRIZQT__.TTF", 16)
-		row.Text:SetJustifyH(alignRight and "RIGHT" or "LEFT")
 
-		local textWidth = row.Text:GetStringWidth()
-		local rowWidth = textWidth + 4
-		row:SetWidth(rowWidth)
+		row.Text:ClearAllPoints()
+		if alignRight then
+			row.Text:SetPoint("RIGHT", row, "RIGHT", 0, 0)
+			row.Text:SetPoint("TOP", row, "TOP", 0, 0)
+			row.Text:SetPoint("BOTTOM", row, "BOTTOM", 0, 0)
+			row.Text:SetJustifyH("RIGHT")
+		else
+			row.Text:SetPoint("LEFT", row, "LEFT", 0, 0)
+			row.Text:SetPoint("TOP", row, "TOP", 0, 0)
+			row.Text:SetPoint("BOTTOM", row, "BOTTOM", 0, 0)
+			row.Text:SetJustifyH("LEFT")
+		end
 
+		row:SetWidth(app.Tracker[id].content:GetWidth())
 		row:ClearAllPoints()
 		return row
 	end
@@ -204,9 +210,9 @@ function app:UpdateTracker(id)
 		for i = #flags, 1, -1 do
 			local row = makeRow(flags[i])
 			if alignRight then
-				row:SetPoint("BOTTOMRIGHT", app.Tracker[id].content, "BOTTOMRIGHT", 0, yOffset)
+				row:SetPoint("BOTTOMRIGHT", app.Tracker[id].content, "BOTTOMRIGHT", 2, yOffset)
 			else
-				row:SetPoint("BOTTOMLEFT", app.Tracker[id].content, "BOTTOMLEFT", 0, yOffset)
+				row:SetPoint("BOTTOMLEFT", app.Tracker[id].content, "BOTTOMLEFT", -2, yOffset)
 			end
 			yOffset = yOffset + rowHeight + spacing
 			table.insert(app.Tracker[id].content.children, row)
@@ -216,9 +222,9 @@ function app:UpdateTracker(id)
 		for i, flag in ipairs(flags) do
 			local row = makeRow(flags[i])
 			if alignRight then
-				row:SetPoint("TOPRIGHT", app.Tracker[id].content, "TOPRIGHT", 0, -yOffset)
+				row:SetPoint("TOPRIGHT", app.Tracker[id].content, "TOPRIGHT", 2, -yOffset - 1)
 			else
-				row:SetPoint("TOPLEFT", app.Tracker[id].content, "TOPLEFT", 0, -yOffset)
+				row:SetPoint("TOPLEFT", app.Tracker[id].content, "TOPLEFT", -2, -yOffset - 1)
 			end
 			yOffset = yOffset + rowHeight + spacing
 			table.insert(app.Tracker[id].content.children, row)
