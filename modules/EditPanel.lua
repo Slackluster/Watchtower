@@ -77,6 +77,7 @@ function app:CreateEditPanel()
 		end
 
 		local function deleteGroup()
+			app.Tracker[app.FlagsList.SelGroup].window:Hide()
 			table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
 			app.FlagsList.SelGroup = app.FlagsList.SelGroup - 1
 			app.FlagsList.SelFlag = 0
@@ -135,11 +136,13 @@ function app:CreateEditPanel()
 	end
 
 	local function newGroup()
-		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", style = 1, font = "Fonts\\FRIZQT__.TTF", scale = 100, flags = {} })
+		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", style = 1, font = "Friz Quadrata TT", scale = 100, flags = {} })
 		app.FlagsList.SelGroup = #Watchtower_Flags
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
 		app:UpdateStatusList()
+
+		app:CreateTracker(app.FlagsList.SelGroup)
 	end
 
 	local function import()
@@ -774,6 +777,10 @@ function app:MoveTableEntry(old, target)
 		Watchtower_Flags[target.groupID].flags[#Watchtower_Flags[target.groupID].flags].flagID = target.flagID + 0.5
 		app:ReIndexTable(Watchtower_Flags[old.groupID].flags)
 		app:ReIndexTable(Watchtower_Flags[target.groupID].flags)
+	end
+
+	for i = 2, #Watchtower_Flags do
+		app:ShowTracker(i)
 	end
 end
 

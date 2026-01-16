@@ -12,7 +12,9 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		app:UpdateAllTrackers(true)
+		for i = 2, #Watchtower_Flags do
+			app:CreateTracker(i)
+		end
 	end
 end)
 
@@ -22,17 +24,9 @@ end)
 
 app.Tracker = {}
 
-function app:UpdateAllTrackers(init)
-	if init then
-		for i = 2, #Watchtower_Flags do
-			app:CreateTracker(i)
-			app:UpdateTracker(i)
-			app:ShowTracker(i)
-		end
-	else
-		for i = 2, #Watchtower_Flags do
-			if app.Tracker[i] then app:UpdateTracker(i) end
-		end
+function app:UpdateAllTrackers()
+	for i = 2, #Watchtower_Flags do
+		if app.Tracker[i] then app:UpdateTracker(i) end
 	end
 end
 
@@ -101,8 +95,8 @@ function app:CreateTracker(id)
 	scrollBox:SetPoint("BOTTOMRIGHT", app.Tracker[id].window, "BOTTOMRIGHT", -18, 4)
 	scrollBox:EnableMouse(true)
 	scrollBox:RegisterForDrag("LeftButton")
-	scrollBox:SetScript("OnDragStart", function() app:MoveTracker() end)
-	scrollBox:SetScript("OnDragStop", function() app:SaveTracker() end)
+	scrollBox:SetScript("OnDragStart", function() app:MoveTracker(id) end)
+	scrollBox:SetScript("OnDragStop", function() app:SaveTracker(id) end)
 
 	local scrollBar = CreateFrame("EventFrame", nil, app.Tracker[id].window, "MinimalScrollBar")
 	scrollBar:SetPoint("TOPLEFT", scrollBox, "TOPRIGHT")
@@ -143,6 +137,9 @@ function app:CreateTracker(id)
 	end
 
 	app.Tracker[id].scrollView:SetElementInitializer("Watchtower_ListItem30", Initializer)
+
+	app:UpdateTracker(id)
+	app:ShowTracker(id)
 end
 
 function app:UpdateTracker(id)
