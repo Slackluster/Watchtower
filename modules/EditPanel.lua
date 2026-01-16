@@ -693,19 +693,21 @@ function app:MakeCsvString(tbl)
 end
 
 function app:UpdateStatusList()
-	local DataProvider = CreateTreeDataProvider()
+	C_Timer.After(0.1, function()	-- Prevent clicks from editbox to scrollview from disappearing
+		local DataProvider = CreateTreeDataProvider()
 
-	for gID, group in ipairs(Watchtower_Flags) do
-		local groupNode = DataProvider:Insert({ groupID = group.groupID, flagID = 0, title = group.title })
-		if group.collapsed then groupNode:ToggleCollapsed() end
-		for fID, flag in ipairs (Watchtower_Flags[gID].flags) do
-			groupNode:Insert({ groupID = group.groupID, flagID = flag.flagID, icon = flag.icon, title = flag.title })
+		for gID, group in ipairs(Watchtower_Flags) do
+			local groupNode = DataProvider:Insert({ groupID = group.groupID, flagID = 0, title = group.title })
+			if group.collapsed then groupNode:ToggleCollapsed() end
+			for fID, flag in ipairs (Watchtower_Flags[gID].flags) do
+				groupNode:Insert({ groupID = group.groupID, flagID = flag.flagID, icon = flag.icon, title = flag.title })
+			end
 		end
-	end
 
-	app.FlagsList:SetDataProvider(DataProvider, true)
-	app:SetSelected()
-	if app.ScrollView then app:UpdateStatusTracker() end
+		app.FlagsList:SetDataProvider(DataProvider, true)
+		app:SetSelected()
+		if app.ScrollView then app:UpdateStatusTracker() end
+	end)
 end
 
 function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
