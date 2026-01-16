@@ -68,23 +68,70 @@ function app:CreateEditPanel()
 	end
 
 	local function delete()
-		-- TODO: confirm dialog
-		if app.FlagsList.SelFlag == 0 then
-			if app.FlagsList.SelGroup == 1 then
-				app:Print("Cannot delete this group.")	-- TODO: Turn into Disabled + tooltip
-			elseif #Watchtower_Flags[app.FlagsList.SelGroup].flags >= 1 then
-				app:Print("Can only delete empty groups.")	-- TODO: Turn into Disabled + tooltip
-			else
-				table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
-				app:ReIndexTable(Watchtower_Flags)
-			end
-		else
+		local function deleteFlag()
 			app:DeRegisterEvents(app.FlagsList.Selected)
 			table.remove(Watchtower_Flags[app.FlagsList.SelGroup].flags, app.FlagsList.SelFlag)
-			app:ReIndexTable(Watchtower_Flags[app.FlagsList.SelGroup].flags)
 			app.FlagsList.SelFlag = app.FlagsList.SelFlag - 1
+			app:SetSelected()
+			app:ReIndexTable(Watchtower_Flags[app.FlagsList.SelGroup].flags)
 		end
-		app:UpdateStatusList()
+
+		local function deleteGroup()
+			table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
+			app.FlagsList.SelGroup = app.FlagsList.SelGroup - 1
+			app.FlagsList.SelFlag = 0
+			app:SetSelected()
+			app:ReIndexTable(Watchtower_Flags)
+		end
+
+		StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
+			text = "Delete this flag?" .. "\n" .. "(Hold Shift to skip this confirmation.)",
+			button1 = YES,
+			button2 = NO,
+			whileDead = true,
+			hideOnEscape = true,
+			OnShow = function(dialog)
+				dialog:ClearAllPoints()
+				dialog:SetPoint("CENTER", UIParent)
+			end,
+			OnAccept = deleteFlag,
+		}
+		StaticPopupDialogs["WATCHTOWER_DELETEGROUP"] = {
+			text = "Delete this group?" .. "\n" .. "(Hold Shift to skip this confirmation.)",
+			button1 = YES,
+			button2 = NO,
+			whileDead = true,
+			hideOnEscape = true,
+			OnShow = function(dialog)
+				dialog:ClearAllPoints()
+				dialog:SetPoint("CENTER", UIParent)
+			end,
+			OnAccept = deleteGroup,
+		}
+		StaticPopupDialogs["WATCHTOWER_CANTDELETE"] = {
+			text = "Can't delete a group with flags.",
+			button1 = OKAY,
+			whileDead = true,
+			hideOnEscape = true,
+			OnShow = function(dialog)
+				dialog:ClearAllPoints()
+				dialog:SetPoint("CENTER", UIParent)
+			end,
+		}
+
+		if app.FlagsList.SelFlag == 0 then
+			if #Watchtower_Flags[app.FlagsList.SelGroup].flags >= 1 then
+				StaticPopup_Show("WATCHTOWER_CANTDELETE")
+			elseif IsShiftKeyDown() then
+				deleteGroup()
+			else
+				StaticPopup_Show("WATCHTOWER_DELETEGROUP")
+			end
+		elseif IsShiftKeyDown() then
+			deleteFlag()
+		else
+			StaticPopup_Show("WATCHTOWER_DELETEFLAG")
+		end
 	end
 
 	local function newGroup()
@@ -150,7 +197,9 @@ function app:CreateEditPanel()
 
 		if data.icon then
 			listItem.LeftText1:SetText("|T" .. data.icon .. ":18|t")
+			if listItem.iconButton then listItem.iconButton:Hide() end
 		elseif data.flagID == 0 then	-- Header
+			listItem.LeftText1:SetText("")
 			if not listItem.iconButton then
 				listItem.iconButton = CreateFrame("Button", nil, listItem)
 				listItem.iconButton:SetSize(22, 22)
@@ -165,6 +214,8 @@ function app:CreateEditPanel()
 			else
 				listItem.iconButton.texture:SetTexture("Interface\\AddOns\\Watchtower\\assets\\button-down.png")
 			end
+			listItem.iconButton:Show()
+			listItem.iconButton:ClearAllPoints()
 			listItem.iconButton:SetPoint("LEFT", listItem, "LEFT", 0, 1)
 			listItem.iconButton:SetScript("OnClick", function()
 				if data.flagID == 0 then
@@ -524,6 +575,12 @@ function app:SetSelected()
 		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup]
 	else
 		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup].flags[app.FlagsList.SelFlag]
+	end
+
+	if app.FlagsList.SelGroup == 1 and app.FlagsList.SelFlag == 0 then
+		app.EditPanel.DeleteButton:Disable()
+	else
+		app.EditPanel.DeleteButton:Enable()
 	end
 
 	if app.FlagsList.Selected.icon then
