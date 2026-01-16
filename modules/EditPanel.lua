@@ -368,7 +368,7 @@ function app:CreateEditPanel()
 	end)
 	app.EditPanel.Pages[1].Title:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.title = self:GetText()
-		app:UpdateStatusList()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
 	local string2 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -403,7 +403,7 @@ function app:CreateEditPanel()
 	end)
 	app.EditPanel.Pages[1].Icon:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.icon = self:GetText()
-		app:UpdateStatusList()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 	app.EditPanel.Pages[1].Icon.Search = CreateFrame("Button", nil, app.EditPanel.Pages[1].Icon, nil)
 	app.EditPanel.Pages[1].Icon.Search:SetSize(14, 14)
@@ -465,7 +465,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[1].Trigger:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.trigger = self:GetText():gsub("\n+$", "")
 		app:RegisterEvents(app.FlagsList.Selected)
-		app:UpdateStatusList()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
 	IndentationLib.enable(app.EditPanel.Pages[1].Trigger, nil, 3)
@@ -518,7 +518,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[1].Events:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.events = app:MakeCsvTable(self:GetText())
 		app:RegisterEvents(app.FlagsList.Selected)
-		app:UpdateStatusList()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
 	app.EditPanel.Pages[2] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
@@ -558,7 +558,7 @@ function app:CreateEditPanel()
 	end)
 	app.EditPanel.Pages[2].Title:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.title = self:GetText()
-		app:UpdateStatusList()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
 	PanelTemplates_SetTab(app.EditPanel.Options, 1)
@@ -693,21 +693,19 @@ function app:MakeCsvString(tbl)
 end
 
 function app:UpdateStatusList()
-	C_Timer.After(0.1, function()	-- Prevent clicks from editbox to scrollview from disappearing
-		local DataProvider = CreateTreeDataProvider()
+	local DataProvider = CreateTreeDataProvider()
 
-		for gID, group in ipairs(Watchtower_Flags) do
-			local groupNode = DataProvider:Insert({ groupID = group.groupID, flagID = 0, title = group.title })
-			if group.collapsed then groupNode:ToggleCollapsed() end
-			for fID, flag in ipairs (Watchtower_Flags[gID].flags) do
-				groupNode:Insert({ groupID = group.groupID, flagID = flag.flagID, icon = flag.icon, title = flag.title })
-			end
+	for gID, group in ipairs(Watchtower_Flags) do
+		local groupNode = DataProvider:Insert({ groupID = group.groupID, flagID = 0, title = group.title })
+		if group.collapsed then groupNode:ToggleCollapsed() end
+		for fID, flag in ipairs (Watchtower_Flags[gID].flags) do
+			groupNode:Insert({ groupID = group.groupID, flagID = flag.flagID, icon = flag.icon, title = flag.title })
 		end
+	end
 
-		app.FlagsList:SetDataProvider(DataProvider, true)
-		app:SetSelected()
-		if app.ScrollView then app:UpdateStatusTracker() end
-	end)
+	app.FlagsList:SetDataProvider(DataProvider, true)
+	app:SetSelected()
+	if app.ScrollView then app:UpdateStatusTracker() end
 end
 
 function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
