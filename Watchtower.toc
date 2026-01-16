@@ -36,7 +36,7 @@ Database.lua
 Settings.lua
 FrameTemplates.xml
 modules\EditPanel.lua
-modules\Tracker.lua
+modules\Trackers.lua
 locales\enUS.lua
 locales\deDE.lua
 locales\esES.lua

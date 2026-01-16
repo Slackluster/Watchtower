@@ -474,7 +474,7 @@ function app:CreateEditPanel()
 	app.EditPanel.TestButton:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", -2, -6)
 	app.EditPanel.TestButton:SetScript("OnClick", function()
 		app.FlagsList.Selected.lastResult = app:TestTrigger(app.FlagsList.Selected)
-		app:UpdateStatusTracker()
+		-- app:UpdateStatusTracker()
 	end)
 
 	local string4 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -831,7 +831,7 @@ function app:UpdateStatusList()
 
 	app.FlagsList:SetDataProvider(DataProvider, true)
 	app:SetSelected()
-	if app.ScrollView then app:UpdateStatusTracker() end
+	app:UpdateAllTrackers()
 end
 
 function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
@@ -922,7 +922,7 @@ function app:RegisterEvents(flag)
 					else
 						flag.lastResult = false
 					end
-					--RunNextFrame(function() app:UpdateStatusTracker() end)
+					RunNextFrame(function() app:UpdateAllTrackers() end)
 				end
 
 				local handle = app.Event:Register(event, wrapper)
