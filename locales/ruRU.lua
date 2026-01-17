@@ -30,7 +30,7 @@ L.SLASH_OPEN_SETTINGS =					"Откройте настройки"
 
 L.GENERAL =								GENERAL	-- "General"
 
-Edit Panel
+-- Edit Panel
 L.NEW_FLAG =							"Новый флаг"
 L.NEW_GROUP =							"Новая группа"
 L.INACTIVE =							FACTION_INACTIVE
