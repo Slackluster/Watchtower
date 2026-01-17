@@ -1,12 +1,13 @@
 ## Interface: 110207
-## Version: 2025.12.3
-## Title: |TInterface/Addons/LibIconPicker/Core/Assets/LibIconPicker-Logo-1:18:18|t Lib: Lib|cff12E600IconPicker|r
+## Version: 2026.1.1
+## Title: Lib|cff12E600IconPicker|r
+## IconTexture: Interface/Addons/LibIconPicker/Core/Assets/LibIconPicker-Logo-1
+
+## Author: Tony Lagnada (kapresoft)
 ## Notes: LibIconPicker is a reusable World of Warcraft addon library that provides|na flexible and efficient icon chooser dialog for addon developers.|n|cff1784d1This addon is provided 'as is' without any warranties.All rights|nreserved. Redistribution or modification is not permitted.|r
 
-## Author: Antonio W. Lagnada (kapresoft)
 ## DefaultState: enabled
 ## LoadOnDemand: 1
-# IconTexture: Interface/AddOns/LibIconPicker/Core/Assets/LibIconPicker-Logo-1
 
 ## Category-enUS: Libraries
 ## Category-deDE: Bibliotheken
@@ -24,10 +25,10 @@
 ## X-Github-Issues: https://github.com/kapresoft/wow-addon-LibIconPicker/issues
 ## X-CurseForge: https://www.curseforge.com/wow/addons/libiconpicker
 ## X-Curse-Project-ID: 1404138
-## X-Github-Project-Author: Antonio W. Lagnada
-## X-Github-Project-Hash: 97a645ead156abe83380e5aa997afc5bccbee56c
-## X-Github-Project-Last-Changed-Date: 2025-12-27T22:45:00Z
-## X-Github-Project-Version: 2025.12.3
+## X-Github-Project-Author: Tony Lagnada
+## X-Github-Project-Hash: 4ecc4bf6cd3a31c5127759223fd6eed9cc4a44c9
+## X-Github-Project-Last-Changed-Date: 2026-01-14T20:32:45Z
+## X-Github-Project-Version: 2026.1.1
 
 ## X-WoWI-ID: -1
 

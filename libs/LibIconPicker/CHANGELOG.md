@@ -1,6 +1,6 @@
-# Lib: LibIconPicker
+# LibIconPicker
 
-## [2025.12.3](https://github.com/kapresoft/wow-addon-LibIconPicker/tree/2025.12.3) (2025-12-27)
-[Full Changelog](https://github.com/kapresoft/wow-addon-LibIconPicker/commits/2025.12.3) 
+## [2026.1.1](https://github.com/kapresoft/wow-addon-LibIconPicker/tree/2026.1.1) (2026-01-14)
+[Full Changelog](https://github.com/kapresoft/wow-addon-LibIconPicker/commits/2026.1.1) 
 
-- Update README.md  
+- TBC support, toc updates  
