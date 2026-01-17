@@ -1013,8 +1013,8 @@ function app:RegisterEvents(flag)
 		app:DeRegisterEvents(flag)
 		handleEvents(flag)
 	else
-		for _, group in ipairs(Watchtower_Flags) do
-			for _, flg in ipairs(group.flags) do
+		for i = 2, #Watchtower_Flags do
+			for _, flg in ipairs(Watchtower_Flags[i].flags) do
 				app:DeRegisterEvents(flg)
 				handleEvents(flg)
 			end
