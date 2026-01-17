@@ -24,7 +24,7 @@ L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
 L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands"	-- "Keybindings"
-_G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	"Toggle Edit Panel"
+_G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Toggle Edit Panel"
 L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
 L.SLASH_OPEN_SETTINGS =					"Open the settings"
 

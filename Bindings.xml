@@ -1,5 +1,5 @@
 <Bindings>
-  <Binding name="WATCHTOWER_TOGGLE" category="|cff3FC7EBWatchtower|r">
+  <Binding name="WATCHTOWER_TOGGLE" category="|cff3FC7EBWatchtower|r" searchTags="BINDING_NAME_WATCHTOWER,BINDING_NAME_SLACKWARE">
     Watchtower:ToggleEditPanel()
   </Binding>
 </Bindings>

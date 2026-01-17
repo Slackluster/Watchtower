@@ -10,6 +10,8 @@ app.Name = "Watchtower"
 app.NameLong = app:Colour(app.Name)
 app.NameShort = app:Colour("WT")
 app.NamePrefix = "Watchtower"
+_G["BINDING_NAME_WATCHTOWER"] = app.Name
+_G["BINDING_NAME_SLACKWARE"] = "Slackware"
 
 -- Textures
 app.Texture = 236351

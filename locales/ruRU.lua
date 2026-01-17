@@ -24,7 +24,7 @@ L.SETTINGS_URL_COPY =					"Ctrl+C — скопировать:"
 L.SETTINGS_URL_COPIED =					"Ссылка скопирована в буфер обмена"
 
 L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Слэш-команды"	-- "Keybindings"
-_G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	"Включить панель редактирования"
+_G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Включить панель редактирования"
 L.SLASH_TOGGLE_EDITPANEL =				"Включить панель редактирования"
 L.SLASH_OPEN_SETTINGS =					"Откройте настройки"
 
