@@ -105,7 +105,7 @@ function app:CreateEditPanel()
 		end
 
 		StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
-			text = L.DELETE_FLAG .. "\n" .. L.HOLD_SKIP,
+			text = L.DELETE_FLAG_Q .. "\n" .. L.HOLD_SKIP,
 			button1 = YES,
 			button2 = NO,
 			whileDead = true,
@@ -117,7 +117,7 @@ function app:CreateEditPanel()
 			OnAccept = deleteFlag,
 		}
 		StaticPopupDialogs["WATCHTOWER_DELETEGROUP"] = {
-			text = L.DELETE_GROUP .. "\n" .. L.HOLD_SKIP,
+			text = L.DELETE_GROUP_Q .. "\n" .. L.HOLD_SKIP,
 			button1 = YES,
 			button2 = NO,
 			whileDead = true,
