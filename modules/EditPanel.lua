@@ -273,7 +273,7 @@ function app:CreateEditPanel()
 			self:SetAlpha(1)
 			divider:Hide()
 
-			if not ({ groupID = data.groupID, flagID = data.flagID } == app.Flag.Hover) then
+			if not (data.groupID == app.Flag.Hover.groupID and data.flagID  == app.Flag.Hover.flagID) then
 				app:MoveTableEntry({ groupID = data.groupID, flagID = data.flagID }, app.Flag.Hover)
 			end
 		end)
