@@ -484,9 +484,17 @@ function app:CreateEditPanel()
 		self:ClearFocus()
 	end)
 	app.EditPanel.Pages[1].Trigger:SetScript("OnEditFocusLost", function(self)
+		local old = app.FlagsList.Selected.trigger
 		app.FlagsList.Selected.trigger = self:GetText():gsub("\n+$", "")
+		if old ~= app.FlagsList.Selected.trigger then
+			app.FlagsList.Selected.description = nil
+		end
+
 		app:RegisterEvents(app.FlagsList.Selected)
-		C_Timer.After(0.1, function() app:UpdateStatusList() end)
+		C_Timer.After(0.1, function()
+			app:SetSelected()
+			app:UpdateStatusList()
+		end)
 	end)
 
 	IndentationLib.enable(app.EditPanel.Pages[1].Trigger, nil, 3)
@@ -532,8 +540,55 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[1].Events:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.events = app:MakeCsvTable(self:GetText())
 		app:RegisterEvents(app.FlagsList.Selected)
-		C_Timer.After(0.1, function() app:UpdateStatusList() end)
+		C_Timer.After(0.1, function()
+			app:SetSelected()
+			app:UpdateStatusList()
+		end)
 	end)
+
+	local function applyTemplate(templateID)
+		app.FlagsList.Selected.title = app.Templates[templateID].title
+		app.FlagsList.Selected.icon = app.Templates[templateID].icon
+		app.FlagsList.Selected.trigger = app.Templates[templateID].trigger
+		app.FlagsList.Selected.events = app.Templates[templateID].events
+		app.FlagsList.Selected.description = app.Templates[templateID].description
+
+		app:RegisterEvents(app.FlagsList.Selected)
+		C_Timer.After(0.1, function()
+			app:SetSelected()
+			app:UpdateStatusList()
+		end)
+	end
+
+	StaticPopupDialogs["WATCHTOWER_TEMPLATE"] = {
+		text = "Overwrite this flag with this template?",
+		button1 = YES,
+		button2 = NO,
+		whileDead = true,
+		hideOnEscape = true,
+		OnShow = function(dialog)
+			dialog:ClearAllPoints()
+			dialog:SetPoint("CENTER", UIParent)
+		end,
+		OnAccept = function(dialog, data) applyTemplate(data) end,
+	}
+
+	app.EditPanel.Pages[1].Templates = CreateFrame("DropdownButton", nil, app.EditPanel.Pages[1], "WowStyle1DropdownTemplate")
+	app.EditPanel.Pages[1].Templates:SetWidth(100)
+	app.EditPanel.Pages[1].Templates:SetPoint("TOPRIGHT", app.EditPanel.Pages[1], -10, -10)
+	app.EditPanel.Pages[1].Templates:SetDefaultText("Templates")
+
+	local templates = {}
+	for i, entry in ipairs(app.Templates) do
+		table.insert(templates, { entry.title, function() StaticPopup_Show("WATCHTOWER_TEMPLATE", nil, nil, i) end, i })
+	end
+	MenuUtil.CreateButtonMenu(app.EditPanel.Pages[1].Templates, unpack(templates))
+
+	app.EditPanel.Pages[1].Description = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	app.EditPanel.Pages[1].Description:SetJustifyH("LEFT")
+	app.EditPanel.Pages[1].Description:SetJustifyV("TOP")
+	app.EditPanel.Pages[1].Description:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, -10)
+	app.EditPanel.Pages[1].Description:SetPoint("BOTTOMRIGHT", backdrop, -4, -50)
 
 	app.EditPanel.Pages[2] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
 	app.EditPanel.Pages[2]:SetAllPoints(app.EditPanel.Options)
@@ -726,6 +781,11 @@ function app:SetSelected()
 		app.EditPanel.Pages[1].Icon:SetText(app.FlagsList.Selected.icon or "")
 		app.EditPanel.Pages[1].Trigger:SetText(app.FlagsList.Selected.trigger or "")
 		app.EditPanel.Pages[1].Events:SetText(app:MakeCsvString(app.FlagsList.Selected.events or ""))
+		if app.FlagsList.Selected.description then
+			app.EditPanel.Pages[1].Description:SetText(app.FlagsList.Selected.description)
+		else
+			app.EditPanel.Pages[1].Description:SetText("")
+		end
 	else
 		app.EditPanel.Pages[1]:Hide()
 		app.EditPanel.Pages[2]:Show()
