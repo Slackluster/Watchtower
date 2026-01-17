@@ -75,10 +75,11 @@ function app:DeRegisterEvents(flag)
 end
 
 function app:RegisterEvents(flag)
+	if flag then debug = true end
 	local function handleEvents(flag)
 		if not flag.trigger then return end
 
-		local valid, func, result = app:TestTrigger(flag, true)
+		local valid, func, result = app:TestTrigger(flag, debug)
 		if not valid then return end
 
 		flag.lastResult = result
@@ -151,14 +152,14 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	return env
 end
 
-function app:TestTrigger(flag, returnFuncOnly)
+function app:TestTrigger(flag, debug)
 	if not flag.trigger then
 		return false
 	end
 
 	local func, error = loadstring(flag.trigger)
 	if error then
-		app:Print(L.ERROR_FUNCTION .. " " .. tostring(error))
+		if debug then app:Print(L.ERROR_FUNCTION .. " " .. tostring(error)) end
 		return false
 	end
 
@@ -167,14 +168,10 @@ function app:TestTrigger(flag, returnFuncOnly)
 
 	local ok, result = pcall(func)
 	if not ok then
-		app:Print(L.ERROR_FUNCTION .. " " .. tostring(result))
+		if debug then app:Print(L.ERROR_FUNCTION .. " " .. tostring(result)) end
 		return false
 	end
 
-	if returnFuncOnly then
-		return true, func, result
-	end
-
-	app:Print(L.RETURN_FUNCTION .. " " .. tostring(result))
+	if debug then app:Print(L.RETURN_FUNCTION .. " " .. tostring(result)) end
 	return true, func, result
 end
