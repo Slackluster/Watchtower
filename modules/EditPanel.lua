@@ -747,7 +747,9 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[2].Scale:Init(100, options.minValue, options.maxValue, options.steps, options.formatters)
 	app.EditPanel.Pages[2].Scale:RegisterCallback("OnValueChanged", function(self, value)
 		app.FlagsList.Selected.scale = value
-		app:ShowTracker(app.FlagsList.SelGroup)
+		if app.Tracker[app.FlagsList.SelGroup] then
+			app:ShowTracker(app.FlagsList.SelGroup)
+		end
 	end)
 
 	PanelTemplates_SetTab(app.EditPanel.Options, 1)
