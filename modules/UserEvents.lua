@@ -25,43 +25,40 @@ app.UserEvent = CreateFrame("Frame")
 app.UserEvent.handlers = {}
 
 function app.UserEvent:Register(eventName, func)
-    if not self.handlers[eventName] then
-        self.handlers[eventName] = {}
-        self:RegisterEvent(eventName)
-    end
+	if not self.handlers[eventName] then
+		self.handlers[eventName] = {}
+		self:RegisterEvent(eventName)
+	end
 
-    table.insert(self.handlers[eventName], func)
+	table.insert(self.handlers[eventName], func)
 
-    return {
-        event = eventName,
-        func  = func,
-    }
+	return { event = eventName, func  = func, }
 end
 
 app.UserEvent:SetScript("OnEvent", function(self, event, ...)
-    local handlers = self.handlers[event]
-    if not handlers then return end
+	local handlers = self.handlers[event]
+	if not handlers then return end
 
-    for _, handler in ipairs(handlers) do
-        handler(...)
-    end
+	for _, handler in ipairs(handlers) do
+		handler(...)
+	end
 end)
 
 function app.UserEvent:Unregister(handle)
-    local handlers = self.handlers[handle.event]
-    if not handlers then return end
+	local handlers = self.handlers[handle.event]
+	if not handlers then return end
 
-    for i, fn in ipairs(handlers) do
-        if fn == handle.func then
-            table.remove(handlers, i)
-            break
-        end
-    end
+	for i, fn in ipairs(handlers) do
+		if fn == handle.func then
+			table.remove(handlers, i)
+			break
+		end
+	end
 
-    if #handlers == 0 then
-        self.handlers[handle.event] = nil
-        self:UnregisterEvent(handle.event)
-    end
+	if #handlers == 0 then
+		self.handlers[handle.event] = nil
+		self:UnregisterEvent(handle.event)
+	end
 end
 
 -----------------------------
