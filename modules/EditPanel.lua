@@ -582,7 +582,7 @@ function app:CreateEditPanel()
 
 	local templates = {}
 	for i, entry in ipairs(app.Templates) do
-		table.insert(templates, { entry.title, function() StaticPopup_Show("WATCHTOWER_TEMPLATE", nil, nil, i) end, i })
+		table.insert(templates, { L.FLAG_TEMPLATE[i].title, function() StaticPopup_Show("WATCHTOWER_TEMPLATE", nil, nil, i) end, i })
 	end
 	MenuUtil.CreateButtonMenu(app.EditPanel.Pages[1].Templates, unpack(templates))
 
