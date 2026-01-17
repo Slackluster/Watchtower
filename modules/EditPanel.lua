@@ -84,61 +84,61 @@ function app:CreateEditPanel()
 		app:UpdateStatusList()
 	end
 
+	local function deleteFlag()
+		app:DeRegisterEvents(app.FlagsList.Selected)
+		table.remove(Watchtower_Flags[app.FlagsList.SelGroup].flags, app.FlagsList.SelFlag)
+		app.FlagsList.SelFlag = app.FlagsList.SelFlag - 1
+		app:SetSelected()
+		app:ReIndexTable(Watchtower_Flags[app.FlagsList.SelGroup].flags)
+	end
+
+	local function deleteGroup()
+		app.Tracker[app.FlagsList.SelGroup].window:Hide()
+		table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
+		table.remove(app.Tracker, app.FlagsList.SelGroup)
+		app.FlagsList.SelGroup = app.FlagsList.SelGroup - 1
+		app.FlagsList.SelFlag = 0
+		app:SetSelected()
+		app:ReIndexTable(Watchtower_Flags)
+		app:ReIndexTable(app.Tracker)
+	end
+
+	StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
+		text = L.DELETE_FLAG_Q .. "\n" .. L.HOLD_SKIP,
+		button1 = YES,
+		button2 = NO,
+		whileDead = true,
+		hideOnEscape = true,
+		OnShow = function(dialog)
+			dialog:ClearAllPoints()
+			dialog:SetPoint("CENTER", UIParent)
+		end,
+		OnAccept = deleteFlag,
+	}
+	StaticPopupDialogs["WATCHTOWER_DELETEGROUP"] = {
+		text = L.DELETE_GROUP_Q .. "\n" .. L.HOLD_SKIP,
+		button1 = YES,
+		button2 = NO,
+		whileDead = true,
+		hideOnEscape = true,
+		OnShow = function(dialog)
+			dialog:ClearAllPoints()
+			dialog:SetPoint("CENTER", UIParent)
+		end,
+		OnAccept = deleteGroup,
+	}
+	StaticPopupDialogs["WATCHTOWER_CANTDELETE"] = {
+		text = L.CANTDELETE_GROUP,
+		button1 = OKAY,
+		whileDead = true,
+		hideOnEscape = true,
+		OnShow = function(dialog)
+			dialog:ClearAllPoints()
+			dialog:SetPoint("CENTER", UIParent)
+		end,
+	}
+
 	local function delete()
-		local function deleteFlag()
-			app:DeRegisterEvents(app.FlagsList.Selected)
-			table.remove(Watchtower_Flags[app.FlagsList.SelGroup].flags, app.FlagsList.SelFlag)
-			app.FlagsList.SelFlag = app.FlagsList.SelFlag - 1
-			app:SetSelected()
-			app:ReIndexTable(Watchtower_Flags[app.FlagsList.SelGroup].flags)
-		end
-
-		local function deleteGroup()
-			app.Tracker[app.FlagsList.SelGroup].window:Hide()
-			table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
-			table.remove(app.Tracker, app.FlagsList.SelGroup)
-			app.FlagsList.SelGroup = app.FlagsList.SelGroup - 1
-			app.FlagsList.SelFlag = 0
-			app:SetSelected()
-			app:ReIndexTable(Watchtower_Flags)
-			app:ReIndexTable(app.Tracker)
-		end
-
-		StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
-			text = L.DELETE_FLAG_Q .. "\n" .. L.HOLD_SKIP,
-			button1 = YES,
-			button2 = NO,
-			whileDead = true,
-			hideOnEscape = true,
-			OnShow = function(dialog)
-				dialog:ClearAllPoints()
-				dialog:SetPoint("CENTER", UIParent)
-			end,
-			OnAccept = deleteFlag,
-		}
-		StaticPopupDialogs["WATCHTOWER_DELETEGROUP"] = {
-			text = L.DELETE_GROUP_Q .. "\n" .. L.HOLD_SKIP,
-			button1 = YES,
-			button2 = NO,
-			whileDead = true,
-			hideOnEscape = true,
-			OnShow = function(dialog)
-				dialog:ClearAllPoints()
-				dialog:SetPoint("CENTER", UIParent)
-			end,
-			OnAccept = deleteGroup,
-		}
-		StaticPopupDialogs["WATCHTOWER_CANTDELETE"] = {
-			text = L.CANTDELETE_GROUP,
-			button1 = OKAY,
-			whileDead = true,
-			hideOnEscape = true,
-			OnShow = function(dialog)
-				dialog:ClearAllPoints()
-				dialog:SetPoint("CENTER", UIParent)
-			end,
-		}
-
 		if app.FlagsList.SelFlag == 0 then
 			if #Watchtower_Flags[app.FlagsList.SelGroup].flags >= 1 then
 				StaticPopup_Show("WATCHTOWER_CANTDELETE")
