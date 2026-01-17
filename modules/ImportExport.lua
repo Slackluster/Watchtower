@@ -48,6 +48,12 @@ function app:CreateImportPopup()
 			local importString = editBox:GetText()
 			api:Import(importString)
 		end,
+		OnHide = function(dialog)
+			local editBox = dialog.GetEditBox and dialog:GetEditBox() or dialog.editBox
+			editBox:SetScript("OnEditFocusLost", nil)
+			editBox:SetScript("OnEscapePressed", nil)
+			editBox:SetText("")
+		end,
 	}
 end
 
