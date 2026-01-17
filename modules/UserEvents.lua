@@ -75,24 +75,24 @@ function app:DeRegisterEvents(flag)
 end
 
 function app:RegisterEvents(flag)
-	if flag then debug = true end
-	local function handleEvents(flag)
-		if not flag.trigger then return end
+	local debug = not not flag
+	local function handleEvents(flg)
+		if not flg.trigger then return end
 
-		local valid, func, result = app:TestTrigger(flag, debug)
+		local valid, func, result = app:TestTrigger(flg, debug)
 		if not valid then return end
 
-		flag.lastResult = result
+		flg.lastResult = result
 
-		for _, event in ipairs(flag.events) do
+		for _, event in ipairs(flg.events) do
 			local wrapper = function(...)
 				local ok, r = pcall(func, ...)
-				flag.lastResult = ok and r or false
+				flg.lastResult = ok and r or false
 				RunNextFrame(function() app:UpdateAllTrackers() end)
 			end
 
 			local handle = app.UserEvent:Register(event, wrapper)
-			table.insert(flag.handles, handle)
+			table.insert(flg.handles, handle)
 		end
 	end
 
