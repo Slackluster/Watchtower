@@ -39,10 +39,11 @@ L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Sl
 -- L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT
 -- L.EXPORT_FLAG =							"Export Flag"
 -- L.EXPORT_GROUP =						"Export Group"
+-- L.EXPORT_COPIED =						"Export string copied to clipboard"
 -- L.DELETE_FLAG_Q =						"Delete this flag?"
 -- L.DELETE_GROUP_Q =						"Delete this group?"
 -- L.HOLD_SKIP =							"Hold Shift to skip this confirmation."
--- L.CANTDELETE_GROUP =					"Can't delete a group with flags."
+-- L.CANTDELETE_GROUP =					"Can't delete a group with flags"
 -- L.CANTMOVE_GROUP =						"Can't move this group"
 
 -- L.TITLE =								LFG_LIST_TITLE
@@ -89,11 +90,17 @@ L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Commandes « Sl
 -- L.FLAG_TEMPLATE[7].description =		"Automatically buy a Scroll of Teleport: Theater of Pain from One-Eyed Joby if you don't have one already. This flag is always hidden."
 
 -- Debugging
--- L.ERROR_UNKNOWN_EVENT =					"Attempt to register unknown event"
+-- L.ERROR_UNKNOWN_EVENT =					"Unknown event:"
 -- L.ERROR_BLOCKED1 =						"Access to \"%s\" is blocked"
 -- L.ERROR_BLOCKED2 =						"Assignment to \"%s\" is blocked"
--- L.ERROR_FUNCTION =						"Function error:"
--- L.RETURN_FUNCTION =						"Function returns:"
+-- L.FUNCTION_ERROR =						"Function error:"
+-- L.FUNCTION_OUTPUT =						"Function output:"
+-- L.IMPORT_ERROR =						"Import error:"
+-- L.IMPORT_ERROR =						"Export error:"
+-- L.ERROR_BLOCKED =						"%s was blocked"
+-- L.ERROR_UNKNOWN =						"An unknown error occurred"
+-- L.ERROR_INVALID_IMPORT_STRING =			"Invalid import string"
+-- L.ERROR_DECODE =						"Failed decode #"	-- Followed by a number
 
 -- General
 L.NEW_VERSION_AVAILABLE =				"Une nouvelle version de " .. app.NameLong .. " est disponible :"
@@ -101,5 +108,5 @@ L.NEW_VERSION_AVAILABLE =				"Une nouvelle version de " .. app.NameLong .. " est
 -- 										.. app:ShowIcon(app.IconLMB) .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n"
 -- 										.. app:ShowIcon(app.IconRMB) .. ": " .. L.SLASH_OPEN_SETTINGS
 
-L.INVALID_COMMAND =						"Commande non valide."
+L.INVALID_COMMAND =						"Commande non valide"
 -- L.OR =									"or"

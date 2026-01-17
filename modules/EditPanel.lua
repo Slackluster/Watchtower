@@ -165,12 +165,6 @@ function app:CreateEditPanel()
 		app.EditPanel:GetScript("OnShow")(app.EditPanel)
 	end
 
-	local function import()
-	end
-
-	local function export()
-	end
-
 	app.EditPanel.NewFlagButton = app:MakeButton(app.EditPanel, L.NEW_FLAG)
 	app.EditPanel.NewFlagButton:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, "TOPRIGHT", 0, 2)
 	app.EditPanel.NewFlagButton:SetScript("OnClick", newFlag)
@@ -184,15 +178,13 @@ function app:CreateEditPanel()
 	app.EditPanel.DeleteButton:SetPoint("RIGHT", app.EditPanel, -6, 0)
 	app.EditPanel.DeleteButton:SetScript("OnClick", delete)
 
-	-- app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, L.EXPORT_GROUP)
-	-- app.EditPanel.ExportButton:SetPoint("TOPRIGHT", app.EditPanel.DeleteButton, "TOPLEFT", -2, 0)
-	-- app.EditPanel.ExportButton:SetScript("OnClick", export)
-	-- app.EditPanel.ExportButton:Disable()
+	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, L.EXPORT_GROUP)
+	app.EditPanel.ExportButton:SetPoint("TOPRIGHT", app.EditPanel.DeleteButton, "TOPLEFT", -2, 0)
+	app.EditPanel.ExportButton:SetScript("OnClick", function() StaticPopup_Show("WATCHTOWER_EXPORT") end)
 
-	-- app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, L.IMPORT)
-	-- app.EditPanel.ImportButton:SetPoint("TOPRIGHT", app.EditPanel.ExportButton, "TOPLEFT", -2, 0)
-	-- app.EditPanel.ImportButton:SetScript("OnClick", import)
-	-- app.EditPanel.ImportButton:Disable()
+	app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, L.IMPORT)
+	app.EditPanel.ImportButton:SetPoint("TOPRIGHT", app.EditPanel.ExportButton, "TOPLEFT", -2, 0)
+	app.EditPanel.ImportButton:SetScript("OnClick", function() StaticPopup_Show("WATCHTOWER_IMPORT") end)
 
 	-- Flag list
 	local scrollBox = CreateFrame("Frame", nil, app.EditPanel.StatusList, "WowScrollBoxList")
@@ -769,8 +761,10 @@ function app:SetSelected()
 	end
 	if app.FlagsList.SelGroup == 1 and app.FlagsList.SelFlag == 0 then
 		app.EditPanel.DeleteButton:Disable()
+		app.EditPanel.ExportButton:Disable()
 	else
 		app.EditPanel.DeleteButton:Enable()
+		app.EditPanel.ExportButton:Enable()
 	end
 
 	if app.FlagsList.Selected.icon then
@@ -779,6 +773,8 @@ function app:SetSelected()
 
 		app.EditPanel.DeleteButton:SetText(L.DELETE_FLAG)
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
+		app.EditPanel.ExportButton:SetText(L.EXPORT_FLAG)
+		app.EditPanel.ExportButton:SetWidth(app.EditPanel.ExportButton:GetTextWidth()+20)
 
 		app.EditPanel.Pages[1].Title:SetText(app.FlagsList.Selected.title or "")
 		app.EditPanel.Pages[1].Icon:SetText(app.FlagsList.Selected.icon or "")
@@ -795,6 +791,8 @@ function app:SetSelected()
 
 		app.EditPanel.DeleteButton:SetText(L.DELETE_GROUP)
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
+		app.EditPanel.ExportButton:SetText(L.EXPORT_GROUP)
+		app.EditPanel.ExportButton:SetWidth(app.EditPanel.ExportButton:GetTextWidth()+20)
 
 		if app.FlagsList.SelGroup == 1 then
 			app.EditPanel.Pages[2]:Hide()
@@ -865,7 +863,7 @@ function app:MakeCsvTable(str)
 	local f = CreateFrame("Frame")
 	local function doesEventExist(event)
 		if type(event) ~= "string" or event == "" then
-			return false, L.ERROR_UNKNOWN_EVENT
+			return false, L.ERROR_UNKNOWN_EVENT .. " " .. event
 		end
 
 		local exists, error = pcall(f.RegisterEvent, f, event)
