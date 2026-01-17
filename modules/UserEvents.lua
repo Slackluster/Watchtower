@@ -32,7 +32,7 @@ function app.UserEvent:Register(eventName, func)
 
 	table.insert(self.handlers[eventName], func)
 
-	return { event = eventName, func  = func, }
+	return { event = eventName, func = func, }
 end
 
 app.UserEvent:SetScript("OnEvent", function(self, event, ...)
