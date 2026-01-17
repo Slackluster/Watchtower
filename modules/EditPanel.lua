@@ -96,10 +96,12 @@ function app:CreateEditPanel()
 		local function deleteGroup()
 			app.Tracker[app.FlagsList.SelGroup].window:Hide()
 			table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
+			table.remove(app.Tracker, app.FlagsList.SelGroup)
 			app.FlagsList.SelGroup = app.FlagsList.SelGroup - 1
 			app.FlagsList.SelFlag = 0
 			app:SetSelected()
 			app:ReIndexTable(Watchtower_Flags)
+			app:ReIndexTable(app.Tracker)
 		end
 
 		StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
