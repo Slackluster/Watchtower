@@ -38,6 +38,7 @@ FrameTemplates.xml
 modules\EditPanel.lua
 modules\ImportExport.lua
 modules\Trackers.lua
+modules\UserEvents.lua
 locales\enUS.lua
 locales\deDE.lua
 locales\esES.lua
