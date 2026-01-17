@@ -159,7 +159,7 @@ function app:TestTrigger(flag, debug)
 
 	local func, error = loadstring(flag.trigger)
 	if error then
-		if debug then app:Print(L.ERROR_FUNCTION .. " " .. tostring(error)) end
+		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
 		return false
 	end
 
@@ -168,10 +168,10 @@ function app:TestTrigger(flag, debug)
 
 	local ok, result = pcall(func)
 	if not ok then
-		if debug then app:Print(L.ERROR_FUNCTION .. " " .. tostring(result)) end
+		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(result)) end
 		return false
 	end
 
-	if debug then app:Print(L.RETURN_FUNCTION .. " " .. tostring(result)) end
+	if debug then app:Print(L.FUNCTION_OUTPUT .. " " .. tostring(result)) end
 	return true, func, result
 end
