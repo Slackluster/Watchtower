@@ -160,7 +160,7 @@ function app:CreateSettings()
 
 	function Watchtower_SettingsExpandMixin:OnExpandedChanged(expanded)
 		self:EvaluateVisibility(expanded)
-        SettingsInbound.RepairDisplay()
+		SettingsInbound.RepairDisplay()
 	end
 
 	function Watchtower_SettingsExpandMixin:EvaluateVisibility(expanded)

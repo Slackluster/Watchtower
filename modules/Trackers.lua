@@ -114,12 +114,12 @@ function app:CreateTracker(id)
 	local tracker = app.Tracker[id]
 	tracker.window:SetClipsChildren(true)
 	tracker.content = CreateFrame("Frame", nil, tracker.window)
-    tracker.content:SetPoint("TOPLEFT", 8, -8)
-    tracker.content:SetPoint("BOTTOMRIGHT", -8, 8)
-    tracker.content:SetSize(1, 1)
-    tracker.content.children = {}
+	tracker.content:SetPoint("TOPLEFT", 8, -8)
+	tracker.content:SetPoint("BOTTOMRIGHT", -8, 8)
+	tracker.content:SetSize(1, 1)
+	tracker.content.children = {}
 
-    tracker.pool = CreateFramePool("Button", tracker.content, "Watchtower_TrackerItem")	-- I'll be honest, I don't know why it needs this template
+	tracker.pool = CreateFramePool("Button", tracker.content, "Watchtower_TrackerItem")	-- I'll be honest, I don't know why it needs this template
 
 	app:ShowTracker(id)
 end
