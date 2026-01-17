@@ -13,7 +13,7 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		Watchtower_Settings = Watchtower_Settings or {}
-		Watchtower_Flags = Watchtower_Flags or { [1] = { groupID = 1, title = "Inactive", flags = { [1] = { flagID = 1, title = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true } } } }
+		Watchtower_Flags = Watchtower_Flags or { [1] = { groupID = 1, title = L.INACTIVE, flags = { [1] = { flagID = 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true } } } }
 
 		Watchtower_Settings["minimapIcon"] = true
 		Watchtower_Settings["hide"] = false
@@ -23,7 +23,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		-- Alpha cleanup
 		if Watchtower_Flags[1].id then
-			local tbl = { [1] = { groupID = 1, title = "Inactive", flags = { } } }
+			local tbl = { [1] = { groupID = 1, title = L.INACTIVE, flags = { } } }
 			for _, v in ipairs(Watchtower_Flags) do
 				table.insert(tbl[1].flags, { flagID = v.id, title = v.text, icon = v.icon, trigger = v.trigger, events = v.events, lastResult = v.lastResult })
 			end

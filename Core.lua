@@ -34,7 +34,6 @@ app.Event:SetScript("OnEvent", function(self, event, ...)
     local handlers = self.handlers[event]
     if not handlers then return end
 
-    -- Guaranteed order
     for _, handler in ipairs(handlers) do
         handler(...)
     end

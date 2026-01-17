@@ -78,7 +78,7 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function newFlag()
-		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = "New Flag", icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
+		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
 		app.FlagsList.SelFlag = #Watchtower_Flags[app.FlagsList.SelGroup].flags
 		app:SetSelected()
 		app:UpdateStatusList()
@@ -105,7 +105,7 @@ function app:CreateEditPanel()
 		end
 
 		StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
-			text = "Delete this flag?" .. "\n" .. "(Hold Shift to skip this confirmation.)",
+			text = L.DELETE_FLAG .. "\n" .. L.HOLD_SKIP,
 			button1 = YES,
 			button2 = NO,
 			whileDead = true,
@@ -117,7 +117,7 @@ function app:CreateEditPanel()
 			OnAccept = deleteFlag,
 		}
 		StaticPopupDialogs["WATCHTOWER_DELETEGROUP"] = {
-			text = "Delete this group?" .. "\n" .. "(Hold Shift to skip this confirmation.)",
+			text = L.DELETE_GROUP .. "\n" .. L.HOLD_SKIP,
 			button1 = YES,
 			button2 = NO,
 			whileDead = true,
@@ -129,7 +129,7 @@ function app:CreateEditPanel()
 			OnAccept = deleteGroup,
 		}
 		StaticPopupDialogs["WATCHTOWER_CANTDELETE"] = {
-			text = "Can't delete a group with flags.",
+			text = L.CANTDELETE_GROUP,
 			button1 = OKAY,
 			whileDead = true,
 			hideOnEscape = true,
@@ -155,7 +155,7 @@ function app:CreateEditPanel()
 	end
 
 	local function newGroup()
-		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = "New Group", style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, flags = {} })
+		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = L.NEW_GROUP, style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, flags = {} })
 		app.FlagsList.SelGroup = #Watchtower_Flags
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
@@ -171,25 +171,25 @@ function app:CreateEditPanel()
 	local function export()
 	end
 
-	app.EditPanel.NewFlagButton = app:MakeButton(app.EditPanel, "New Flag")
+	app.EditPanel.NewFlagButton = app:MakeButton(app.EditPanel, L.NEW_FLAG)
 	app.EditPanel.NewFlagButton:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, "TOPRIGHT", 0, 2)
 	app.EditPanel.NewFlagButton:SetScript("OnClick", newFlag)
 
-	app.EditPanel.NewGroupButton = app:MakeButton(app.EditPanel, "New Group")
+	app.EditPanel.NewGroupButton = app:MakeButton(app.EditPanel, L.NEW_GROUP)
 	app.EditPanel.NewGroupButton:SetPoint("TOPRIGHT", app.EditPanel.NewFlagButton, "TOPLEFT", -2, 0)
 	app.EditPanel.NewGroupButton:SetScript("OnClick", newGroup)
 
-	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, "Delete")
+	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, L.DELETE_GROUP)
 	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewFlagButton)
 	app.EditPanel.DeleteButton:SetPoint("RIGHT", app.EditPanel, -6, 0)
 	app.EditPanel.DeleteButton:SetScript("OnClick", delete)
 
-	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, "Export")
+	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, L.EXPORT_GROUP)
 	app.EditPanel.ExportButton:SetPoint("TOPRIGHT", app.EditPanel.DeleteButton, "TOPLEFT", -2, 0)
 	app.EditPanel.ExportButton:SetScript("OnClick", export)
 	app.EditPanel.ExportButton:Disable()
 
-	app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, "Import")
+	app.EditPanel.ImportButton = app:MakeButton(app.EditPanel, L.IMPORT)
 	app.EditPanel.ImportButton:SetPoint("TOPRIGHT", app.EditPanel.ExportButton, "TOPLEFT", -2, 0)
 	app.EditPanel.ImportButton:SetScript("OnClick", import)
 	app.EditPanel.ImportButton:Disable()
@@ -268,7 +268,7 @@ function app:CreateEditPanel()
 		listItem:RegisterForDrag("LeftButton")
 		listItem:SetScript("OnDragStart", function(self)
 			if data.groupID == 1 and data.flagID == 0 then
-				app:Print("Can't move this group")
+				app:Print(L.CANTMOVE_GROUP)
 				return
 			end
 			app.Flag.Dragging = true
@@ -360,7 +360,7 @@ function app:CreateEditPanel()
 	local leftEdge = 60
 
 	local string1 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string1:SetText("Title")
+	string1:SetText(L.TITLE)
 	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[1], 10, -16)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
@@ -395,7 +395,7 @@ function app:CreateEditPanel()
 	end)
 
 	local string2 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string2:SetText("Icon")
+	string2:SetText(L.ICON)
 	string2:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, -20)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
@@ -450,7 +450,7 @@ function app:CreateEditPanel()
 	end)
 
 	local string3 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string3:SetText("Trigger")
+	string3:SetText(L.TRIGGER)
 	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, -20)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
@@ -502,7 +502,7 @@ function app:CreateEditPanel()
 	IndentationLib.enable(app.EditPanel.Pages[1].Trigger, nil, 3)
 
 	local string4 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string4:SetText("Events")
+	string4:SetText(L.EVENTS)
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -120)
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
@@ -549,11 +549,11 @@ function app:CreateEditPanel()
 	end)
 
 	local function applyTemplate(templateID)
-		app.FlagsList.Selected.title = app.Templates[templateID].title
+		app.FlagsList.Selected.title = L.FLAG_TEMPLATE[templateID].title
 		app.FlagsList.Selected.icon = app.Templates[templateID].icon
 		app.FlagsList.Selected.trigger = app.Templates[templateID].trigger
 		app.FlagsList.Selected.events = app.Templates[templateID].events
-		app.FlagsList.Selected.description = app.Templates[templateID].description
+		app.FlagsList.Selected.description = L.FLAG_TEMPLATE[templateID].description
 
 		app:RegisterEvents(app.FlagsList.Selected)
 		C_Timer.After(0.1, function()
@@ -563,7 +563,7 @@ function app:CreateEditPanel()
 	end
 
 	StaticPopupDialogs["WATCHTOWER_TEMPLATE"] = {
-		text = "Overwrite this flag with this template?",
+		text = L.OVERWRITE_FLAG,
 		button1 = YES,
 		button2 = NO,
 		whileDead = true,
@@ -578,7 +578,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[1].Templates = CreateFrame("DropdownButton", nil, app.EditPanel.Pages[1], "WowStyle1DropdownTemplate")
 	app.EditPanel.Pages[1].Templates:SetWidth(100)
 	app.EditPanel.Pages[1].Templates:SetPoint("TOPRIGHT", app.EditPanel.Pages[1], -10, -10)
-	app.EditPanel.Pages[1].Templates:SetDefaultText("Templates")
+	app.EditPanel.Pages[1].Templates:SetDefaultText(L.TEMPLATES)
 
 	local templates = {}
 	for i, entry in ipairs(app.Templates) do
@@ -598,7 +598,7 @@ function app:CreateEditPanel()
 	local leftEdge = 60
 
 	local string1 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string1:SetText("Title")
+	string1:SetText(L.TITLE)
 	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[2], 10, -16)
 
 	app.EditPanel.Pages[2].TitleBackdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[2], "BackdropTemplate")
@@ -633,7 +633,7 @@ function app:CreateEditPanel()
 	end)
 
 	local string2 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string2:SetText("Style")
+	string2:SetText(L.STYLE)
 	string2:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, -20)
 
 	local function setStyle(value)
@@ -661,7 +661,7 @@ function app:CreateEditPanel()
 	end)
 
 	local string3 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string3:SetText("Anchor")
+	string3:SetText(L.ANCHOR)
 	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, -20)
 
 	local function setAnchor(value)
@@ -690,7 +690,7 @@ function app:CreateEditPanel()
 	end)
 
 	local string4 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string4:SetText("Font")
+	string4:SetText(L.FONT)
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -20)
 
 	local LSM = LibStub("LibSharedMedia-3.0")
@@ -709,7 +709,6 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[2].Font = CreateFrame("DropdownButton", nil, app.EditPanel.Pages[2], "WowStyle1DropdownTemplate")
 	app.EditPanel.Pages[2].Font:SetWidth(196)
 	app.EditPanel.Pages[2].Font:SetPoint("LEFT", string4, leftEdge + 2, 0)
-	app.EditPanel.Pages[2].Font:SetDefaultText("Select font")
 	local dropdown = app.EditPanel.Pages[2].Font
 	app.EditPanel.Pages[2].Font:SetupMenu(function(dropdown, root)
 		for _, font in ipairs(app.Fonts) do
@@ -731,7 +730,7 @@ function app:CreateEditPanel()
 	end)
 
 	local string5 = app.EditPanel.Pages[2]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string5:SetText("Scale")
+	string5:SetText(L.SCALE)
 	string5:SetPoint("TOPLEFT", string4, "BOTTOMLEFT", 0, -20)
 
 	local min, max, increment = 50, 200, 5
@@ -776,7 +775,7 @@ function app:SetSelected()
 		app.EditPanel.Pages[1]:Show()
 		app.EditPanel.Pages[2]:Hide()
 
-		app.EditPanel.DeleteButton:SetText("Delete Flag")
+		app.EditPanel.DeleteButton:SetText(L.DELETE_FLAG)
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
 
 		app.EditPanel.Pages[1].Title:SetText(app.FlagsList.Selected.title or "")
@@ -792,7 +791,7 @@ function app:SetSelected()
 		app.EditPanel.Pages[1]:Hide()
 		app.EditPanel.Pages[2]:Show()
 
-		app.EditPanel.DeleteButton:SetText("Delete Group")
+		app.EditPanel.DeleteButton:SetText(L.DELETE_GROUP)
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
 
 		if app.FlagsList.SelGroup == 1 then
@@ -864,7 +863,7 @@ function app:MakeCsvTable(str)
 	local f = CreateFrame("Frame")
 	local function doesEventExist(event)
 		if type(event) ~= "string" or event == "" then
-			return false, "Attempt to register unknown event"
+			return false, L.ERROR_UNKNOWN_EVENT
 		end
 
 		local exists, error = pcall(f.RegisterEvent, f, event)
@@ -919,13 +918,13 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	local safeG = setmetatable({}, {
 		__index = function(_, key)
 			if app.Blocked[key] then
-				error(("Access to \"%s\" is blocked"):format(tostring(key)), 2)
+				error((L.ERROR_BLOCKED1):format(tostring(key)), 2)
 			end
 			return _G[key]
 		end,
 			__newindex = function(_, key, value)
 			if app.Blocked[key] then
-				error(("Assignment to \"%s\" is blocked"):format(tostring(key)), 2)
+				error((L.ERROR_BLOCKED2):format(tostring(key)), 2)
 			end
 			_G[key] = value
 		end,
@@ -935,7 +934,7 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	setmetatable(env, {
 		__index = function(tbl, key)
 			if app.Blocked[key] then
-				error(("Access to \"%s\" is blocked"):format(tostring(key)), 2)
+				error((L.ERROR_BLOCKED1):format(tostring(key)), 2)
 			end
 			local v = rawget(tbl, key)
 			if v ~= nil then return v end
@@ -943,7 +942,7 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 		end,
 		__newindex = function(tbl, key, value)
 			if app.Blocked[key] then
-				error(("Assignment to \"%s\" is blocked"):format(tostring(key)), 2)
+				error((L.ERROR_BLOCKED2):format(tostring(key)), 2)
 			end
 			rawset(tbl, key, value)
 		end,
@@ -959,7 +958,7 @@ function app:TestTrigger(flag, returnFuncOnly)
 
 	local func, error = loadstring(flag.trigger)
 	if error then
-		app:Print("Function error:" .. " " .. tostring(error))
+		app:Print(L.ERROR_FUNCTION .. " " .. tostring(error))
 		return false
 	end
 
@@ -968,7 +967,7 @@ function app:TestTrigger(flag, returnFuncOnly)
 
 	local ok, result = pcall(func)
 	if not ok then
-		app:Print("Function error:" .. " " .. tostring(result))
+		app:Print(L.ERROR_FUNCTION .. " " .. tostring(result))
 		return false
 	end
 
@@ -976,7 +975,7 @@ function app:TestTrigger(flag, returnFuncOnly)
 		return true, func, result
 	end
 
-	app:Print("Function returns:" .. " " .. tostring(result))
+	app:Print(L.RETURN_FUNCTION .. " " .. tostring(result))
 	return true, func, result
 end
 
