@@ -61,7 +61,7 @@ function app:ShowTracker(id)
 		end
 	else
 		w:SetSize(200, 200)
-		w:SetPoint("CENTER", UIParent)
+		w:SetPoint("TOP", UIParent, 0, -100)
 		app:SaveTracker(id)
 	end
 
