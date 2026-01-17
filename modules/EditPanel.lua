@@ -105,8 +105,8 @@ function app:CreateEditPanel()
 
 	StaticPopupDialogs["WATCHTOWER_DELETEFLAG"] = {
 		text = L.DELETE_FLAG_Q .. "\n" .. L.HOLD_SKIP,
-		button1 = YES,
-		button2 = NO,
+		button1 = CONTINUE,
+		button2 = CANCEL,
 		whileDead = true,
 		hideOnEscape = true,
 		OnShow = function(dialog)
@@ -117,8 +117,8 @@ function app:CreateEditPanel()
 	}
 	StaticPopupDialogs["WATCHTOWER_DELETEGROUP"] = {
 		text = L.DELETE_GROUP_Q .. "\n" .. L.HOLD_SKIP,
-		button1 = YES,
-		button2 = NO,
+		button1 = CONTINUE,
+		button2 = CANCEL,
 		whileDead = true,
 		hideOnEscape = true,
 		OnShow = function(dialog)
@@ -556,8 +556,8 @@ function app:CreateEditPanel()
 
 	StaticPopupDialogs["WATCHTOWER_TEMPLATE"] = {
 		text = L.OVERWRITE_FLAG,
-		button1 = YES,
-		button2 = NO,
+		button1 = CONTINUE,
+		button2 = CANCEL,
 		whileDead = true,
 		hideOnEscape = true,
 		OnShow = function(dialog)
