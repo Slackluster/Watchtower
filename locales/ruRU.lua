@@ -39,7 +39,7 @@ L.DELETE_GROUP =						"Удалить группу"
 L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT
 L.EXPORT_FLAG =							"Экспортировать флаг"
 L.EXPORT_GROUP =						"Экспортировать группу"
--- L.EXPORT_COPIED =						"Export string copied to clipboard"
+L.EXPORT_COPIED =						"Экспортная строка скопирована в буфер обмена"
 L.DELETE_FLAG_Q =						"Удалить этот флаг?"
 L.DELETE_GROUP_Q =						"Удалить эту группу?"
 L.HOLD_SKIP =							"Удерживайте Shift, чтобы не спрашивать подтверждение."
@@ -90,17 +90,17 @@ L.FLAG_TEMPLATE[7].title =				"Купить свиток телепорта"
 L.FLAG_TEMPLATE[7].description =		"Автоматически покупает Свиток телепортации: Театр Боли у Одноглазого Джоби, если у вас его нет. Этот флаг всегда скрыт."
 
 -- Debugging
--- L.ERROR_UNKNOWN_EVENT =					"Unknown event:"
+L.ERROR_UNKNOWN_EVENT =					"Неизвестное событие:"
 L.ERROR_BLOCKED1 =						"Доступ к \"%s\" заблокирован"
 L.ERROR_BLOCKED2 =						"Присваивание \"%s\" заблокировано"
 L.FUNCTION_ERROR =						"Ошибка функции:"
--- L.FUNCTION_OUTPUT =						"Function output:"
--- L.IMPORT_ERROR =						"Import error:"
--- L.IMPORT_ERROR =						"Export error:"
--- L.ERROR_BLOCKED =						"%s was blocked"
--- L.ERROR_UNKNOWN =						"An unknown error occurred"
--- L.ERROR_INVALID_IMPORT_STRING =			"Invalid import string"
--- L.ERROR_DECODE =						"Failed decode #"	-- Followed by a number
+L.FUNCTION_OUTPUT =						"Вывод функции:"
+L.IMPORT_ERROR =						"Ошибка импорта:"
+L.IMPORT_ERROR =						"Ошибка экспорта:"
+L.ERROR_BLOCKED =						"%s был заблокирован"
+L.ERROR_UNKNOWN =						"Произошла неизвестная ошибка"
+L.ERROR_INVALID_IMPORT_STRING =			"Недопустимая строка импорта"
+L.ERROR_DECODE =						"Неудачное декодирование #"	-- Followed by a number
 
 -- General
 L.NEW_VERSION_AVAILABLE =				"Доступна новая версия " .. app.NameLong .. ":"
