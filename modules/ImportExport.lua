@@ -73,13 +73,13 @@ function api:Import(importString)
 		return false
 	end
 
-	local ok2, json = pcall(C_EncodingUtil.DecompressString, compressed, Enum.CompressionMethod.Deflate)
-	if not ok2 or not json then
+	local ok2, cbor = pcall(C_EncodingUtil.DecompressString, compressed, Enum.CompressionMethod.Deflate)
+	if not ok2 or not cbor then
 		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_DECODE .. 2)
 		return false
 	end
 
-	local ok3, data = pcall(C_EncodingUtil.DeserializeJSON, json)
+	local ok3, data = pcall(C_EncodingUtil.DeserializeCBOR, cbor)
 	if not ok3 or type(data) ~= "table" then
 		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_DECODE .. 3)
 		return false
@@ -222,12 +222,12 @@ function api:Export(table, exportType)
 	if error then
 		return error
 	end
-	local ok, json = pcall(C_EncodingUtil.SerializeJSON, flagOrGroup)
+	local ok, cbor = pcall(C_EncodingUtil.SerializeCBOR, flagOrGroup)
 	if not ok then
 		return L.EXPORT_ERROR .. " " .. L.ERROR_UNKNOWN
 	end
 
-	local compressed = C_EncodingUtil.CompressString(json, Enum.CompressionMethod.Deflate, Enum.CompressionLevel.OptimizeForSize)
+	local compressed = C_EncodingUtil.CompressString(cbor, Enum.CompressionMethod.Deflate, Enum.CompressionLevel.OptimizeForSize)
 	local base64 = C_EncodingUtil.EncodeBase64(compressed, Enum.Base64Variant.Standard)
 	local output = "WT1:" .. exportType .. ":" .. base64
 	return output
