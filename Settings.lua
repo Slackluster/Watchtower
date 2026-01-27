@@ -41,7 +41,7 @@ function app:OpenSettings()
 end
 
 function app:CreateMinimapButton()
-	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(appName, {
+	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(app.NameLong, {
 		type = "data source",
 		text = app.NameLong,
 		icon = app.Texture,
