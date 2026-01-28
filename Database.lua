@@ -20,6 +20,7 @@ app.IconReady = "Interface\\RaidFrame\\ReadyCheck-Ready"
 app.IconNotReady = "Interface\\RaidFrame\\ReadyCheck-NotReady"
 app.IconLMB = "Interface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283"
 app.IconRMB = "Interface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:330:385"
+app.IconNew = "|TInterface\\AddOns\\Watchtower\\assets\\new.png:20:28|t"
 
 app.Blocked = {
 	AcceptTrade = true,
