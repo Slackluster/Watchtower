@@ -68,7 +68,7 @@ app.Blocked = {
 }
 
 app.Templates = {
-	[1] = { icon = 1322720, trigger = "local honor = C_CurrencyInfo.GetCurrencyInfo(1792).quantity\nif honor >= 2000 then return true\nelse return false\nend", events = { "PLAYER_ENTERING_WORLD", "CHAT_MSG_CURRENCY" } },
+	[1] = { icon = 1322720, trigger = "local honor = C_CurrencyInfo.GetCurrencyInfo(1792).quantity\nif honor >= 2000 then return true\nelse return false\nend", events = { "PLAYER_ENTERING_WORLD", "CHAT_MSG_CURRENCY", "MERCHANT_CLOSED" } },
 	[2] = { icon = 1030914, trigger = "return not(C_QuestLog.IsQuestFlaggedCompletedOnAccount(38482))", events = { "PLAYER_ENTERING_WORLD", "QUEST_TURNED_IN", "QUEST_AUTOCOMPLETE", "QUEST_REMOVED" } },
 	[3] = { icon = 136014, trigger = "return not(C_QuestLog.IsQuestFlaggedCompleted(32680) or C_QuestLog.IsQuestFlaggedCompleted(32681))", events = { "PLAYER_ENTERING_WORLD", "QUEST_TURNED_IN", "QUEST_AUTOCOMPLETE", "QUEST_REMOVED" } },
 	[4] = { icon = 237388, trigger = "C_Calendar.OpenCalendar()\nlocal dmf = false\nlocal date = C_DateAndTime.GetCurrentCalendarTime()\nlocal numEvents = C_Calendar.GetNumDayEvents(0, date.monthDay)\nfor i=1,numEvents do\n   local event = C_Calendar.GetHolidayInfo(0,date.monthDay,i)\n   if event ~= nil then\n      if event.name == \"Darkmoon Faire\" then\n         dmf = true\n      end\n   end\nend\nif dmf and not(C_QuestLog.IsQuestFlaggedCompleted(38934)) then return true\nelse return false\nend", events = { "PLAYER_ENTERING_WORLD", "QUEST_TURNED_IN", "QUEST_AUTOCOMPLETE", "QUEST_REMOVED" } },
