@@ -205,8 +205,6 @@ function app:CreateSettings()
 
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://discord.gg/hGvF59hstx") end, L.SETTINGS_HELP_DESC, true))
 
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_ISSUES_TEXT, L.SETTINGS_ISSUES_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://github.com/Slackluster/Watchtower/issues") end, L.SETTINGS_ISSUES_DESC, true))
-
 	local expandInitializer, isExpanded = createExpandableSection(layout, L.SETTINGS_KEYSLASH_TITLE)
 
 		local action = "WATCHTOWER_TOGGLE"
