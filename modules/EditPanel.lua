@@ -491,7 +491,7 @@ function app:CreateEditPanel()
 		if app.FlagsList.SelGroup ~= 1 then
 			app:RegisterEvents(app.FlagsList.Selected)
 		else
-			app:TestTrigger(app.FlagsList.Selected, true)
+			app:IsTriggerValid(app.FlagsList.Selected, true)
 		end
 		C_Timer.After(0.1, function()
 			app:SetSelected()
@@ -542,7 +542,7 @@ function app:CreateEditPanel()
 		if app.FlagsList.SelGroup ~= 1 then
 			app:RegisterEvents(app.FlagsList.Selected)
 		else
-			app:TestTrigger(app.FlagsList.Selected, true)
+			app:IsTriggerValid(app.FlagsList.Selected, true)
 		end
 		C_Timer.After(0.1, function()
 			app:SetSelected()

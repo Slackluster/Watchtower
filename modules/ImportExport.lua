@@ -87,8 +87,8 @@ function api:Import(importString)
 
 	local error
 	local function checkFlag(flg)
-		local valid = app:TestTrigger(flg)
-		if not valid then
+		local safe = app:IsTriggerSafe(flg)
+		if not safe then
 			local err = L.IMPORT_ERROR .. " " .. string.format(L.ERROR_BLOCKED, flg.title)
 			return false, err
 		end
@@ -212,8 +212,8 @@ function api:Export(table, exportType)
 	local _, error
 	local function checkFlag(flg)
 		flg.handles = nil
-		local valid = app:TestTrigger(flg)
-		if not valid then
+		local safe = app:IsTriggerSafe(flg)
+		if not safe then
 			local err = L.EXPORT_ERROR .. " " .. string.format(L.ERROR_BLOCKED, flg.title)
 			return false, err
 		end

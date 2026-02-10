@@ -79,7 +79,7 @@ function app:RegisterEvents(flag)
 	local function handleEvents(flg)
 		if not flg.trigger then return end
 
-		local valid, func, result = app:TestTrigger(flg, debug)
+		local valid, func, result = app:IsTriggerValid(flg, debug)
 		if not valid then return end
 
 		flg.lastResult = result
@@ -116,16 +116,20 @@ end
 function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	local env = {}
 
+	local function blockedError(msg)
+		error({ blocked = true, message = msg }, 2)
+	end
+
 	local safeG = setmetatable({}, {
 		__index = function(_, key)
 			if app.Blocked[key] then
-				error((L.ERROR_BLOCKED1):format(tostring(key)), 2)
+				blockedError((L.ERROR_BLOCKED1):format(tostring(key)))
 			end
 			return _G[key]
 		end,
-			__newindex = function(_, key, value)
+		__newindex = function(_, key, value)
 			if app.Blocked[key] then
-				error((L.ERROR_BLOCKED2):format(tostring(key)), 2)
+				blockedError((L.ERROR_BLOCKED1):format(tostring(key)))
 			end
 			_G[key] = value
 		end,
@@ -135,7 +139,7 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	setmetatable(env, {
 		__index = function(tbl, key)
 			if app.Blocked[key] then
-				error((L.ERROR_BLOCKED1):format(tostring(key)), 2)
+				blockedError((L.ERROR_BLOCKED1):format(tostring(key)))
 			end
 			local v = rawget(tbl, key)
 			if v ~= nil then return v end
@@ -143,7 +147,7 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 		end,
 		__newindex = function(tbl, key, value)
 			if app.Blocked[key] then
-				error((L.ERROR_BLOCKED2):format(tostring(key)), 2)
+				blockedError((L.ERROR_BLOCKED1):format(tostring(key)))
 			end
 			rawset(tbl, key, value)
 		end,
@@ -152,8 +156,39 @@ function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
 	return env
 end
 
-function app:TestTrigger(flag, debug)
+function app:IsTriggerSafe(flag)
 	if not flag.trigger then
+		return true
+	end
+
+	local func, err = loadstring(flag.trigger)
+	if not func then
+		return true
+	end
+
+	local env = app:CreateTriggerEnv()
+	setfenv(func, env)
+
+	local ok, result = pcall(func)
+	if not ok then
+		if type(result) == "table" and result.blocked then
+			return false, result.message
+		end
+	end
+
+	return true
+end
+
+function app:IsTriggerValid(flag, debug)
+	if not flag.trigger then
+		return false
+	end
+
+	local safe, blockedErr = app:IsTriggerSafe(flag)
+	if not safe then
+		if debug then
+			app:Print(L.FUNCTION_ERROR .. " " .. tostring(blockedErr))
+		end
 		return false
 	end
 
