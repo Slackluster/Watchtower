@@ -541,7 +541,11 @@ function app:CreateEditPanel()
 	end)
 	app.EditPanel.Pages[1].Events:SetScript("OnEditFocusLost", function(self)
 		app.FlagsList.Selected.events = app:MakeCsvTable(self:GetText())
-		app:RegisterEvents(app.FlagsList.Selected)
+		if app.FlagsList.SelGroup ~= 1 then
+			app:RegisterEvents(app.FlagsList.Selected)
+		else
+			app:TestTrigger(app.FlagsList.Selected, true)
+		end
 		C_Timer.After(0.1, function()
 			app:SetSelected()
 			app:UpdateStatusList()
