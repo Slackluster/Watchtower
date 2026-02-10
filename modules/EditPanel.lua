@@ -488,7 +488,11 @@ function app:CreateEditPanel()
 			app.FlagsList.Selected.description = nil
 		end
 
-		app:RegisterEvents(app.FlagsList.Selected)
+		if app.FlagsList.SelGroup ~= 1 then
+			app:RegisterEvents(app.FlagsList.Selected)
+		else
+			app:TestTrigger(app.FlagsList.Selected, true)
+		end
 		C_Timer.After(0.1, function()
 			app:SetSelected()
 			app:UpdateStatusList()
@@ -840,6 +844,12 @@ function app:ReIndexTable(tbl)
 end
 
 function app:MoveTableEntry(old, target)
+	if target.groupID == 1 then
+		app:DeRegisterEvents(Watchtower_Flags[old.groupID].flags[old.flagID])
+	elseif old.groupID == 1 then
+		app:RegisterEvents(Watchtower_Flags[old.groupID].flags[old.flagID])
+	end
+
 	app.FlagsList.SelGroup = target.groupID
 	if old.flagID == 0 then
 		app.FlagsList.SelFlag = 0
