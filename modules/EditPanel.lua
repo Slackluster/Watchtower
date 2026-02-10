@@ -507,7 +507,7 @@ function app:CreateEditPanel()
 
 	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
 	backdrop:SetPoint("TOPLEFT", string4, "TOPLEFT", leftEdge, 4)
-	backdrop:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -36)
+	backdrop:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -48)
 	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
 	backdrop:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -518,8 +518,6 @@ function app:CreateEditPanel()
 	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
 	local scrollFrame2 = CreateFrame("ScrollFrame", nil, backdrop, "UIPanelScrollFrameTemplate")
-	scrollFrame2.ScrollBar:Hide()
-	scrollFrame2.ScrollBar.Show = nop
 	scrollFrame2:SetPoint("TOPLEFT", 5, -5)
 	scrollFrame2:SetPoint("BOTTOMRIGHT", -27, 4)
 	scrollFrame2:SetScript("OnMouseDown", function()
