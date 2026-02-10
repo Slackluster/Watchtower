@@ -116,6 +116,8 @@ function api:Import(importString)
 		Watchtower_Flags[1].flags[#Watchtower_Flags[1].flags].flagID = #Watchtower_Flags[1].flags
 		app.FlagsList.SelGroup = 1
 		app.FlagsList.SelFlag = #Watchtower_Flags[1].flags
+
+		Watchtower_Flags[1].collapsed = false
 	elseif importType == "group" then
 		table.insert(Watchtower_Flags, data)
 		Watchtower_Flags[#Watchtower_Flags].groupID = #Watchtower_Flags
