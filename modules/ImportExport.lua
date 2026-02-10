@@ -121,6 +121,15 @@ function api:Import(importString)
 		Watchtower_Flags[#Watchtower_Flags].groupID = #Watchtower_Flags
 		app.FlagsList.SelGroup = #Watchtower_Flags
 		app.FlagsList.SelFlag = 0
+
+		local id = #Watchtower_Flags
+		app:CreateTracker(id)
+		if app.EditPanel:IsShown() then
+			app.Tracker[id].window:EnableMouse(true)
+			app.Tracker[id].window.corner:Show()
+			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0.5)
+			app.Tracker[id].window:SetBackdropBorderColor(0.25, 0.78, 0.92, 0.5)
+		end
 	end
 
 	app:RegisterEvents()
