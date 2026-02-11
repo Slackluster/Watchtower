@@ -68,6 +68,8 @@ L.TITLE =								LFG_LIST_TITLE	-- "Title"
 L.ICON =								EMBLEM_SYMBOL	-- "Icon"
 L.TRIGGER =								"Триггер"
 L.EVENTS =								EVENTS_LABEL	-- "Events"
+-- L.DESCRIPTION =							DESCRIPTION	-- "Description"
+-- L.URL =									"URL"
 L.TEMPLATES =							"Шаблоны"
 L.OVERWRITE_FLAG =						"Перезаписать текущий флаг этим шаблоном?"
 

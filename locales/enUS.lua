@@ -68,6 +68,8 @@ L.TITLE =								LFG_LIST_TITLE	-- "Title"
 L.ICON =								EMBLEM_SYMBOL	-- "Icon"
 L.TRIGGER =								"Trigger"
 L.EVENTS =								EVENTS_LABEL	-- "Events"
+L.DESCRIPTION =							DESCRIPTION	-- "Description"
+L.URL =									"URL"
 L.TEMPLATES =							"Templates"
 L.OVERWRITE_FLAG =						"Overwrite this flag with this template?"
 

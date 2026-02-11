@@ -638,6 +638,91 @@ function app:CreateEditPanel()
 		end)
 	end)
 
+	local string5 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string5:SetText(L.DESCRIPTION)
+	string5:SetPoint("TOPLEFT", backdrop4, "BOTTOMLEFT", 0, -10)
+
+	local backdrop5 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop5:SetPoint("TOPLEFT", string5, "BOTTOMLEFT", 0, 0)
+	backdrop5:SetPoint("BOTTOMLEFT", string5, "TOPLEFT", leftEdge, -58)
+	backdrop5:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
+	backdrop5:SetBackdrop({
+		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+		edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	backdrop5:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+
+	local scrollFrame3 = CreateFrame("ScrollFrame", nil, backdrop5, "ScrollFrameTemplate")
+	scrollFrame3:SetPoint("TOPLEFT", 5, -5)
+	scrollFrame3:SetPoint("BOTTOMRIGHT", -20, 4)
+	scrollFrame3:SetScript("OnMouseDown", function()
+		app.EditPanel.Pages[1].Description:SetFocus()
+	end)
+
+	scrollFrame3.ScrollBar.Back:Hide()
+	scrollFrame3.ScrollBar.Forward:Hide()
+	scrollFrame3.ScrollBar:ClearAllPoints()
+	scrollFrame3.ScrollBar:SetPoint("TOP", scrollFrame3, 0, 16)
+	scrollFrame3.ScrollBar:SetPoint("RIGHT", scrollFrame3, 12, 0)
+	scrollFrame3.ScrollBar:SetPoint("BOTTOM", scrollFrame3, 0, -16)
+
+	app.EditPanel.Pages[1].Description = CreateFrame("EditBox", nil, scrollFrame3)
+	app.EditPanel.Pages[1].Description:SetFontObject(Game12Font)
+	app.EditPanel.Pages[1].Description:SetWidth(scrollFrame3:GetWidth())
+	app.EditPanel.Pages[1].Description:SetPoint("TOPLEFT")
+	app.EditPanel.Pages[1].Description:SetMultiLine(true)
+	scrollFrame3:SetScrollChild(app.EditPanel.Pages[1].Description)
+
+	app.EditPanel.Pages[1].Description:SetAutoFocus(false)
+	app.EditPanel.Pages[1].Description:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.description or "")
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[1].Description:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText(0, 0)
+	end)
+	app.EditPanel.Pages[1].Description:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.description = self:GetText()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
+	end)
+
+	local string6 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string6:SetText(L.URL)
+	string6:SetPoint("TOPLEFT", backdrop5, "BOTTOMLEFT", 0, -10)
+
+	local backdrop6 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop6:SetSize(300, 23)
+	backdrop6:SetPoint("TOPLEFT", string6, "BOTTOMLEFT", 0, 0)
+	backdrop6:SetBackdrop({
+		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+		edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	backdrop6:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+
+	app.EditPanel.Pages[1].URL = CreateFrame("EditBox", nil, backdrop6)
+	app.EditPanel.Pages[1].URL:SetFontObject(Game12Font)
+	app.EditPanel.Pages[1].URL:SetSize(backdrop6:GetWidth()-6, backdrop6:GetHeight())
+	app.EditPanel.Pages[1].URL:SetPoint("TOPLEFT", backdrop6, 6, 0)
+	app.EditPanel.Pages[1].URL:SetAutoFocus(false)
+	app.EditPanel.Pages[1].URL:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText(0, 0)
+	end)
+	app.EditPanel.Pages[1].URL:SetScript("OnEnterPressed", function(self)
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[1].URL:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.url or "")
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[1].URL:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.url = self:GetText()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
+	end)
+
 	local function applyTemplate(templateID)
 		app.FlagsList.Selected.title = L.FLAG_TEMPLATE[templateID].title
 		app.FlagsList.Selected.icon = app.Templates[templateID].icon
@@ -675,12 +760,6 @@ function app:CreateEditPanel()
 		table.insert(templates, { L.FLAG_TEMPLATE[i].title, function() StaticPopup_Show("WATCHTOWER_TEMPLATE", nil, nil, i) end, i })
 	end
 	MenuUtil.CreateButtonMenu(app.EditPanel.Pages[1].Templates, unpack(templates))
-
-	app.EditPanel.Pages[1].Description = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	app.EditPanel.Pages[1].Description:SetJustifyH("LEFT")
-	app.EditPanel.Pages[1].Description:SetJustifyV("TOP")
-	app.EditPanel.Pages[1].Description:SetPoint("TOPLEFT", backdrop, "BOTTOMLEFT", 0, -10)
-	app.EditPanel.Pages[1].Description:SetPoint("BOTTOMRIGHT", backdrop, -4, -50)
 
 	app.EditPanel.Pages[2] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
 	app.EditPanel.Pages[2]:SetAllPoints(app.EditPanel.Options)
@@ -879,11 +958,7 @@ function app:SetSelected()
 		app.EditPanel.Pages[1].Icon:SetText(app.FlagsList.Selected.icon or "")
 		app.EditPanel.Pages[1].Trigger:SetText(app.FlagsList.Selected.trigger or "")
 		app.EditPanel.Pages[1].Events:SetText(app:MakeCsvString(app.FlagsList.Selected.events or ""))
-		if app.FlagsList.Selected.description then
-			app.EditPanel.Pages[1].Description:SetText(app.FlagsList.Selected.description)
-		else
-			app.EditPanel.Pages[1].Description:SetText("")
-		end
+		app.EditPanel.Pages[1].Description:SetText(app.FlagsList.Selected.description or "")
 	else
 		app.EditPanel.DeleteButton:SetText(L.DELETE_GROUP)
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
