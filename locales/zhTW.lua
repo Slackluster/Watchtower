@@ -27,13 +27,34 @@ local L = app.locales
 
 -- L.GENERAL =								GENERAL	-- "General"
 
+-- Tutorial
+-- L.TUTORIAL_HEADER =						"Readme.txt"
+-- L.TUTORIAL_EXPLAIN1 =					"Flags run code on events and can be made visible via an icon and title."
+-- L.TUTORIAL_EXPLAIN2 =					"Flags in the Inactive group don't show or run (except when edited)."
+-- L.TUTORIAL_TRIGGER =					"Trigger code"
+-- L.TUTORIAL_TRIGGER1 =					"You can grab the triggered event's name and arguments using:"
+-- L.TUTORIAL_TRIGGER2 =					"Code runs regardless of the flag's visibility."
+-- L.TUTORIAL_VISIBILITY =					"Visibility"
+-- L.TUTORIAL_VISIBILITY1 =				"Code that returns falsy hides the flag:"
+-- L.TUTORIAL_VISIBILITY2 =				"Code that returns truthy shows the flag:"
+-- L.TUTORIAL_TITLE =						"Flag title"
+-- L.TUTORIAL_TITLE1 =						"Code returning a number or string will set the flag's title to that value."
+-- L.TUTORIAL_WHAT =						"I don't know what any of this means! D:"
+-- L.TUTORIAL_WHAT1 =						"You can take it easy and just import the flags you want to use."
+-- L.TUTORIAL_GETFLAGS =					"Get flags here!"
+-- L.TUTORIAL_EXAMPLE_TITLE1 =				"Inactive flag"
+-- L.TUTORIAL_EXAMPLE_TITLE2 =				"Hidden flag"
+-- L.TUTORIAL_EXAMPLE_SETTINGS =			"Open Watchtower settings"
+-- L.TUTORIAL_EXAMPLE_INACTIVE =			"You can drag this flag to any other group to make it active."
+-- L.TUTORIAL_EXAMPLE_MOVE =				"Groups can be moved when this edit panel is open."
+
 -- Edit Panel
 -- L.NEW_FLAG =							"New Flag"
 -- L.NEW_GROUP =							"New Group"
--- L.INACTIVE =							FACTION_INACTIVE
+-- L.INACTIVE =							FACTION_INACTIVE	-- "Inactive"
 -- L.DELETE_FLAG =							"Delete Flag"
 -- L.DELETE_GROUP =						"Delete Group"
--- L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT
+-- L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT	-- "Import"
 -- L.EXPORT_FLAG =							"Export Flag"
 -- L.EXPORT_GROUP =						"Export Group"
 -- L.EXPORT_COPIED =						"Export string copied to clipboard"
@@ -43,10 +64,10 @@ local L = app.locales
 -- L.CANTDELETE_GROUP =					"Can't delete a group with flags"
 -- L.CANTMOVE_GROUP =						"Can't move this group"
 
--- L.TITLE =								LFG_LIST_TITLE
--- L.ICON =								EMBLEM_SYMBOL
+-- L.TITLE =								LFG_LIST_TITLE	-- "Title"
+-- L.ICON =								EMBLEM_SYMBOL	-- "Icon"
 -- L.TRIGGER =								"Trigger"
--- L.EVENTS =								EVENTS_LABEL
+-- L.EVENTS =								EVENTS_LABEL	-- "Events"
 -- L.TEMPLATES =							"Templates"
 -- L.OVERWRITE_FLAG =						"Overwrite this flag with this template?"
 
@@ -61,7 +82,7 @@ local L = app.locales
 -- L.GROUP_ANCHOR[3] =						"Bottom Left"
 -- L.GROUP_ANCHOR[4] =						"Bottom Right"
 -- L.FONT =								"Font"
--- L.SCALE =								HOUSING_EXPERT_DECOR_SUBMODE_SCALE
+-- L.SCALE =								HOUSING_EXPERT_DECOR_SUBMODE_SCALE	-- "Scale"
 
 -- L.FLAG_TEMPLATE = {}
 -- L.FLAG_TEMPLATE[1] = {}

@@ -16,21 +16,21 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		Watchtower_Flags = Watchtower_Flags or {
 			{ ["groupID"] = 1, ["title"] = L.INACTIVE, ["flags"] = {
 				{ ["flagID"] = 1, ["events"] = { "GLOBAL_MOUSE_DOWN" }, ["lastResult"] = true, ["icon"] = 134400,
-				["title"] = "Inactive Flag",
-				["trigger"] = "-- This flag is inactive, and won't show or run\n-- Except for when you are editing the code\n\n-- You can drag it to any other group to make it active\n\nprint(\"Click\")\nreturn true" },
+				["title"] = L.TUTORIAL_EXAMPLE_TITLE1,
+				["trigger"] = "-- " .. L.TUTORIAL_EXPLAIN2 .. "\n\nprint(\"Click\")\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_INACTIVE, },
 			}, },
-			{ ["groupID"] = 2, ["scale"] = 100, ["anchor"] = 3, ["style"] = 1, ["font"] = "Friz Quadrata TT", ["title"] = "New Group", ["flags"] = {
+			{ ["groupID"] = 2, ["scale"] = 100, ["anchor"] = 3, ["style"] = 1, ["font"] = "Friz Quadrata TT", ["title"] = L.NEW_GROUP, ["flags"] = {
 				{ ["flagID"] = 1, ["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = false, ["icon"] = 134400,
-				["title"] = "Hidden flag",
-				["trigger"] = "-- Use ... to get event name and args\nlocal event, isInitialLogin, isReloadingUi = ...\n\nif event == \"PLAYER_ENTERING_WORLD\" then\n   print(\"Hemlo!\")\nend\n\n-- Returning false hides this flag\n-- But the code still runs\nreturn false", },
+				["title"] = L.TUTORIAL_EXAMPLE_TITLE2,
+				["trigger"] = "-- " .. L.TUTORIAL_TRIGGER1 .. "\nlocal event, isInitialLogin, isReloadingUi = ...\n\nif event == \"PLAYER_ENTERING_WORLD\" then\n   print(\"|cff3FC7EBWatchtower|R " .. TEST_STRING_IGNORE_1 .. "\")\nend\n\n-- " .. L.TUTORIAL_VISIBILITY1 .. "\nreturn false", },
 				{ ["flagID"] = 2,
 				["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = true, ["icon"] = 134400,
-				["title"] = "Open Watchtower settings",
-				["trigger"] = "-- Returning true shows the flag in its group\nreturn true\n\n-- Groups can be moved when this edit panel is open",
+				["title"] = L.TUTORIAL_EXAMPLE_SETTINGS,
+				["trigger"] = "-- " .. L.TUTORIAL_VISIBILITY2 .. "\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_MOVE,
 				},
 				{ ["flagID"] = 3, ["events"] = { "PLAYER_ENTERING_WORLD", "CHAT_MSG_CURRENCY", "BAG_UPDATE_DELAYED", "MERCHANT_CLOSED" }, ["lastResult"] = true, ["icon"] = 4696085,
 				["title"] = "Tendies",
-				["trigger"] = "local quantity = C_CurrencyInfo.GetCurrencyInfo(2032).quantity\nlocal name = C_CurrencyInfo.GetCurrencyInfo(2032).name\n\nif quantity == 0 then\n   return false\nelse\n   -- Returning a string or number sets the flag's title and shows the flag\n   return quantity .. \" \" .. name\nend" },
+				["trigger"] = "local quantity = C_CurrencyInfo.GetCurrencyInfo(2032).quantity\nlocal name = C_CurrencyInfo.GetCurrencyInfo(2032).name\n\nif quantity == 0 then\n   return false\nelse\n   -- " .. L.TUTORIAL_TITLE1 .. "\n   return quantity .. \" \" .. name\nend" },
 			}, },
 		}
 

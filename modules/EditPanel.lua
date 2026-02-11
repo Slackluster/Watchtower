@@ -350,6 +350,80 @@ function app:CreateEditPanel()
 
 	createTab("General", 1)
 
+	app.EditPanel.Pages[0] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[0]:SetAllPoints(app.EditPanel.Options)
+
+	local string1 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "Game15Font_o1")
+	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[0], 10, -16)
+	string1:SetText(L.TUTORIAL_HEADER)
+
+	local string2 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string2:SetJustifyH("LEFT")
+	string2:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 3, -4)
+	string2:SetText(L.TUTORIAL_EXPLAIN1 .. "\n" .. L.TUTORIAL_EXPLAIN2)
+
+	local string3 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "Game13Font_o1")
+	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", -3, -14)
+	string3:SetText(L.TUTORIAL_TRIGGERE)
+
+	local string4 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 3, -4)
+	string4:SetText(L.TUTORIAL_TRIGGER1)
+
+	local string5 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string5:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
+	string5:SetPoint("TOPLEFT", string4, "BOTTOMLEFT", 10, -3)
+	string5:SetText("|cffFFFFFFlocal event, arg1, arg2 = ...")
+
+	local string6 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string6:SetPoint("TOPLEFT", string5, "BOTTOMLEFT", -10, -3)
+	string6:SetText(L.TUTORIAL_TRIGGER2)
+
+	local string7 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "Game13Font_o1")
+	string7:SetPoint("TOPLEFT", string6, "BOTTOMLEFT", -3, -14)
+	string7:SetText(L.TUTORIAL_VISIBILITY)
+
+	local string8 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string8:SetPoint("TOPLEFT", string7, "BOTTOMLEFT", 3, -4)
+	string8:SetText(L.TUTORIAL_VISIBILITY1)
+
+	local string9 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string9:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
+	string9:SetJustifyH("LEFT")
+	string9:SetPoint("TOPLEFT", string8, "BOTTOMLEFT", 10, -2)
+	string9:SetText("|cffFFFFFFreturn false\nreturn nil\nreturn")
+
+	local string10 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string10:SetPoint("TOPLEFT", string9, "BOTTOMLEFT", -10, -3)
+	string10:SetText(L.TUTORIAL_VISIBILITY2)
+
+	local string11 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string11:SetFont("Interface\\AddOns\\Watchtower\\assets\\courbd.ttf", 14, "")
+	string11:SetJustifyH("LEFT")
+	string11:SetPoint("TOPLEFT", string10, "BOTTOMLEFT", 10, -3)
+	string11:SetText("|cffFFFFFFreturn true\nreturn 1337\nreturn \"" .. TEST_STRING_IGNORE_1 .. "\"")
+
+	local string12 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "Game13Font_o1")
+	string12:SetPoint("TOPLEFT", string11, "BOTTOMLEFT", -13, -11)
+	string12:SetText(L.TUTORIAL_TITLE)
+
+	local string13 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string13:SetPoint("TOPLEFT", string12, "BOTTOMLEFT", 3, -3)
+	string13:SetText(L.TUTORIAL_TITLE1)
+
+	local string14 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "Game13Font_o1")
+	string14:SetPoint("TOPLEFT", string13, "BOTTOMLEFT", -3, -14)
+	string14:SetText(L.TUTORIAL_WHAT)
+
+	local string15 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string15:SetJustifyH("LEFT")
+	string15:SetPoint("TOPLEFT", string14, "BOTTOMLEFT", 3, -4)
+	string15:SetText(L.TUTORIAL_WHAT1)
+
+	local button1 = app:MakeButton(app.EditPanel.Pages[0], L.TUTORIAL_GETFLAGS)
+	button1:SetPoint("TOPLEFT", string15, "BOTTOMLEFT", 0, -4)
+	button1:SetScript("OnClick", function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://wago.io/browse/watchtower") end)
+
 	app.EditPanel.Pages[1] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
 	app.EditPanel.Pages[1]:SetAllPoints(app.EditPanel.Options)
 
@@ -778,6 +852,7 @@ function app:SetSelected()
 	end
 
 	if app.FlagsList.Selected.icon then
+		app.EditPanel.Pages[0]:Hide()
 		app.EditPanel.Pages[1]:Show()
 		app.EditPanel.Pages[2]:Hide()
 
@@ -796,17 +871,20 @@ function app:SetSelected()
 			app.EditPanel.Pages[1].Description:SetText("")
 		end
 	else
-		app.EditPanel.Pages[1]:Hide()
-		app.EditPanel.Pages[2]:Show()
-
 		app.EditPanel.DeleteButton:SetText(L.DELETE_GROUP)
 		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
 		app.EditPanel.ExportButton:SetText(L.EXPORT_GROUP)
 		app.EditPanel.ExportButton:SetWidth(app.EditPanel.ExportButton:GetTextWidth()+20)
 
 		if app.FlagsList.SelGroup == 1 then
+			app.EditPanel.Pages[0]:Show()
+			app.EditPanel.Pages[1]:Hide()
 			app.EditPanel.Pages[2]:Hide()
 		else
+			app.EditPanel.Pages[0]:Hide()
+			app.EditPanel.Pages[1]:Hide()
+			app.EditPanel.Pages[2]:Show()
+
 			app.EditPanel.Pages[2].Title:SetText(app.FlagsList.Selected.title or "")
 			app.EditPanel.Pages[2].Style:OverrideText(L.GROUP_STYLE[app.FlagsList.Selected.style])
 			app.EditPanel.Pages[2].Anchor:OverrideText(L.GROUP_ANCHOR[app.FlagsList.Selected.anchor])
