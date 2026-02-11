@@ -354,7 +354,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[0]:SetAllPoints(app.EditPanel.Options)
 
 	local string1 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "Game15Font_o1")
-	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[0], 10, -16)
+	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[0], 10, -12)
 	string1:SetText(L.TUTORIAL_HEADER)
 
 	local string2 = app.EditPanel.Pages[0]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -431,23 +431,23 @@ function app:CreateEditPanel()
 
 	local string1 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string1:SetText(L.TITLE)
-	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[1], 10, -16)
+	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[1], 10, -12)
 
-	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
-	backdrop:SetSize(200, 23)
-	backdrop:SetPoint("LEFT", string1, "LEFT", leftEdge, 0)
-	backdrop:SetBackdrop({
+	local backdrop1 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop1:SetSize(200, 23)
+	backdrop1:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, 0)
+	backdrop1:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
 		edgeSize = 16,
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
-	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+	backdrop1:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
-	app.EditPanel.Pages[1].Title = CreateFrame("EditBox", nil, backdrop)
+	app.EditPanel.Pages[1].Title = CreateFrame("EditBox", nil, backdrop1)
 	app.EditPanel.Pages[1].Title:SetFontObject(ChatFontNormal)
-	app.EditPanel.Pages[1].Title:SetSize(backdrop:GetWidth()-6, backdrop:GetHeight())
-	app.EditPanel.Pages[1].Title:SetPoint("TOPLEFT", backdrop, 6, 0)
+	app.EditPanel.Pages[1].Title:SetSize(backdrop1:GetWidth()-6, backdrop1:GetHeight())
+	app.EditPanel.Pages[1].Title:SetPoint("TOPLEFT", backdrop1, 6, 0)
 	app.EditPanel.Pages[1].Title:SetAutoFocus(false)
 	app.EditPanel.Pages[1].Title:SetScript("OnEditFocusGained", function(self)
 		self:HighlightText(0, 0)
@@ -466,23 +466,23 @@ function app:CreateEditPanel()
 
 	local string2 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string2:SetText(L.ICON)
-	string2:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, -20)
+	string2:SetPoint("TOPLEFT", string1, "TOPLEFT", 220, 0)
 
-	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
-	backdrop:SetSize(200, 23)
-	backdrop:SetPoint("LEFT", string2, "LEFT", leftEdge, 0)
-	backdrop:SetBackdrop({
+	local backdrop2 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop2:SetSize(120, 23)
+	backdrop2:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, 0)
+	backdrop2:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
 		edgeSize = 16,
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
-	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+	backdrop2:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
-	app.EditPanel.Pages[1].Icon = CreateFrame("EditBox", nil, backdrop)
+	app.EditPanel.Pages[1].Icon = CreateFrame("EditBox", nil, backdrop2)
 	app.EditPanel.Pages[1].Icon:SetFontObject(ChatFontNormal)
-	app.EditPanel.Pages[1].Icon:SetSize(backdrop:GetWidth()-6, backdrop:GetHeight())
-	app.EditPanel.Pages[1].Icon:SetPoint("TOPLEFT", backdrop, 6, 0)
+	app.EditPanel.Pages[1].Icon:SetSize(backdrop2:GetWidth()-6, backdrop2:GetHeight())
+	app.EditPanel.Pages[1].Icon:SetPoint("TOPLEFT", backdrop2, 6, 0)
 	app.EditPanel.Pages[1].Icon:SetAutoFocus(false)
 	app.EditPanel.Pages[1].Icon:SetScript("OnEditFocusGained", function(self)
 		self:HighlightText(0, 0)
@@ -521,21 +521,21 @@ function app:CreateEditPanel()
 
 	local string3 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string3:SetText(L.TRIGGER)
-	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, -20)
+	string3:SetPoint("TOPLEFT", backdrop1, "BOTTOMLEFT", 0, -10)
 
-	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
-	backdrop:SetPoint("TOPLEFT", string3, "TOPLEFT", leftEdge, 4)
-	backdrop:SetPoint("BOTTOMLEFT", string3, "TOPLEFT", leftEdge, -118)
-	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
-	backdrop:SetBackdrop({
+	local backdrop3 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop3:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, 0)
+	backdrop3:SetPoint("BOTTOMLEFT", string3, "TOPLEFT", leftEdge, -130)
+	backdrop3:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
+	backdrop3:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
 		edgeSize = 16,
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
-	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+	backdrop3:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
-	local scrollFrame1 = CreateFrame("ScrollFrame", nil, backdrop, "UIPanelScrollFrameTemplate")
+	local scrollFrame1 = CreateFrame("ScrollFrame", nil, backdrop3, "UIPanelScrollFrameTemplate")
 	scrollFrame1:SetPoint("TOPLEFT", 5, -5)
 	scrollFrame1:SetPoint("BOTTOMRIGHT", -27, 4)
 	scrollFrame1:SetScript("OnMouseDown", function()
@@ -577,21 +577,21 @@ function app:CreateEditPanel()
 
 	local string4 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string4:SetText(L.EVENTS)
-	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -120)
+	string4:SetPoint("TOPLEFT", backdrop3, "BOTTOMLEFT", 0, -10)
 
-	local backdrop = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
-	backdrop:SetPoint("TOPLEFT", string4, "TOPLEFT", leftEdge, 4)
-	backdrop:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -48)
-	backdrop:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
-	backdrop:SetBackdrop({
+	local backdrop4 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop4:SetPoint("TOPLEFT", string4, "BOTTOMLEFT", 0, 0)
+	backdrop4:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -64)
+	backdrop4:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[1], "RIGHT", -10, 0)
+	backdrop4:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
 		edgeSize = 16,
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
-	backdrop:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+	backdrop4:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
 
-	local scrollFrame2 = CreateFrame("ScrollFrame", nil, backdrop, "UIPanelScrollFrameTemplate")
+	local scrollFrame2 = CreateFrame("ScrollFrame", nil, backdrop4, "UIPanelScrollFrameTemplate")
 	scrollFrame2:SetPoint("TOPLEFT", 5, -5)
 	scrollFrame2:SetPoint("BOTTOMRIGHT", -27, 4)
 	scrollFrame2:SetScript("OnMouseDown", function()
