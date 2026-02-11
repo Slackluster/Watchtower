@@ -101,6 +101,14 @@ function app:CreateTracker(id)
 	app.Tracker[id].window:SetClampRectInsets(10, -10, -10, 10)
 	app.Tracker[id].window:SetScript("OnDragStart", function() app:MoveTracker(id) end)
 	app.Tracker[id].window:SetScript("OnDragStop", function() app:SaveTracker(id) end)
+	app.Tracker[id].window:SetScript("OnMouseDown", function()
+		if app.EditPanel:IsShown() then
+			app.FlagsList.SelFlag = 0
+			app.FlagsList.SelGroup = id
+			app:SetSelected()
+			app:UpdateStatusList()
+		end
+	end)
 
 	app.Tracker[id].window.corner = CreateFrame("Button", nil, app.Tracker[id].window)
 	app.Tracker[id].window.corner:EnableMouse("true")
