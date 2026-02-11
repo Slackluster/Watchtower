@@ -13,7 +13,26 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		Watchtower_Settings = Watchtower_Settings or {}
-		Watchtower_Flags = Watchtower_Flags or { [1] = { groupID = 1, title = L.INACTIVE, flags = { [1] = { flagID = 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true } } } }
+		Watchtower_Flags = Watchtower_Flags or {
+			{ ["groupID"] = 1, ["title"] = L.INACTIVE, ["flags"] = {
+				{ ["flagID"] = 1, ["events"] = { "GLOBAL_MOUSE_DOWN" }, ["lastResult"] = true, ["icon"] = 134400,
+				["title"] = "Inactive Flag",
+				["trigger"] = "-- This flag is inactive, and won't show or run\n-- Except for when you are editing the code\n\n-- You can drag it to any other group to make it active\n\nprint(\"Click\")\nreturn true" },
+			}, },
+			{ ["groupID"] = 2, ["scale"] = 100, ["anchor"] = 3, ["style"] = 1, ["font"] = "Friz Quadrata TT", ["title"] = "New Group", ["flags"] = {
+				{ ["flagID"] = 1, ["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = false, ["icon"] = 134400,
+				["title"] = "Hidden flag",
+				["trigger"] = "-- Use ... to get event name and args\nlocal event, isInitialLogin, isReloadingUi = ...\n\nif event == \"PLAYER_ENTERING_WORLD\" then\n   print(\"Hemlo!\")\nend\n\n-- Returning false hides this flag\n-- But the code still runs\nreturn false", },
+				{ ["flagID"] = 2,
+				["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = true, ["icon"] = 134400,
+				["title"] = "Open Watchtower settings",
+				["trigger"] = "-- Returning true shows the flag in its group\nreturn true\n\n-- Groups can be moved when this edit panel is open",
+				},
+				{ ["flagID"] = 3, ["events"] = { "PLAYER_ENTERING_WORLD", "CHAT_MSG_CURRENCY", "BAG_UPDATE_DELAYED", "MERCHANT_CLOSED" }, ["lastResult"] = true, ["icon"] = 4696085,
+				["title"] = "Tendies",
+				["trigger"] = "local quantity = C_CurrencyInfo.GetCurrencyInfo(2032).quantity\nlocal name = C_CurrencyInfo.GetCurrencyInfo(2032).name\n\nif quantity == 0 then\n   return false\nelse\n   -- Returning a string or number sets the flag's title and shows the flag\n   return quantity .. \" \" .. name\nend" },
+			}, },
+		}
 
 		Watchtower_Settings["minimapIcon"] = true
 		Watchtower_Settings["hide"] = false
