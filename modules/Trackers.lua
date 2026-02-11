@@ -60,7 +60,7 @@ function app:ShowTracker(id)
 			w:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", p.right, p.bottom)
 		end
 	else
-		w:SetSize(200, 200)
+		w:SetSize(300, 200)
 		w:SetPoint("TOP", UIParent, 0, -100)
 		app:SaveTracker(id)
 	end
@@ -81,8 +81,8 @@ function app:CreateTracker(id)
 	app.Tracker[id] = {}
 	app.Tracker[id].groupID = id
 	app.Tracker[id].window = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-	app.Tracker[id].window:SetPoint("CENTER")
-	app.Tracker[id].window:SetSize(300, 300)
+	-- app.Tracker[id].window:SetPoint("CENTER")
+	-- app.Tracker[id].window:SetSize(300, 300)
 	app.Tracker[id].window:SetFrameStrata("MEDIUM")
 	app.Tracker[id].window:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
