@@ -87,7 +87,14 @@ function app:RegisterEvents(flag)
 		local valid, func, result = app:IsTriggerValid(flg, debug)
 		if not valid then return end
 
-		flg.lastResult = result
+		if result then
+			flg.lastResult = true
+			if type(result) == "string" or type(result) == "number" then
+				flg.title = result
+			end
+		else
+			flg.lastResult = false
+		end
 
 		for _, event in ipairs(flg.events) do
 			local wrapper = function(...)
@@ -97,7 +104,14 @@ function app:RegisterEvents(flag)
 					error(result, 0)
 				end
 
-				flg.lastResult = result
+				if result then
+					flg.lastResult = true
+					if type(result) == "string" or type(result) == "number" then
+						flg.title = result
+					end
+				else
+					flg.lastResult = false
+				end
 				RunNextFrame(function() app:UpdateAllTrackers() end)
 			end
 
