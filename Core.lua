@@ -179,3 +179,10 @@ function app:MakeButton(parent, text)
 	app:SetBorder(frame, 0, 0, 0, -1)
 	return frame
 end
+
+------------------
+-- SHARED MEDIA --
+------------------
+
+local LSM = LibStub("LibSharedMedia-3.0")
+LSM:Register("font", "Courier New Bold", "Interface\\AddOns\\Watchtower\\assets\\courbd.ttf")
