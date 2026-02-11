@@ -75,6 +75,11 @@ function app:DeRegisterEvents(flag)
 end
 
 function app:RegisterEvents(flag)
+	local function triggerErrorHandler(err, flg)
+		--local stack = debugstack(err, 2, 5)
+		return string.format(L.FLAG_ERROR_LUA .. " '%s'\n", flg.title or UNKNOWN, err)
+	end
+
 	local debug = not not flag
 	local function handleEvents(flg)
 		if not flg.trigger then return end
@@ -86,8 +91,13 @@ function app:RegisterEvents(flag)
 
 		for _, event in ipairs(flg.events) do
 			local wrapper = function(...)
-				local ok, r = pcall(func, ...)
-				flg.lastResult = ok and r or false
+				local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg) end, ...)
+				if not ok then
+					flg.lastResult = false
+					error(result, 0)
+				end
+
+				flg.lastResult = result
 				RunNextFrame(function() app:UpdateAllTrackers() end)
 			end
 

@@ -98,6 +98,7 @@ local L = app.locales
 -- L.ERROR_UNKNOWN =						"An unknown error occurred"
 -- L.ERROR_INVALID_IMPORT_STRING =			"Invalid import string"
 -- L.ERROR_DECODE =						"Failed decode #"	-- Followed by a number
+-- L.FLAG_ERROR_LUA =						"The trigger code in Watchtower flag [%s] caused an error:"	-- %s becomes the affected flag's title
 
 -- General
 -- L.NEW_VERSION_AVAILABLE =				"There is a newer version of " .. app.NameLong .. " available:"
