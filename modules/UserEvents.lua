@@ -40,7 +40,7 @@ app.UserEvent:SetScript("OnEvent", function(self, event, ...)
 	if not handlers then return end
 
 	for _, handler in ipairs(handlers) do
-		handler(...)
+		handler(event, ...)
 	end
 end)
 
@@ -75,9 +75,9 @@ function app:DeRegisterEvents(flag)
 end
 
 function app:RegisterEvents(flag)
-	local function triggerErrorHandler(err, flg)
+	local function triggerErrorHandler(err, flg, event)
 		--local stack = debugstack(err, 2, 5)
-		return string.format(L.FLAG_ERROR_LUA .. " '%s'\n", flg.title or UNKNOWN, err)
+		return string.format(L.FLAG_ERROR_LUA .. " %s\n", flg.title or UNKNOWN, event or UNKNOWN, err)
 	end
 
 	local debug = not not flag
@@ -91,7 +91,7 @@ function app:RegisterEvents(flag)
 
 		for _, event in ipairs(flg.events) do
 			local wrapper = function(...)
-				local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg) end, ...)
+				local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg, event) end, event, ...)
 				if not ok then
 					flg.lastResult = false
 					error(result, 0)

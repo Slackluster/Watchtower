@@ -98,7 +98,7 @@ L.ERROR_BLOCKED =						"%s was blocked"
 L.ERROR_UNKNOWN =						"An unknown error occurred"
 L.ERROR_INVALID_IMPORT_STRING =			"Invalid import string"
 L.ERROR_DECODE =						"Failed decode #"	-- Followed by a number
-L.FLAG_ERROR_LUA =						"The trigger code in Watchtower flag [%s] caused an error:"	-- %s becomes the affected flag's title
+L.FLAG_ERROR_LUA =						"Watchtower flag [%s] caused an error on '%s':"	-- The %s's are variale flag title and event name
 
 -- General
 L.NEW_VERSION_AVAILABLE =				"There is a newer version of " .. app.NameLong .. " available:"
