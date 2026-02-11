@@ -771,6 +771,50 @@ function app:CreateEditPanel()
 		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
+	local string7 = app.EditPanel.Pages[1]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	string7:SetText(GAME_VERSION_LABEL)
+	string7:SetPoint("TOPLEFT", string6, "TOPLEFT", 320, 0)
+
+	local backdrop7 = CreateFrame("Frame", nil, app.EditPanel.Pages[1], "BackdropTemplate")
+	backdrop7:SetSize(120, 23)
+	backdrop7:SetPoint("TOPLEFT", string7, "BOTTOMLEFT", 0, 0)
+	backdrop7:SetBackdrop({
+		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+		edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	backdrop7:SetBackdropColor(0.122, 0.122, 0.122, 0.8)
+
+	app.EditPanel.Pages[1].Version = CreateFrame("EditBox", nil, backdrop7)
+	app.EditPanel.Pages[1].Version:SetFontObject(Game12Font)
+	app.EditPanel.Pages[1].Version:SetSize(backdrop7:GetWidth()-6, backdrop7:GetHeight())
+	app.EditPanel.Pages[1].Version:SetPoint("TOPLEFT", backdrop7, 6, 0)
+	app.EditPanel.Pages[1].Version:SetAutoFocus(false)
+	app.EditPanel.Pages[1].Version:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText(0, 0)
+	end)
+	app.EditPanel.Pages[1].Version:SetScript("OnEnterPressed", function(self)
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[1].Version:SetScript("OnEscapePressed", function(self)
+		self:SetText(app.FlagsList.Selected.versionString or "")
+		self:ClearFocus()
+	end)
+	app.EditPanel.Pages[1].Version:SetScript("OnEditFocusLost", function(self)
+		app.FlagsList.Selected.versionString = self:GetText()
+		C_Timer.After(0.1, function() app:UpdateStatusList() end)
+	end)
+
+
+
+
+
+
+
+
+
+
 	local function applyTemplate(templateID)
 		app.FlagsList.Selected.title = L.FLAG_TEMPLATE[templateID].title
 		app.FlagsList.Selected.icon = app.Templates[templateID].icon
