@@ -1028,7 +1028,7 @@ if not IndentationLib.revision or revision > IndentationLib.revision then
         colorTable[0] = "|r"
 
         local newCode, newPos, numLines = lib.colorCodeCode(code, colorTable, pos)
-        newCode = lib.padWithLinebreaks(newCode)
+        -- newCode = lib.padWithLinebreaks(newCode)
 
         editboxStringCache[editbox] = newCode
         if orgCode ~= newCode then
@@ -1071,7 +1071,7 @@ if not IndentationLib.revision or revision > IndentationLib.revision then
 
         colorTable[0] = "|r"
         local newCode, newPos = lib.indentCode(code, tabWidth, colorTable, pos)
-        newCode = lib.padWithLinebreaks(newCode)
+        -- newCode = lib.padWithLinebreaks(newCode)
         editboxIndentCache[editbox] = newCode
         if code ~= newCode then
             local script, script2 = critical_enter(editbox)
