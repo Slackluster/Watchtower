@@ -98,7 +98,7 @@ function app:RegisterEvents(flag)
 
 		for _, event in ipairs(flg.events) do
 			local wrapper = function(...)
-				local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg, event) end, event, ...)
+				local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg, event) end, ...)
 				if not ok then
 					flg.lastResult = false
 					error(result, 0)
