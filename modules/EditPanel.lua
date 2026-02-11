@@ -806,15 +806,6 @@ function app:CreateEditPanel()
 		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
 
-
-
-
-
-
-
-
-
-
 	local function applyTemplate(templateID)
 		app.FlagsList.Selected.title = L.FLAG_TEMPLATE[templateID].title
 		app.FlagsList.Selected.icon = app.Templates[templateID].icon
