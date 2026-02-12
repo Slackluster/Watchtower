@@ -248,5 +248,5 @@ function app:CreateSettings()
 		end
 		text:AddShownPredicate(isExpanded)
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
+	-- layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
 end
