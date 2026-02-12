@@ -1139,6 +1139,8 @@ function app:SetSelected()
 				app.EditPanel.Pages[12].Trigger:SetText(app.FlagsList.Selected.trigger or "")
 				app.EditPanel.Pages[12].Events:SetText(app:MakeCsvString(app.FlagsList.Selected.events or ""))
 				app.EditPanel.Pages[12].Description:SetText(app.FlagsList.Selected.description or "")
+				app.EditPanel.Pages[12].URL:SetText(app.FlagsList.Selected.url or "")
+				app.EditPanel.Pages[12].Version:SetText(app.FlagsList.Selected.semver or "")
 			end
 		elseif app.SelectedTab == 2 then
 			if not app.FlagsList.Selected.icon then
