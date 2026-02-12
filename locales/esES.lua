@@ -2,28 +2,28 @@
 -- Watchtower: esES.lua --
 --------------------------
 -- Spanish (Spain) localisation
--- Translator(s):
+-- Translator(s): Ferran Carril
 
 if GetLocale() ~= "esES" then return end
 local appName, app = ...
 local L = app.locales
 
 -- Settings
--- L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
--- L.SETTINGS_SUPPORT_TEXTLONG =			"Developing this addon takes a significant amount of time and effort.\nPlease consider financially supporting the developer."
--- L.SETTINGS_SUPPORT_TEXT =				"Support"
--- L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
--- L.SETTINGS_SUPPORT_DESC =				"Thank you!"
--- L.SETTINGS_HELP_TEXT =					"Feedback & Help"
--- L.SETTINGS_HELP_BUTTON =				"Discord"	-- Brand name, if there isn't a localised version, keep it the way it is
--- L.SETTINGS_HELP_DESC =					"Join the Discord server."
--- L.SETTINGS_URL_COPY =					"Ctrl+C to copy:"
--- L.SETTINGS_URL_COPIED =					"Link copied to clipboard"
+L.SETTINGS_VERSION =					GAME_VERSION_LABEL .. ":"	-- "Version"
+L.SETTINGS_SUPPORT_TEXTLONG =			"Desarrollar este addon requiere una cantidad significativa de tiempo y esfuerzo.\nPor favor, considera apoyar financieramente al desarrollador."
+L.SETTINGS_SUPPORT_TEXT =				"Apoyar"
+L.SETTINGS_SUPPORT_BUTTON =				"Buy Me a Coffee"	-- Brand name, if there isn't a localised version, keep it the way it is
+L.SETTINGS_SUPPORT_DESC =				"¡Gracias!"
+L.SETTINGS_HELP_TEXT =					"Comentarios y Ayuda"
+L.SETTINGS_HELP_BUTTON =				"Discord"	-- Brand name, if there isn't a localised version, keep it the way it is
+L.SETTINGS_HELP_DESC =					"Únete al servidor de Discord."
+L.SETTINGS_URL_COPY =					"Ctrl+C para copiar:"
+L.SETTINGS_URL_COPIED =					"Enlace copiado al portapapeles"
 
--- L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands"	-- "Keybindings"
+L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " y Comandos"	-- "Keybindings"
 -- _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Toggle Edit Panel"
 -- L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
--- L.SLASH_OPEN_SETTINGS =					"Open the settings"
+L.SLASH_OPEN_SETTINGS =					"Abrir opciones"
 
 -- Edit Panel
 -- L.NEW_FLAG =							"New Flag"
