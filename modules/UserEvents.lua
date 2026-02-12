@@ -80,7 +80,7 @@ function app:RegisterEvents(flag)
 		return string.format(L.FLAG_ERROR_LUA .. " %s\n", flg.title or UNKNOWN, event or UNKNOWN, err)
 	end
 
-	local function runWhenTruthy(flg)
+	local function runWhenTruthy(flg, result)
 		flg.lastResult = true
 		if type(result) == "string" or type(result) == "number" then
 			flg.title = result
@@ -104,7 +104,7 @@ function app:RegisterEvents(flag)
 		if not valid then return end
 
 		if result then
-			runWhenTruthy(flg)
+			runWhenTruthy(flg, result)
 		else
 			flg.lastResult = false
 		end
@@ -118,7 +118,7 @@ function app:RegisterEvents(flag)
 				end
 
 				if result then
-					runWhenTruthy(flg)
+					runWhenTruthy(flg, result)
 				else
 					flg.lastResult = false
 				end
