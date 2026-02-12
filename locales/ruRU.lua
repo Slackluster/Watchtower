@@ -25,6 +25,9 @@ _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Включить па
 L.SLASH_TOGGLE_EDITPANEL =				"Включить панель редактирования"
 L.SLASH_OPEN_SETTINGS =					"Откройте настройки"
 
+L.SETTINGS_MINIMAP =					"Показывать иконку на миникарте"
+L.SETTINGS_MINIMAP_DESC =				"Показывать иконку на миникарте. Если вы отключите это, " .. app.NameLong .. " все еще доступен из отсека аддонов."
+
 -- Edit Panel
 L.NEW_FLAG =							"Новый флаг"
 L.NEW_GROUP =							"Новая группа"

@@ -248,5 +248,18 @@ function app:CreateSettings()
 		end
 		text:AddShownPredicate(isExpanded)
 
-	-- layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
+	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
+
+	local variable, name, tooltip = "minimapIcon", L.SETTINGS_MINIMAP, L.SETTINGS_MINIMAP_DESC
+	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, true)
+	Settings.CreateCheckbox(category, setting, tooltip)
+	setting:SetValueChangedCallback(function()
+		if Watchtower_Settings["minimapIcon"] then
+			Watchtower_Settings["hide"] = false
+			app.MinimapIcon:Show(appName)
+		else
+			Watchtower_Settings["hide"] = true
+			app.MinimapIcon:Hide(appName)
+		end
+	end)
 end

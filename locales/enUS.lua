@@ -25,6 +25,9 @@ _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Toggle Edit Panel"
 L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
 L.SLASH_OPEN_SETTINGS =					"Open the settings"
 
+L.SETTINGS_MINIMAP =					"Show Minimap Icon"
+L.SETTINGS_MINIMAP_DESC =				"Show the minimap icon. If you disable this, " .. app.NameLong .. " is still available from the Addon Compartment."
+
 -- Edit Panel
 L.NEW_FLAG =							"New Flag"
 L.NEW_GROUP =							"New Group"

@@ -25,6 +25,9 @@ L.SETTINGS_KEYSLASH_TITLE =				SETTINGS_KEYBINDINGS_LABEL .. " y Comandos"	-- "K
 -- L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
 L.SLASH_OPEN_SETTINGS =					"Abrir opciones"
 
+L.SETTINGS_MINIMAP =					"Mostrar icono de minimapa"
+L.SETTINGS_MINIMAP_DESC =				"Muestra el icono del minimapa. Si desactivas esto, " .. app.NameLong .. " sigue disponible en el apartado de Addons."
+
 -- Edit Panel
 -- L.NEW_FLAG =							"New Flag"
 -- L.NEW_GROUP =							"New Group"
