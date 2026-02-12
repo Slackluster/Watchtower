@@ -40,13 +40,16 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		app:CreateMinimapButton()
 		app:CreateSettings()
 
-		-- Alpha cleanup
-		if Watchtower_Flags[1].id then
-			local tbl = { [1] = { groupID = 1, title = L.INACTIVE, flags = { } } }
-			for _, v in ipairs(Watchtower_Flags) do
-				table.insert(tbl[1].flags, { flagID = v.id, title = v.text, icon = v.icon, trigger = v.trigger, events = v.events, lastResult = v.lastResult })
+		-- Beta cleanup
+		for _, group in ipairs(Watchtower_Flags) do
+			for _, flag in ipairs(group.flags) do
+				if not flag.load then
+					flag.load = {}
+				end
+				if not flag.actions then
+					flag.actions = {}
+				end
 			end
-			Watchtower_Flags = tbl
 		end
 	end
 end)

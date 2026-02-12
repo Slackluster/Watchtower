@@ -25,9 +25,24 @@ _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Включить па
 L.SLASH_TOGGLE_EDITPANEL =				"Включить панель редактирования"
 L.SLASH_OPEN_SETTINGS =					"Откройте настройки"
 
+-- Edit Panel
+L.NEW_FLAG =							"Новый флаг"
+L.NEW_GROUP =							"Новая группа"
+L.INACTIVE =							FACTION_INACTIVE	-- "Inactive"
+L.DELETE_FLAG =							"Удалить флаг"
+L.DELETE_GROUP =						"Удалить группу"
+L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT	-- "Import"
+L.EXPORT_FLAG =							"Экспортировать флаг"
+L.EXPORT_GROUP =						"Экспортировать группу"
+L.EXPORT_COPIED =						"Экспортная строка скопирована в буфер обмена"
+L.DELETE_FLAG_Q =						"Удалить этот флаг?"
+L.DELETE_GROUP_Q =						"Удалить эту группу?"
+L.HOLD_SKIP =							"Удерживайте Shift, чтобы не спрашивать подтверждение."
+L.CANTDELETE_GROUP =					"Нельзя удалить группу с флагами внутри"
+L.CANTMOVE_GROUP =						"Невозможно переместить эту группу"
+
 L.GENERAL =								GENERAL	-- "General"
 
--- Tutorial
 -- L.TUTORIAL_HEADER =						"Readme.txt"
 -- L.TUTORIAL_EXPLAIN1 =					"Flags run code on events and can be made visible via an icon and title."
 -- L.TUTORIAL_EXPLAIN2 =					"Flags in the Inactive group don't show or run (except when edited)."
@@ -47,22 +62,6 @@ L.GENERAL =								GENERAL	-- "General"
 -- L.TUTORIAL_EXAMPLE_SETTINGS =			"Open Watchtower settings"
 -- L.TUTORIAL_EXAMPLE_INACTIVE =			"You can drag this flag to any other group to make it active."
 -- L.TUTORIAL_EXAMPLE_MOVE =				"Groups can be moved when this edit panel is open."
-
--- Edit Panel
-L.NEW_FLAG =							"Новый флаг"
-L.NEW_GROUP =							"Новая группа"
-L.INACTIVE =							FACTION_INACTIVE	-- "Inactive"
-L.DELETE_FLAG =							"Удалить флаг"
-L.DELETE_GROUP =						"Удалить группу"
-L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT	-- "Import"
-L.EXPORT_FLAG =							"Экспортировать флаг"
-L.EXPORT_GROUP =						"Экспортировать группу"
-L.EXPORT_COPIED =						"Экспортная строка скопирована в буфер обмена"
-L.DELETE_FLAG_Q =						"Удалить этот флаг?"
-L.DELETE_GROUP_Q =						"Удалить эту группу?"
-L.HOLD_SKIP =							"Удерживайте Shift, чтобы не спрашивать подтверждение."
-L.CANTDELETE_GROUP =					"Нельзя удалить группу с флагами внутри"
-L.CANTMOVE_GROUP =						"Невозможно переместить эту группу"
 
 L.TITLE =								LFG_LIST_TITLE	-- "Title"
 L.ICON =								EMBLEM_SYMBOL	-- "Icon"
@@ -85,6 +84,12 @@ L.GROUP_ANCHOR[3] =						"Нижний левый"
 L.GROUP_ANCHOR[4] =						"Нижний правый"
 L.FONT =								"Шрифт"
 L.SCALE =								HOUSING_EXPERT_DECOR_SUBMODE_SCALE	-- "Scale"
+
+-- L.LOAD =								"Load"
+
+-- L.ACTIONS =								DAMAGE_METER_CATEGORY_ACTIONS	-- "Actions"
+
+-- L.HIDE_AFTER =							"Hide after X seconds "
 
 L.FLAG_TEMPLATE = {}
 L.FLAG_TEMPLATE[1] = {}

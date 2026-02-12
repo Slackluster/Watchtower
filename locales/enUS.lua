@@ -25,9 +25,24 @@ _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =	app.NameShort .. ": Toggle Edit Panel"
 L.SLASH_TOGGLE_EDITPANEL =				"Toggle the edit panel"
 L.SLASH_OPEN_SETTINGS =					"Open the settings"
 
+-- Edit Panel
+L.NEW_FLAG =							"New Flag"
+L.NEW_GROUP =							"New Group"
+L.INACTIVE =							FACTION_INACTIVE	-- "Inactive"
+L.DELETE_FLAG =							"Delete Flag"
+L.DELETE_GROUP =						"Delete Group"
+L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT	-- "Import"
+L.EXPORT_FLAG =							"Export Flag"
+L.EXPORT_GROUP =						"Export Group"
+L.EXPORT_COPIED =						"Export string copied to clipboard"
+L.DELETE_FLAG_Q =						"Delete this flag?"
+L.DELETE_GROUP_Q =						"Delete this group?"
+L.HOLD_SKIP =							"Hold Shift to skip this confirmation."
+L.CANTDELETE_GROUP =					"Can't delete a group with flags"
+L.CANTMOVE_GROUP =						"Can't move this group"
+
 L.GENERAL =								GENERAL	-- "General"
 
--- Tutorial
 L.TUTORIAL_HEADER =						"Readme.txt"
 L.TUTORIAL_EXPLAIN1 =					"Flags run code on events and can be made visible via an icon and title."
 L.TUTORIAL_EXPLAIN2 =					"Flags in the Inactive group don't show or run (except when edited)."
@@ -47,22 +62,6 @@ L.TUTORIAL_EXAMPLE_TITLE2 =				"Hidden flag"
 L.TUTORIAL_EXAMPLE_SETTINGS =			"Open Watchtower settings"
 L.TUTORIAL_EXAMPLE_INACTIVE =			"You can drag this flag to any other group to make it active."
 L.TUTORIAL_EXAMPLE_MOVE =				"Groups can be moved when this edit panel is open."
-
--- Edit Panel
-L.NEW_FLAG =							"New Flag"
-L.NEW_GROUP =							"New Group"
-L.INACTIVE =							FACTION_INACTIVE	-- "Inactive"
-L.DELETE_FLAG =							"Delete Flag"
-L.DELETE_GROUP =						"Delete Group"
-L.IMPORT =								HUD_EDIT_MODE_IMPORT_LAYOUT	-- "Import"
-L.EXPORT_FLAG =							"Export Flag"
-L.EXPORT_GROUP =						"Export Group"
-L.EXPORT_COPIED =						"Export string copied to clipboard"
-L.DELETE_FLAG_Q =						"Delete this flag?"
-L.DELETE_GROUP_Q =						"Delete this group?"
-L.HOLD_SKIP =							"Hold Shift to skip this confirmation."
-L.CANTDELETE_GROUP =					"Can't delete a group with flags"
-L.CANTMOVE_GROUP =						"Can't move this group"
 
 L.TITLE =								LFG_LIST_TITLE	-- "Title"
 L.ICON =								EMBLEM_SYMBOL	-- "Icon"
@@ -85,6 +84,12 @@ L.GROUP_ANCHOR[3] =						"Bottom Left"
 L.GROUP_ANCHOR[4] =						"Bottom Right"
 L.FONT =								"Font"
 L.SCALE =								HOUSING_EXPERT_DECOR_SUBMODE_SCALE	-- "Scale"
+
+L.LOAD =								"Load"
+
+L.ACTIONS =								DAMAGE_METER_CATEGORY_ACTIONS	-- "Actions"
+
+L.HIDE_AFTER =							"Hide after X seconds "
 
 L.FLAG_TEMPLATE = {}
 L.FLAG_TEMPLATE[1] = {}

@@ -80,6 +80,22 @@ function app:RegisterEvents(flag)
 		return string.format(L.FLAG_ERROR_LUA .. " %s\n", flg.title or UNKNOWN, event or UNKNOWN, err)
 	end
 
+	local function runWhenTruthy(flg)
+		flg.lastResult = true
+		if type(result) == "string" or type(result) == "number" then
+			flg.title = result
+		end
+
+		if flg.actions then
+			if flg.actions.hideAfter and type(flg.actions.hideAfter) == "number" and flg.actions.hideAfter > 0 then
+				C_Timer.After(flg.actions.hideAfter, function()
+					flg.lastResult = false
+					app:UpdateAllTrackers()
+				end)
+			end
+		end
+	end
+
 	local debug = not not flag
 	local function handleEvents(flg)
 		if not flg.trigger then return end
@@ -88,10 +104,7 @@ function app:RegisterEvents(flag)
 		if not valid then return end
 
 		if result then
-			flg.lastResult = true
-			if type(result) == "string" or type(result) == "number" then
-				flg.title = result
-			end
+			runWhenTruthy(flg)
 		else
 			flg.lastResult = false
 		end
@@ -105,10 +118,7 @@ function app:RegisterEvents(flag)
 				end
 
 				if result then
-					flg.lastResult = true
-					if type(result) == "string" or type(result) == "number" then
-						flg.title = result
-					end
+					runWhenTruthy(flg)
 				else
 					flg.lastResult = false
 				end

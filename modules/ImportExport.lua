@@ -112,6 +112,14 @@ function api:Import(importString)
 	end
 
 	if importType == "flag" then
+		-- Beta cleanup
+		if not data.load then
+			data.load = {}
+		end
+		if not data.actions then
+			data.actions = {}
+		end
+
 		table.insert(Watchtower_Flags[1].flags, data)
 		Watchtower_Flags[1].flags[#Watchtower_Flags[1].flags].flagID = #Watchtower_Flags[1].flags
 		app.FlagsList.SelGroup = 1
@@ -119,6 +127,16 @@ function api:Import(importString)
 
 		Watchtower_Flags[1].collapsed = false
 	elseif importType == "group" then
+		-- Beta cleanup
+		for _, flag in ipairs(data.flags) do
+			if not flag.load then
+				flag.load = {}
+			end
+			if not flag.actions then
+				flag.actions = {}
+			end
+		end
+
 		table.insert(Watchtower_Flags, data)
 		Watchtower_Flags[#Watchtower_Flags].groupID = #Watchtower_Flags
 		app.FlagsList.SelGroup = #Watchtower_Flags
