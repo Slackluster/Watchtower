@@ -15,6 +15,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 		for id = 2, #Watchtower_Flags do
 			app:CreateTracker(id)
 		end
+		app.EditPanel:GetScript("OnHide")(app.EditPanel)	-- I have zero clue why this is needed when the same code runs in window creation, but fuck it, this fixes the windows being draggable when they shouldn't be
 	end
 end)
 
