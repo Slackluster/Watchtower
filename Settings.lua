@@ -34,9 +34,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 			}, },
 		}
 
-		Watchtower_Settings["minimapIcon"] = true
-		Watchtower_Settings["hide"] = false
-
 		app:CreateMinimapButton()
 		app:CreateSettings()
 
