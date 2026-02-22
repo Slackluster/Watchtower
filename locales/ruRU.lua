@@ -46,25 +46,25 @@ L.CANTMOVE_GROUP =						"Невозможно переместить эту гр
 
 L.GENERAL =								GENERAL	-- "General"
 
--- L.TUTORIAL_HEADER =						"Readme.txt"
--- L.TUTORIAL_EXPLAIN1 =					"Flags run code on events and can be made visible via an icon and title."
--- L.TUTORIAL_EXPLAIN2 =					"Flags in the Inactive group don't show or run (except when edited)."
--- L.TUTORIAL_TRIGGER =					"Trigger code"
--- L.TUTORIAL_TRIGGER1 =					"You can grab the triggered event's name and arguments using:"
--- L.TUTORIAL_TRIGGER2 =					"Code runs regardless of the flag's visibility."
--- L.TUTORIAL_VISIBILITY =					"Visibility"
--- L.TUTORIAL_VISIBILITY1 =				"Code that returns falsy hides the flag:"
--- L.TUTORIAL_VISIBILITY2 =				"Code that returns truthy shows the flag:"
--- L.TUTORIAL_TITLE =						"Flag title"
--- L.TUTORIAL_TITLE1 =						"Code returning a number or string will set the flag's title to that value."
--- L.TUTORIAL_WHAT =						"I don't know what any of this means! D:"
--- L.TUTORIAL_WHAT1 =						"You can take it easy and just import the flags you want to use."
--- L.TUTORIAL_GETFLAGS =					"Get flags here!"
--- L.TUTORIAL_EXAMPLE_TITLE1 =				"Inactive flag"
--- L.TUTORIAL_EXAMPLE_TITLE2 =				"Hidden flag"
--- L.TUTORIAL_EXAMPLE_SETTINGS =			"Open Watchtower settings"
--- L.TUTORIAL_EXAMPLE_INACTIVE =			"You can drag this flag to any other group to make it active."
--- L.TUTORIAL_EXAMPLE_MOVE =				"Groups can be moved when this edit panel is open."
+L.TUTORIAL_HEADER =						"Readme.txt"
+L.TUTORIAL_EXPLAIN1 =					"Флаги запускают код при возникновении событий и могут быть отображены с помощью значка и заголовка."
+L.TUTORIAL_EXPLAIN2 =					"Флаги в группе «Неактивные» не отображаются и не запускаются (за исключением случаев редактирования)."
+L.TUTORIAL_TRIGGER =					"Код запуска"
+L.TUTORIAL_TRIGGER1 =					"Вы можете получить имя и аргументы сработавшего события, используя:"
+L.TUTORIAL_TRIGGER2 =					"Код выполняется независимо от видимости флага."
+L.TUTORIAL_VISIBILITY =					"Видимость"
+L.TUTORIAL_VISIBILITY1 =				"Код, возвращающий ложное значение, скрывает флаг:"
+L.TUTORIAL_VISIBILITY2 =				"Код, возвращающий истинное значение, отображает флаг:"
+L.TUTORIAL_TITLE =						"Название флага"
+L.TUTORIAL_TITLE1 =						"Код, возвращающий число или строку, установит заголовок флага в это значение."
+L.TUTORIAL_WHAT =						"Я ничего из этого не понимаю! D:"
+L.TUTORIAL_WHAT1 =						"Вы можете не беспокоиться и просто импортировать нужные вам флаги."
+L.TUTORIAL_GETFLAGS =					"Флаги можно приобрести здесь!"
+L.TUTORIAL_EXAMPLE_TITLE1 =				"Неактивный флаг"
+L.TUTORIAL_EXAMPLE_TITLE2 =				"Скрыть флаг"
+L.TUTORIAL_EXAMPLE_SETTINGS =			"Открыть настройки Watchtower"
+L.TUTORIAL_EXAMPLE_INACTIVE =			"Вы можете перетащить этот флаг в любую другую группу, чтобы активировать его."
+L.TUTORIAL_EXAMPLE_MOVE =				"Перемещать группы можно, когда открыта эта панель редактирования."
 
 L.TITLE =								LFG_LIST_TITLE	-- "Title"
 L.ICON =								EMBLEM_SYMBOL	-- "Icon"
@@ -88,11 +88,11 @@ L.GROUP_ANCHOR[4] =						"Нижний правый"
 L.FONT =								"Шрифт"
 L.SCALE =								HOUSING_EXPERT_DECOR_SUBMODE_SCALE	-- "Scale"
 
--- L.LOAD =								"Load"
+L.LOAD =								"Загрузка"
 
--- L.ACTIONS =								DAMAGE_METER_CATEGORY_ACTIONS	-- "Actions"
+L.ACTIONS =								DAMAGE_METER_CATEGORY_ACTIONS	-- "Actions"
 
--- L.HIDE_AFTER =							"Hide after X seconds "
+L.HIDE_AFTER =							"Скрыться через X секунд "
 
 L.FLAG_TEMPLATE = {}
 L.FLAG_TEMPLATE[1] = {}
@@ -129,7 +129,7 @@ L.ERROR_BLOCKED =						"%s был заблокирован"
 L.ERROR_UNKNOWN =						"Произошла неизвестная ошибка"
 L.ERROR_INVALID_IMPORT_STRING =			"Недопустимая строка импорта"
 L.ERROR_DECODE =						"Неудачное декодирование #"	-- Followed by a number
--- L.FLAG_ERROR_LUA =						"Watchtower flag [%s] caused an error on '%s':"	-- The %s's are variale flag title and event name
+L.FLAG_ERROR_LUA =						"Флаг Watchtower [%s] вызвал ошибку в '%s':"	-- The %s's are variale flag title and event name
 
 -- General
 L.NEW_VERSION_AVAILABLE =				"Доступна новая версия " .. app.NameLong .. ":"
