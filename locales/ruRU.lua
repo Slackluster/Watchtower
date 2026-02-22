@@ -129,7 +129,7 @@ L.ERROR_BLOCKED =						"%s был заблокирован"
 L.ERROR_UNKNOWN =						"Произошла неизвестная ошибка"
 L.ERROR_INVALID_IMPORT_STRING =			"Недопустимая строка импорта"
 L.ERROR_DECODE =						"Неудачное декодирование #"	-- Followed by a number
-L.FLAG_ERROR_LUA =						"Флаг Watchtower [%s] вызвал ошибку в '%s':"	-- The %s's are variale flag title and event name
+L.FLAG_ERROR_LUA =						"Флаг Watchtower [%s] вызвал ошибку в '%s':"	-- The %s's are variable flag title and event name
 
 -- General
 L.NEW_VERSION_AVAILABLE =				"Доступна новая версия " .. app.NameLong .. ":"

@@ -129,7 +129,7 @@ L.GENERAL =								GENERAL	-- "General"
 -- L.ERROR_UNKNOWN =						"An unknown error occurred"
 -- L.ERROR_INVALID_IMPORT_STRING =			"Invalid import string"
 -- L.ERROR_DECODE =						"Failed decode #"	-- Followed by a number
--- L.FLAG_ERROR_LUA =						"Watchtower flag [%s] caused an error on '%s':"	-- The %s's are variale flag title and event name
+-- L.FLAG_ERROR_LUA =						"Watchtower flag [%s] caused an error on '%s':"	-- The %s's are variable flag title and event name
 
 -- General
 L.NEW_VERSION_AVAILABLE =				"Hay una versión más nueva de " .. app.NameLong .. " disponible:"
