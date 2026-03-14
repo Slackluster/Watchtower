@@ -720,11 +720,7 @@ function app:CreateEditPanel()
 		self:ClearFocus()
 	end)
 	app.EditPanel.Pages[12].Trigger:SetScript("OnEditFocusLost", function(self)
-		local old = app.FlagsList.Selected.trigger
 		app.FlagsList.Selected.trigger = self:GetText():gsub("\n+$", "")
-		if old ~= app.FlagsList.Selected.trigger then
-			app.FlagsList.Selected.description = nil
-		end
 
 		if app.FlagsList.SelGroup ~= 1 then
 			app:RegisterEvents(app.FlagsList.Selected)
