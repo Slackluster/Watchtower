@@ -200,8 +200,7 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	local env = app:CreateTriggerEnv()
-	setfenv(func, env)
+	setfenv(func, app:CreateTriggerEnv())
 
 	local ok, result = pcall(func)
 	if not ok then
