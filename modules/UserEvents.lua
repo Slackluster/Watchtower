@@ -195,7 +195,11 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	local func, err = loadstring(flag.trigger)
+	if not flag._compiled_src or flag._compiled_src ~= flag.trigger then
+		flag._compiled_func, flag._compile_err = loadstring(flag.trigger)
+		flag._compiled_src = flag.trigger
+	end
+	local func, error = flag._compiled_func, flag._compile_err
 	if not func then
 		return true
 	end
@@ -226,7 +230,11 @@ function app:IsTriggerValid(flag, debug)
 		return false
 	end
 
-	local func, error = loadstring(flag.trigger)
+	if not flag._compiled_src or flag._compiled_src ~= flag.trigger then
+		flag._compiled_func, flag._compile_err = loadstring(flag.trigger)
+		flag._compiled_src = flag.trigger
+	end
+	local func, error = flag._compiled_func, flag._compile_err
 	if error then
 		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
 		return false
