@@ -204,7 +204,8 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	local env = app:CreateTriggerEnv()
+	flag._env = flag._env or app:CreateTriggerEnv()
+	local env = flag._env
 	setfenv(func, env)
 
 	local ok, result = pcall(func)
@@ -235,12 +236,13 @@ function app:IsTriggerValid(flag, debug)
 		flag._compiled_src = flag.trigger
 	end
 	local func, error = flag._compiled_func, flag._compile_err
-	if error then
+	if error or not func then
 		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
 		return false
 	end
 
-	local env = app:CreateTriggerEnv()
+	flag._env = flag._env or app:CreateTriggerEnv()
+	local env = flag._env
 	setfenv(func, env)
 
 	local ok, result = pcall(func)
