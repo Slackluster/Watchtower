@@ -195,9 +195,6 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	if flag._compiled_src ~= flag.trigger then
-		flag._compiled_src = flag.trigger
-	end
 	local func, error = loadstring(flag.trigger)
 	if not func then
 		return true
