@@ -134,12 +134,38 @@ function app:RegisterEvents(flag)
 		app:DeRegisterEvents(flag)
 		handleEvents(flag)
 	else
-		for i = 2, #Watchtower_Flags do
-			for _, flg in ipairs(Watchtower_Flags[i].flags) do
+		local maxPerFrame = 10
+
+		local function processQueue(queue, index)
+			index = index or 1
+			local count = 0
+
+			while index <= #queue and count < maxPerFrame do
+				local flg = queue[index]
+
 				app:DeRegisterEvents(flg)
 				handleEvents(flg)
+
+				index = index + 1
+				count = count + 1
+			end
+
+			if index <= #queue then
+				RunNextFrame(function()
+					processQueue(queue, index)
+				end)
 			end
 		end
+
+		local queue = {}
+
+		for i = 2, #Watchtower_Flags do
+			for _, flg in ipairs(Watchtower_Flags[i].flags) do
+				table.insert(queue, flg)
+			end
+		end
+
+		processQueue(queue)
 	end
 end
 
