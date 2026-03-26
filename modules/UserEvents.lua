@@ -210,7 +210,7 @@ function app:IsTriggerSafe(flag)
 		end
 	end
 
-	return true, error, func, env
+	return true, error, func
 end
 
 function app:IsTriggerValid(flag, debug)
@@ -218,7 +218,7 @@ function app:IsTriggerValid(flag, debug)
 		return false
 	end
 
-	local safe, error, func, env = app:IsTriggerSafe(flag)
+	local safe, error, func = app:IsTriggerSafe(flag)
 	if not safe then
 		if debug then
 			app:Print(L.FUNCTION_ERROR .. " " .. tostring(error))
@@ -228,14 +228,6 @@ function app:IsTriggerValid(flag, debug)
 
 	if error then
 		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
-		return false
-	end
-
-	setfenv(func, env)
-
-	local ok, result = pcall(func)
-	if not ok then
-		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(result)) end
 		return false
 	end
 
