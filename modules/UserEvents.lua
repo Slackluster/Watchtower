@@ -134,38 +134,12 @@ function app:RegisterEvents(flag)
 		app:DeRegisterEvents(flag)
 		handleEvents(flag)
 	else
-		local maxPerFrame = 10
-
-		local function processQueue(queue, index)
-			index = index or 1
-			local count = 0
-
-			while index <= #queue and count < maxPerFrame do
-				local flg = queue[index]
-
-				app:DeRegisterEvents(flg)
-				handleEvents(flg)
-
-				index = index + 1
-				count = count + 1
-			end
-
-			if index <= #queue then
-				RunNextFrame(function()
-					processQueue(queue, index)
-				end)
-			end
-		end
-
-		local queue = {}
-
 		for i = 2, #Watchtower_Flags do
 			for _, flg in ipairs(Watchtower_Flags[i].flags) do
-				table.insert(queue, flg)
+				app:DeRegisterEvents(flg)
+				handleEvents(flg)
 			end
 		end
-
-		processQueue(queue)
 	end
 end
 
@@ -221,11 +195,10 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	if not flag._compiled_src or flag._compiled_src ~= flag.trigger then
-		flag._compiled_func, flag._compile_err = loadstring(flag.trigger)
+	if flag._compiled_src ~= flag.trigger then
 		flag._compiled_src = flag.trigger
 	end
-	local func, error = flag._compiled_func, flag._compile_err
+	local func, error = loadstring(flag.trigger)
 	if not func then
 		return true
 	end
@@ -240,7 +213,7 @@ function app:IsTriggerSafe(flag)
 		end
 	end
 
-	return true
+	return true, error, func, env
 end
 
 function app:IsTriggerValid(flag, debug)
@@ -248,27 +221,19 @@ function app:IsTriggerValid(flag, debug)
 		return false
 	end
 
-	local safe, blockedErr = app:IsTriggerSafe(flag)
+	local safe, error, func, env = app:IsTriggerSafe(flag)
 	if not safe then
 		if debug then
-			app:Print(L.FUNCTION_ERROR .. " " .. tostring(blockedErr))
+			app:Print(L.FUNCTION_ERROR .. " " .. tostring(error))
 		end
 		return false
 	end
 
-	if not flag._compiled_src or flag._compiled_src ~= flag.trigger then
-		flag._compiled_func, flag._compile_err = loadstring(flag.trigger)
-		if flag._compiled_func then
-			flag._compiled_src = flag.trigger
-		end
-	end
-	local func, error = flag._compiled_func, flag._compile_err
 	if error then
 		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
 		return false
 	end
 
-	local env = app:CreateTriggerEnv()
 	setfenv(func, env)
 
 	local ok, result = pcall(func)
