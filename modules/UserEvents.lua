@@ -204,8 +204,7 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	flag._env = flag._env or app:CreateTriggerEnv()
-	local env = flag._env
+	local env = app:CreateTriggerEnv()
 	setfenv(func, env)
 
 	local ok, result = pcall(func)
@@ -241,8 +240,7 @@ function app:IsTriggerValid(flag, debug)
 		return false
 	end
 
-	flag._env = flag._env or app:CreateTriggerEnv()
-	local env = flag._env
+	local env = app:CreateTriggerEnv()
 	setfenv(func, env)
 
 	local ok, result = pcall(func)
