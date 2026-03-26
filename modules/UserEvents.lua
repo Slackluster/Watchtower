@@ -235,7 +235,9 @@ function app:IsTriggerValid(flag, debug)
 		flag._compiled_src = flag.trigger
 	end
 	local func, error = flag._compiled_func, flag._compile_err
-	if error or not func then
+	if not func then
+		return false
+	elseif error then
 		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
 		return false
 	end
