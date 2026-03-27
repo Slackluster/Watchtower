@@ -136,6 +136,10 @@ function app:RegisterEvents(flag)
 	else
 		for i = 2, #Watchtower_Flags do
 			for _, flg in ipairs(Watchtower_Flags[i].flags) do
+				flg._compiled_func = nil
+				flg._compile_err = nil
+				flg._compiled_src = nil
+				flg._env = nil
 				app:DeRegisterEvents(flg)
 				handleEvents(flg)
 			end
