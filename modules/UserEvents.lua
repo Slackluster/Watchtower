@@ -151,7 +151,7 @@ end
 -- SANDBOX --
 -------------
 
-function app:CreateTriggerEnv()	-- Vibecoded, feedback appreciated
+function app:CreateTriggerEnv() -- Vibecoded, feedback appreciated
 	local env = {}
 
 	local function blockedError(msg)

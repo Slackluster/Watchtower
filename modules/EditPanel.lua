@@ -216,7 +216,7 @@ function app:CreateEditPanel()
 		if data.icon then
 			listItem.LeftText1:SetText("|T" .. data.icon .. ":18|t")
 			if listItem.iconButton then listItem.iconButton:Hide() end
-		elseif data.flagID == 0 then	-- Header
+		elseif data.flagID == 0 then -- Header
 			listItem.LeftText1:SetText("")
 			if not listItem.iconButton then
 				listItem.iconButton = CreateFrame("Button", nil, listItem)
@@ -1226,8 +1226,8 @@ function app:MakeCsvTable(str)
 	local tbl = {}
 	if not str or str == "" then return tbl end
 
-	for value in string.gmatch(str, "[^,;]+") do	-- Separate by , and ;
-		local event = value:match("^%s*(.-)%s*$")	-- Trim whitespace
+	for value in string.gmatch(str, "[^,;]+") do -- Separate by , and ;
+		local event = value:match("^%s*(.-)%s*$") -- Trim whitespace
 
 		local exists, error = doesEventExist(event)
 		if not exists then
