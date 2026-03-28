@@ -137,7 +137,7 @@ function app:CreateSettings()
 			editBox:SetScript("OnKeyUp", function(self, key)
 				if (IsControlKeyDown() and (key == "C" or key == "X")) then
 					dialog:Hide()
-					app.LinkCopiedFrame.Text:SetText(app:ShowIcon(app.IconReady) .. " " .. L.SETTINGS_URL_COPIED)
+					app.LinkCopiedFrame.Text:SetText(app.IconReady .. " " .. L.SETTINGS_URL_COPIED)
 					app.LinkCopiedFrame:Show()
 					app.LinkCopiedFrame:SetAlpha(1)
 					app.LinkCopiedFrame.animation:Play()

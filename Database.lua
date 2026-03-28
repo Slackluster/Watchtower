@@ -16,10 +16,10 @@ _G["BINDING_NAME_SLACKWARE"] = "Slackware"
 -- Textures
 app.Texture = 236351
 app.Icon = "Interface\\AddOns\\Watchtower\\assets\\icon.png"
-app.IconReady = "Interface\\RaidFrame\\ReadyCheck-Ready"
+app.IconReady = "|TInterface\\RaidFrame\\ReadyCheck-Ready:0|t"
 app.IconNotReady = "Interface\\RaidFrame\\ReadyCheck-NotReady"
-app.IconLMB = "Interface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283"
-app.IconRMB = "Interface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:330:385"
+app.IconLMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283|t"
+app.IconRMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:330:385|t"
 app.IconNew = "|A:UI-Journeys-GreatVault-Tag-new:33:49|a"
 
 app.Blocked = {

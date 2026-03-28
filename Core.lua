@@ -149,10 +149,6 @@ function app:Colour(string)
 	return "|cff3FC7EB" .. string .. "|r"
 end
 
-function app:ShowIcon(iconPath)
-	return "|T" .. iconPath .. ":0|t"
-end
-
 function app:Print(...)
 	print(app.NameShort .. ":", ...)
 end

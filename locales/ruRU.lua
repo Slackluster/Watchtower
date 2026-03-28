@@ -134,8 +134,8 @@ L.FLAG_ERROR_LUA =                       "Флаг Watchtower [%s] вызвал 
 -- General
 L.NEW_VERSION_AVAILABLE =                "Доступна новая версия " .. app.NameLong .. ":"
 L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
-                                         app:ShowIcon(app.IconLMB) .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" ..
-                                         app:ShowIcon(app.IconRMB) .. ": " .. L.SLASH_OPEN_SETTINGS
+                                         app.IconLMB .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" ..
+                                         app.IconRMB .. ": " .. L.SLASH_OPEN_SETTINGS
 
 L.INVALID_COMMAND =                      "Неверная команда"
 L.OR =                                   "или"
