@@ -199,7 +199,7 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	local func, error = loadstring(flag.trigger)
+	local func, _ = loadstring(flag.trigger)
 	if not func then
 		return true
 	end
@@ -209,11 +209,11 @@ function app:IsTriggerSafe(flag)
 	local ok, result = pcall(func)
 	if not ok then
 		if type(result) == "table" and result.blocked then
-			return false, result.message
+			return false, nil, result.message
 		end
 	end
 
-	return true, error, func
+	return true, func, result, ok
 end
 
 function app:IsTriggerValid(flag, debug)
@@ -221,16 +221,18 @@ function app:IsTriggerValid(flag, debug)
 		return false
 	end
 
-	local safe, error, func = app:IsTriggerSafe(flag)
+	local safe, func, result, ok = app:IsTriggerSafe(flag)
 	if not safe then
 		if debug then
-			app:Print(L.FUNCTION_ERROR .. " " .. tostring(error))
+			app:Print(L.FUNCTION_ERROR .. " " .. tostring(result))
 		end
+		return false
+	elseif not func then
 		return false
 	end
 
-	if error then
-		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(error)) end
+	if not ok then
+		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(result)) end
 		return false
 	end
 
