@@ -109,22 +109,22 @@ function app:RegisterEvents(flag)
 			flg.lastResult = false
 		end
 
-		for _, event in ipairs(flg.events) do
-			local wrapper = function(...)
-				local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg, event) end, ...)
-				if not ok then
-					flg.lastResult = false
-					error(result, 0)
-				end
-
-				if result then
-					runWhenTruthy(flg, result)
-				else
-					flg.lastResult = false
-				end
-				RunNextFrame(function() app:UpdateAllTrackers() end)
+		local wrapper = function(...)
+			local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg, event) end, ...)
+			if not ok then
+				flg.lastResult = false
+				error(result, 0)
 			end
 
+			if result then
+				runWhenTruthy(flg, result)
+			else
+				flg.lastResult = false
+			end
+			RunNextFrame(function() app:UpdateAllTrackers() end)
+		end
+
+		for _, event in ipairs(flg.events) do
 			local handle = app.UserEvent:Register(event, wrapper)
 			table.insert(flg.handles, handle)
 		end
