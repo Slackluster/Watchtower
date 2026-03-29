@@ -199,7 +199,7 @@ function app:IsTriggerSafe(flag)
 		return true
 	end
 
-	local func, _ = loadstring(flag.trigger)
+	local func = loadstring(flag.trigger)
 	if not func then
 		return true
 	end
