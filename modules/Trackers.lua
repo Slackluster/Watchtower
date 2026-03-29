@@ -134,6 +134,8 @@ function app:CreateTracker(id)
 end
 
 function app:UpdateTracker(id)
+	if app.Flag.UpdatingAll then return end
+
 	if Watchtower_Flags[id].anchor == 1 then
 		app.Tracker[id].window.corner:ClearAllPoints()
 		app.Tracker[id].window.corner:SetPoint("BOTTOMRIGHT")

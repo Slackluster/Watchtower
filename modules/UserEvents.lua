@@ -134,15 +134,24 @@ function app:RegisterEvents(flag)
 		app:DeRegisterEvents(flag)
 		handleEvents(flag)
 	else
+		local allFlags = {}
 		for i = 2, #Watchtower_Flags do
 			for _, flg in ipairs(Watchtower_Flags[i].flags) do
-				flg._compiled_func = nil
-				flg._compile_err = nil
-				flg._compiled_src = nil
-				flg._env = nil
-				app:DeRegisterEvents(flg)
-				handleEvents(flg)
+				table.insert(allFlags, flg)
 			end
+		end
+
+		local flagsPerSecond = 10
+		app.Flag.UpdatingAll = true
+		C_Timer.After(#allFlags/flagsPerSecond + 1, function()
+			app.Flag.UpdatingAll = false
+			app:UpdateAllTrackers()
+		end)
+
+		for i = 1, #allFlags do
+			C_Timer.After(i/flagsPerSecond, function()
+				handleEvents(allFlags[i])
+			end)
 		end
 	end
 end
