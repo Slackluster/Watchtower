@@ -142,18 +142,20 @@ function app:RegisterEvents(flag)
 		end
 
 		local flagsPerSecond = 10
-		app.Flag.UpdatingAll = true
-		C_Timer.After(#allFlags/flagsPerSecond + 1, function()
-			app.Flag.UpdatingAll = false
-			app:UpdateAllTrackers()
-		end)
-
-		for i = 1, #allFlags do
-			C_Timer.After(i/flagsPerSecond, function()
-				app:DeRegisterEvents(allFlags[i])
-				handleEvents(allFlags[i])
+		C_Timer.After(#allFlags/flagsPerSecond + 1, function() -- Delay execution proportionally
+			app.Flag.UpdatingAll = true
+			C_Timer.After(#allFlags/flagsPerSecond + 1, function()
+				app.Flag.UpdatingAll = false
+				app:UpdateAllTrackers()
 			end)
-		end
+
+			for i = 1, #allFlags do
+				C_Timer.After(i/flagsPerSecond, function()
+					app:DeRegisterEvents(allFlags[i])
+					handleEvents(allFlags[i])
+				end)
+			end
+		end)
 	end
 end
 
