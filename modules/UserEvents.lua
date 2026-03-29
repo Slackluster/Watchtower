@@ -150,6 +150,7 @@ function app:RegisterEvents(flag)
 
 		for i = 1, #allFlags do
 			C_Timer.After(i/flagsPerSecond, function()
+				app:DeRegisterEvents(allFlags[i])
 				handleEvents(allFlags[i])
 			end)
 		end

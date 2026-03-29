@@ -150,9 +150,10 @@ function api:Import(importString)
 			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0.5)
 			app.Tracker[id].window:SetBackdropBorderColor(0.25, 0.78, 0.92, 0.5)
 		end
+
+		app:RegisterEvents()
 	end
 
-	app:RegisterEvents()
 	app:UpdateStatusList()
 end
 
