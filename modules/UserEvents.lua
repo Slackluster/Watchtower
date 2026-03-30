@@ -141,7 +141,16 @@ function app:RegisterEvents(flag)
 			end
 		end
 
-		local flagsPerSecond = 10
+		local addonCount = C_AddOns.GetNumAddOns()
+		local loadedCount = 0
+		for i = 1, addonCount do
+			if C_AddOns.IsAddOnLoaded(i) then
+				loadedCount = loadedCount + 1
+			end
+		end
+
+		local flagsPerSecond = math.max(1, 10 - math.floor(loadedCount / 50)) -- Throttle proportionally
+		app:Print("addons loaded: " .. loadedCount, "| flags per second: " .. flagsPerSecond)
 		C_Timer.After(#allFlags/flagsPerSecond + 1, function() -- Delay execution proportionally
 			app.Flag.UpdatingAll = true
 			C_Timer.After(#allFlags/flagsPerSecond + 1, function()
