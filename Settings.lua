@@ -13,6 +13,8 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		Watchtower_Settings = Watchtower_Settings or {}
+		app.Settings = Watchtower_Settings
+
 		Watchtower_Flags = Watchtower_Flags or {
 			{ ["groupID"] = 1, ["title"] = L.INACTIVE, ["flags"] = {
 				{ ["flagID"] = 1, ["events"] = { "GLOBAL_MOUSE_DOWN" }, ["lastResult"] = true, ["icon"] = 134400,
@@ -56,7 +58,7 @@ end)
 --------------
 
 function app:OpenSettings()
-	Settings.OpenToCategory(app.Settings:GetID())
+	Settings.OpenToCategory(app.SettingsCategory:GetID())
 end
 
 function app:CreateMinimapButton()
@@ -74,18 +76,22 @@ function app:CreateMinimapButton()
 	})
 
 	app.MinimapIcon = LibStub("LibDBIcon-1.0", true)
-	app.MinimapIcon:Register(appName, miniButton, Watchtower_Settings)
+	app.MinimapIcon:Register(appName, miniButton, app.Settings)
 
-	if Watchtower_Settings["minimapIcon"] then
-		Watchtower_Settings["hide"] = false
-		app.MinimapIcon:Show(appName)
-	else
-		Watchtower_Settings["hide"] = true
-		app.MinimapIcon:Hide(appName)
+	function app:ToggleMinimapIcon()
+		if app.Settings["minimapIcon"] then
+			app.Settings["hide"] = false
+			app.MinimapIcon:Show(appName)
+		else
+			app.Settings["hide"] = true
+			app.MinimapIcon:Hide(appName)
+		end
 	end
+	app:ToggleMinimapIcon()
 end
 
 function app:CreateSettings()
+	-- Helper functions
 	app.LinkCopiedFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	app.LinkCopiedFrame:SetPoint("CENTER")
 	app.LinkCopiedFrame:SetFrameStrata("TOOLTIP")
@@ -93,10 +99,11 @@ function app:CreateSettings()
 	app.LinkCopiedFrame:SetWidth(1)
 	app.LinkCopiedFrame:Hide()
 
-	app.LinkCopiedFrame.Text = app.LinkCopiedFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	app.LinkCopiedFrame.Text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
-	app.LinkCopiedFrame.Text:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
-	app.LinkCopiedFrame.Text:SetJustifyH("CENTER")
+	local text = app.LinkCopiedFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
+	text:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
+	text:SetJustifyH("CENTER")
+	text:SetText(app.IconReady .. " " .. L.SETTINGS_URL_COPIED)
 
 	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()
 	local fadeOut = app.LinkCopiedFrame.animation:CreateAnimation("Alpha")
@@ -137,7 +144,6 @@ function app:CreateSettings()
 			editBox:SetScript("OnKeyUp", function(self, key)
 				if (IsControlKeyDown() and (key == "C" or key == "X")) then
 					dialog:Hide()
-					app.LinkCopiedFrame.Text:SetText(app.IconReady .. " " .. L.SETTINGS_URL_COPIED)
 					app.LinkCopiedFrame:Show()
 					app.LinkCopiedFrame:SetAlpha(1)
 					app.LinkCopiedFrame.animation:Play()
@@ -190,7 +196,64 @@ function app:CreateSettings()
 		end
 	end
 
-	local function createExpandableSection(layout, name)
+	local category, layout
+
+	local function button(name, buttonName, description, func)
+		layout:AddInitializer(CreateSettingsButtonInitializer(name, buttonName, func, description, true))
+	end
+
+	local function checkbox(variable, name, description, default, callback, parentSetting, parentCheckbox)
+		local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, app.Settings, type(default), name, default)
+		local checkbox = Settings.CreateCheckbox(category, setting, description)
+
+		if parentSetting and parentCheckbox then
+			checkbox:SetParentInitializer(parentCheckbox, function() return parentSetting:GetValue() end)
+			if callback then
+				parentSetting:SetValueChangedCallback(callback)
+			end
+		elseif callback then
+			setting:SetValueChangedCallback(callback)
+		end
+
+		return setting, checkbox
+	end
+
+	local function checkboxDropdown(cbVariable, cbName, description, cbDefaultValue, ddVariable, ddDefaultValue, options, callback)
+		local cbSetting = Settings.RegisterAddOnSetting(category, appName.."_"..cbVariable, cbVariable, app.Settings, type(cbDefaultValue), cbName, cbDefaultValue)
+		local ddSetting = Settings.RegisterAddOnSetting(category, appName.."_"..ddVariable, ddVariable, app.Settings, type(ddDefaultValue), "", ddDefaultValue)
+		local function GetOptions()
+			local container = Settings.CreateControlTextContainer()
+			for _, option in ipairs(options) do
+				container:Add(option.value, option.name, option.description)
+			end
+			return container:GetData()
+		end
+
+		local initializer = CreateSettingsCheckboxDropdownInitializer(cbSetting, cbName, description, ddSetting, GetOptions, "")
+		layout:AddInitializer(initializer)
+
+		if callback then
+			cbSetting:SetValueChangedCallback(callback)
+			ddSetting:SetValueChangedCallback(callback)
+		end
+	end
+
+	local function dropdown(variable, name, description, default, options, callback)
+		local setting = Settings.RegisterAddOnSetting(category, appName.."_"..variable, variable, app.Settings, type(default), name, default)
+		local function GetOptions()
+			local container = Settings.CreateControlTextContainer()
+			for _, option in ipairs(options) do
+				container:Add(option.value, option.name, option.description)
+			end
+			return container:GetData()
+		end
+		Settings.CreateDropdown(category, setting, GetOptions, description)
+		if callback then
+			setting:SetValueChangedCallback(callback)
+		end
+	end
+
+	local function expandableHeader(name)
 		local initializer = CreateFromMixins(SettingsExpandableSectionInitializer)
 		local data = { name = name, expanded = false }
 
@@ -204,59 +267,53 @@ function app:CreateSettings()
 		end
 	end
 
-	local category, layout = Settings.RegisterVerticalLayoutCategory(app.Name)
-	Settings.RegisterAddOnCategory(category)
-	app.Settings = category
-
-	local data = { leftText = L.SETTINGS_VERSION .. " |cffFFFFFF" .. C_AddOns.GetAddOnMetadata(appName, "Version") }
-	local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
-	function text:GetExtent()
-		return 14
+	local function header(name)
+		layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(name))
 	end
 
-	local data = { leftText = L.SETTINGS_SUPPORT_TEXTLONG }
-	local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
-	function text:GetExtent()
-		return 28 + select(2, string.gsub(data.leftText, "\n", "")) * 12
-	end
-
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end, L.SETTINGS_SUPPORT_DESC, true))
-
-	layout:AddInitializer(CreateSettingsButtonInitializer(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://discord.gg/hGvF59hstx") end, L.SETTINGS_HELP_DESC, true))
-
-	local expandInitializer, isExpanded = createExpandableSection(layout, L.SETTINGS_KEYSLASH_TITLE)
-
-		local action = "WATCHTOWER_TOGGLE"
+	local function keybind(name, isExpanded)
+		local action = name
 		local bindingIndex = C_KeyBindings.GetBindingIndex(action)
 		local initializer = CreateKeybindingEntryInitializer(bindingIndex, true)
 		local keybind = layout:AddInitializer(initializer)
-		keybind:AddShownPredicate(isExpanded)
+		if isExpanded ~= nil then keybind:AddShownPredicate(isExpanded) end
+	end
 
-		local data = { leftText = "|cffFFFFFF"
-			.. "/watch|r " .. L.OR .. " |cffFFFFFF/wt" .. "\n\n"
-			.. "/watch settings",
-		middleText =
-			L.SLASH_TOGGLE_EDITPANEL .. "\n\n" ..
-			L.SLASH_OPEN_SETTINGS
-		}
+	local function text(leftText, middleText, rightText, customExtent, isExpanded)
+		local data = { leftText = leftText, middleText = middleText, rightText = rightText }
 		local text = layout:AddInitializer(Settings.CreateElementInitializer("Watchtower_SettingsText", data))
 		function text:GetExtent()
+			if customExtent then return customExtent end
 			return 28 + select(2, string.gsub(data.leftText, "\n", "")) * 12
 		end
-		text:AddShownPredicate(isExpanded)
+		if isExpanded ~= nil then text:AddShownPredicate(isExpanded) end
+	end
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L.GENERAL))
+	-- Settings
+	category, layout = Settings.RegisterVerticalLayoutCategory(app.Name)
+	Settings.RegisterAddOnCategory(category)
+	app.SettingsCategory = category
 
-	local variable, name, tooltip = "minimapIcon", L.SETTINGS_MINIMAP, L.SETTINGS_MINIMAP_DESC
-	local setting = Settings.RegisterAddOnSetting(category, appName .. "_" .. variable, variable, Watchtower_Settings, Settings.VarType.Boolean, name, true)
-	Settings.CreateCheckbox(category, setting, tooltip)
-	setting:SetValueChangedCallback(function()
-		if Watchtower_Settings["minimapIcon"] then
-			Watchtower_Settings["hide"] = false
-			app.MinimapIcon:Show(appName)
-		else
-			Watchtower_Settings["hide"] = true
-			app.MinimapIcon:Hide(appName)
-		end
-	end)
+	text(L.SETTINGS_VERSION .. " |cffFFFFFF" .. C_AddOns.GetAddOnMetadata(appName, "Version"), nil, nil, 14)
+	text(L.SETTINGS_SUPPORT_TEXTLONG)
+	button(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, L.SETTINGS_SUPPORT_DESC, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end)
+	button(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, L.SETTINGS_HELP_DESC, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://discord.gg/hGvF59hstx") end)
+
+	local _, isExpanded = expandableHeader(L.SETTINGS_KEYSLASH_TITLE)
+
+		keybind("WATCHTOWER_TOGGLE", isExpanded)
+
+		local leftText = { "|cffFFFFFF" ..
+			"/watch|r " .. L.OR .. " |cffFFFFFF/wt",
+			"/watch settings" }
+		local middleText = {
+			L.SLASH_TOGGLE_EDITPANEL,
+			L.SLASH_OPEN_SETTINGS }
+		leftText = table.concat(leftText, "\n\n")
+		middleText = table.concat(middleText, "\n\n")
+		text(leftText, middleText, nil, nil, isExpanded)
+
+	header(L.GENERAL)
+
+	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, L.SETTINGS_MINIMAP_DESC, true, function() app:ToggleMinimapIcon() end)
 end
