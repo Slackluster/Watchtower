@@ -76,7 +76,6 @@ end
 
 function app:RegisterEvents(flag)
 	local function triggerErrorHandler(err, flg, event)
-		--local stack = debugstack(err, 2, 5)
 		return string.format(L.FLAG_ERROR_LUA .. " %s\n", flg.title or UNKNOWN, event or UNKNOWN, err)
 	end
 

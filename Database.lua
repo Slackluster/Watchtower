@@ -3,7 +3,6 @@
 ------------------------------
 
 local appName, app = ...
-local L = app.locales
 
 -- Strings
 app.Name = "Watchtower"
