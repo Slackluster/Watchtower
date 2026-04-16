@@ -149,7 +149,6 @@ function app:RegisterEvents(flag)
 		end
 
 		local flagsPerSecond = math.max(1, 10 - math.floor(loadedCount / 50)) -- Throttle proportionally
-		app:Print("addons loaded: " .. loadedCount, "| flags per second: " .. flagsPerSecond)
 		C_Timer.After(#allFlags/flagsPerSecond + 1, function() -- Delay execution proportionally
 			app.Flag.UpdatingAll = true
 			C_Timer.After(#allFlags/flagsPerSecond + 1, function()
