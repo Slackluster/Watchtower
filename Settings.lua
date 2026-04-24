@@ -38,18 +38,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		app:CreateMinimapButton()
 		app:CreateSettings()
-
-		-- Beta cleanup
-		for _, group in ipairs(Watchtower_Flags) do
-			for _, flag in ipairs(group.flags) do
-				if not flag.load then
-					flag.load = {}
-				end
-				if not flag.actions then
-					flag.actions = {}
-				end
-			end
-		end
 	end
 end)
 
