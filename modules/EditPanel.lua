@@ -13,6 +13,7 @@ local L = app.locales
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		app:CreateEditPanel()
+		app:ValidateFlagIntegrity()
 		app:RegisterEvents()
 	end
 end)
@@ -81,7 +82,7 @@ function app:CreateEditPanel()
 	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function newFlag()
-		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true })
+		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true, load = {}, actions = {} })
 		app.FlagsList.SelFlag = #Watchtower_Flags[app.FlagsList.SelGroup].flags
 		app:SetSelected()
 		app:UpdateStatusList()
@@ -1259,4 +1260,31 @@ function app:UpdateStatusList()
 	app.FlagsList:SetDataProvider(DataProvider, true)
 	app:SetSelected()
 	app:UpdateAllTrackers()
+end
+
+-----------------------------
+-- VALIDATE FLAG INTEGRITY --
+-----------------------------
+
+-- Because if I add new tables it's a lot easier to be able to assume they exist
+function app:ValidateFlagIntegrity(flag)
+	local function validate(flg)
+		if not flg.load then
+			flg.load = {}
+		end
+		if not flg.actions then
+			flg.actions = {}
+		end
+	end
+
+	if flag then
+		validate(flag)
+	else
+		local allFlags = {}
+		for i = 2, #Watchtower_Flags do
+			for _, flg in ipairs(Watchtower_Flags[i].flags) do
+				validate(flg)
+			end
+		end
+	end
 end
