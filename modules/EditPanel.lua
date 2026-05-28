@@ -72,7 +72,7 @@ function app:CreateEditPanel()
 		end
 	end)
 
-	app.EditPanel.StatusList = CreateFrame("Frame", nil, app.EditPanel, nil)
+	app.EditPanel.StatusList = CreateFrame("Frame", nil, app.EditPanel)
 	app.EditPanel.StatusList:SetPoint("TOPLEFT", app.EditPanel, 6, -50)
 	app.EditPanel.StatusList:SetPoint("BOTTOMLEFT", app.EditPanel, 6, 9)
 	app.EditPanel.StatusList:SetWidth(250)
@@ -350,7 +350,7 @@ function app:CreateEditPanel()
 	createTab(L.GENERAL, 1)
 
 	-- Inactive Group
-	app.EditPanel.Pages[10] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[10] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	app.EditPanel.Pages[10]:SetAllPoints(app.EditPanel.Options)
 
 	local string1 = app.EditPanel.Pages[10]:CreateFontString(nil, "ARTWORK", "Game15Font_o1")
@@ -425,7 +425,7 @@ function app:CreateEditPanel()
 	button1:SetScript("OnClick", function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://wago.io/browse/watchtower") end)
 
 	-- Group
-	app.EditPanel.Pages[11] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[11] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	app.EditPanel.Pages[11]:SetAllPoints(app.EditPanel.Options)
 
 	local string1 = app.EditPanel.Pages[11]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -584,7 +584,7 @@ function app:CreateEditPanel()
 	end)
 
 	-- Flag
-	app.EditPanel.Pages[12] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[12] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	app.EditPanel.Pages[12]:SetAllPoints(app.EditPanel.Options)
 
 	local string1 = app.EditPanel.Pages[12]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -656,7 +656,7 @@ function app:CreateEditPanel()
 		app.FlagsList.Selected.icon = self:GetText()
 		C_Timer.After(0.1, function() app:UpdateStatusList() end)
 	end)
-	app.EditPanel.Pages[12].Icon.Search = CreateFrame("Button", nil, app.EditPanel.Pages[12].Icon, nil)
+	app.EditPanel.Pages[12].Icon.Search = CreateFrame("Button", nil, app.EditPanel.Pages[12].Icon)
 	app.EditPanel.Pages[12].Icon.Search:SetSize(14, 14)
 	app.EditPanel.Pages[12].Icon.Search:SetPoint("RIGHT", app.EditPanel.Pages[12].Icon, -6, 0)
 	app.EditPanel.Pages[12].Icon.Search.Icon = app.EditPanel.Pages[12].Icon.Search:CreateTexture(nil, "BACKGROUND")
@@ -736,7 +736,7 @@ function app:CreateEditPanel()
 
 	IndentationLib.enable(app.EditPanel.Pages[12].Trigger, nil, 3)
 
-	app.EditPanel.Pages[12].Expand = CreateFrame("Button", "", app.EditPanel.Pages[12], "UIPanelCloseButton")
+	app.EditPanel.Pages[12].Expand = CreateFrame("Button", nil, app.EditPanel.Pages[12], "UIPanelCloseButton")
 	app.EditPanel.Pages[12].Expand:SetPoint("BOTTOMRIGHT", backdrop3, "TOPRIGHT", 0, -3)
 	app.EditPanel.Pages[12].Expand:SetSize(22, 23)
 	app.EditPanel.Pages[12].Expand:SetNormalTexture("RedButton-Expand")
@@ -744,7 +744,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[12].Expand:SetPushedTexture("RedButton-Expand-Pressed")
 	app.EditPanel.Pages[12].Expand:SetScript("OnClick", function() app.CodeBox:Show() end)
 
-	app.CodeBox = CreateFrame("Frame", "Watchtower_CodeBox", UIParent, "DefaultPanelTemplate")
+	app.CodeBox = CreateFrame("Frame", nil, UIParent, "DefaultPanelTemplate")
 	app.CodeBox:SetFrameStrata("HIGH")
 	app.CodeBox:SetSize(1000, 700)
 	app.CodeBox:SetPoint("CENTER")
@@ -1002,11 +1002,11 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[20] = app.EditPanel.Pages[10]
 
 	-- Group
-	-- app.EditPanel.Pages[21] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	-- app.EditPanel.Pages[21] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	-- app.EditPanel.Pages[21]:SetAllPoints(app.EditPanel.Options)
 
 	-- Flag
-	-- app.EditPanel.Pages[22] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	-- app.EditPanel.Pages[22] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	-- app.EditPanel.Pages[22]:SetAllPoints(app.EditPanel.Options)
 
 	createTab(L.ACTIONS, 3)
@@ -1015,7 +1015,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[30] = app.EditPanel.Pages[10]
 
 	-- Group
-	app.EditPanel.Pages[31] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[31] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	app.EditPanel.Pages[31]:SetAllPoints(app.EditPanel.Options)
 
 	local string1 = app.EditPanel.Pages[31]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -1023,7 +1023,7 @@ function app:CreateEditPanel()
 	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[31], 10, -12)
 
 	-- Flag
-	app.EditPanel.Pages[32] = CreateFrame("Frame", nil, app.EditPanel.Options, nil)
+	app.EditPanel.Pages[32] = CreateFrame("Frame", nil, app.EditPanel.Options)
 	app.EditPanel.Pages[32]:SetAllPoints(app.EditPanel.Options)
 
 	local string1 = app.EditPanel.Pages[32]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
