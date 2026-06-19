@@ -72,14 +72,13 @@ function app:CreateEditPanel()
 		end
 	end)
 
-	app.EditPanel.StatusList = CreateFrame("Frame", nil, app.EditPanel)
+	app.EditPanel.StatusList = CreateFrame("Frame", nil, app.EditPanel, "InsetFrameTemplate")
 	app.EditPanel.StatusList:SetPoint("TOPLEFT", app.EditPanel, 6, -50)
 	app.EditPanel.StatusList:SetPoint("BOTTOMLEFT", app.EditPanel, 6, 9)
 	app.EditPanel.StatusList:SetWidth(250)
 	app.EditPanel.StatusList.Background = app.EditPanel.StatusList:CreateTexture(nil, "BACKGROUND")
 	app.EditPanel.StatusList.Background:SetAllPoints()
 	app.EditPanel.StatusList.Background:SetAtlas("Professions-background-summarylist")
-	NineSliceUtil.ApplyLayoutByName(app.EditPanel.StatusList, "InsetFrameTemplate")
 
 	local function newFlag()
 		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true, load = {}, actions = {} })
