@@ -191,7 +191,7 @@ function app:CreateEditPanel()
 
 	-- Flag list
 	local scrollBox = CreateFrame("Frame", nil, app.EditPanel.StatusList, "WowScrollBoxList")
-	scrollBox:SetPoint("TOPLEFT", app.EditPanel.StatusList, 2, -4)
+	scrollBox:SetPoint("TOPLEFT", app.EditPanel.StatusList, 2, -6)
 	scrollBox:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, -18, 4)
 	scrollBox:EnableMouse(true)
 	scrollBox:RegisterForDrag("LeftButton")
