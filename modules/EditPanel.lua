@@ -300,7 +300,7 @@ function app:CreateEditPanel()
 				end
 			end
 		end)
-		listItem:SetScript("OnClick", function()
+		listItem:SetScript("OnClick", function(self)
 			app.FlagsList.SelGroup = data.groupID
 			app.FlagsList.SelFlag = data.flagID
 			app:SetSelected()
