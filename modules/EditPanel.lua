@@ -592,7 +592,7 @@ function app:CreateEditPanel()
 
 	local backdrop1 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
 	backdrop1:SetSize(200, 23)
-	backdrop1:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, 0)
+	backdrop1:SetPoint("TOPLEFT", string1, "BOTTOMLEFT")
 	backdrop1:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -627,7 +627,7 @@ function app:CreateEditPanel()
 
 	local backdrop2 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
 	backdrop2:SetSize(120, 23)
-	backdrop2:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", 0, 0)
+	backdrop2:SetPoint("TOPLEFT", string2, "BOTTOMLEFT")
 	backdrop2:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -681,7 +681,7 @@ function app:CreateEditPanel()
 	string3:SetPoint("TOPLEFT", backdrop1, "BOTTOMLEFT", 0, -10)
 
 	local backdrop3 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
-	backdrop3:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, 0)
+	backdrop3:SetPoint("TOPLEFT", string3, "BOTTOMLEFT")
 	backdrop3:SetPoint("BOTTOMLEFT", string3, "TOPLEFT", leftEdge, -131)
 	backdrop3:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[12], "RIGHT", -10, 0)
 	backdrop3:SetBackdrop({
@@ -765,7 +765,7 @@ function app:CreateEditPanel()
 		app.EditPanel.Pages[12].Expand:Show()
 		backdrop3:SetParent(app.EditPanel.Pages[12])
 		backdrop3:ClearAllPoints()
-		backdrop3:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, 0)
+		backdrop3:SetPoint("TOPLEFT", string3, "BOTTOMLEFT")
 		backdrop3:SetPoint("BOTTOMLEFT", string3, "TOPLEFT", leftEdge, -131)
 		backdrop3:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[12], "RIGHT", -10, 0)
 		app.EditPanel.Pages[12].Trigger:SetWidth(scrollFrame1:GetWidth())
@@ -786,7 +786,7 @@ function app:CreateEditPanel()
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 0, -130)
 
 	local backdrop4 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
-	backdrop4:SetPoint("TOPLEFT", string4, "BOTTOMLEFT", 0, 0)
+	backdrop4:SetPoint("TOPLEFT", string4, "BOTTOMLEFT")
 	backdrop4:SetPoint("BOTTOMLEFT", string4, "TOPLEFT", leftEdge, -50)
 	backdrop4:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[12], "RIGHT", -10, 0)
 	backdrop4:SetBackdrop({
@@ -842,7 +842,7 @@ function app:CreateEditPanel()
 	string5:SetPoint("TOPLEFT", backdrop4, "BOTTOMLEFT", 0, -10)
 
 	local backdrop5 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
-	backdrop5:SetPoint("TOPLEFT", string5, "BOTTOMLEFT", 0, 0)
+	backdrop5:SetPoint("TOPLEFT", string5, "BOTTOMLEFT")
 	backdrop5:SetPoint("BOTTOMLEFT", string5, "TOPLEFT", leftEdge, -58)
 	backdrop5:SetPoint("BOTTOMRIGHT", app.EditPanel.Pages[12], "RIGHT", -10, 0)
 	backdrop5:SetBackdrop({
@@ -893,7 +893,7 @@ function app:CreateEditPanel()
 
 	local backdrop6 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
 	backdrop6:SetSize(300, 23)
-	backdrop6:SetPoint("TOPLEFT", string6, "BOTTOMLEFT", 0, 0)
+	backdrop6:SetPoint("TOPLEFT", string6, "BOTTOMLEFT")
 	backdrop6:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -928,7 +928,7 @@ function app:CreateEditPanel()
 
 	local backdrop7 = CreateFrame("Frame", nil, app.EditPanel.Pages[12], "BackdropTemplate")
 	backdrop7:SetSize(120, 23)
-	backdrop7:SetPoint("TOPLEFT", string7, "BOTTOMLEFT", 0, 0)
+	backdrop7:SetPoint("TOPLEFT", string7, "BOTTOMLEFT")
 	backdrop7:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -1031,7 +1031,7 @@ function app:CreateEditPanel()
 
 	local backdrop1 = CreateFrame("Frame", nil, app.EditPanel.Pages[32], "BackdropTemplate")
 	backdrop1:SetSize(50, 23)
-	backdrop1:SetPoint("TOPLEFT", string1, "BOTTOMLEFT", 0, 0)
+	backdrop1:SetPoint("TOPLEFT", string1, "BOTTOMLEFT")
 	backdrop1:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",

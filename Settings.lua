@@ -88,8 +88,8 @@ function app:CreateSettings()
 	app.LinkCopiedFrame:Hide()
 
 	app.LinkCopiedFrame.Text = app.LinkCopiedFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	app.LinkCopiedFrame.Text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER", 0, 0)
-	app.LinkCopiedFrame.Text:SetPoint("TOP", app.LinkCopiedFrame, "TOP", 0, 0)
+	app.LinkCopiedFrame.Text:SetPoint("CENTER", app.LinkCopiedFrame, "CENTER")
+	app.LinkCopiedFrame.Text:SetPoint("TOP", app.LinkCopiedFrame, "TOP")
 	app.LinkCopiedFrame.Text:SetJustifyH("CENTER")
 
 	app.LinkCopiedFrame.animation = app.LinkCopiedFrame:CreateAnimationGroup()

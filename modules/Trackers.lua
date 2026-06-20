@@ -205,14 +205,14 @@ function app:UpdateTracker(id)
 
 		row.Text:ClearAllPoints()
 		if alignRight then
-			row.Text:SetPoint("RIGHT", row, "RIGHT", 0, 0)
-			row.Text:SetPoint("TOP", row, "TOP", 0, 0)
-			row.Text:SetPoint("BOTTOM", row, "BOTTOM", 0, 0)
+			row.Text:SetPoint("RIGHT", row, "RIGHT")
+			row.Text:SetPoint("TOP", row, "TOP")
+			row.Text:SetPoint("BOTTOM", row, "BOTTOM")
 			row.Text:SetJustifyH("RIGHT")
 		else
-			row.Text:SetPoint("LEFT", row, "LEFT", 0, 0)
-			row.Text:SetPoint("TOP", row, "TOP", 0, 0)
-			row.Text:SetPoint("BOTTOM", row, "BOTTOM", 0, 0)
+			row.Text:SetPoint("LEFT", row, "LEFT")
+			row.Text:SetPoint("TOP", row, "TOP")
+			row.Text:SetPoint("BOTTOM", row, "BOTTOM")
 			row.Text:SetJustifyH("LEFT")
 		end
 
