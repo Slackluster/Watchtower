@@ -31,22 +31,16 @@
 		<HighlightTexture atlas="Options_List_Hover" setAllPoints="true" />
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString parentKey="LeftText1" inherits="GameFontNormal" justifyH="LEFT">
+				<FontString parentKey="LeftText1" inherits="GameFontNormalMed1" justifyH="LEFT">
 					<Anchors>
 						<Anchor point="LEFT" x="2" />
 					</Anchors>
 					<Size x="400" y="24" />
 				</FontString>
-				<FontString parentKey="LeftText2" inherits="GameFontNormal" justifyH="LEFT" wordwrap="false">
+				<FontString parentKey="LeftText2" inherits="GameFontNormalMed1" justifyH="LEFT" wordwrap="false">
 					<Anchors>
-						<Anchor point="LEFT" x="22" y="1" />
-						<Anchor point="RIGHT" x="-22" />
-					</Anchors>
-					<Size x="400" y="24" />
-				</FontString>
-				<FontString parentKey="RightText" inherits="GameFontNormal" justifyH="RIGHT">
-					<Anchors>
-						<Anchor point="RIGHT" x="-5" />
+						<Anchor point="LEFT" x="24" y="1" />
+						<Anchor point="RIGHT" x="-4" />
 					</Anchors>
 					<Size x="400" y="24" />
 				</FontString>
