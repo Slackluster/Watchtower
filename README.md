@@ -3,7 +3,7 @@ A World of Warcraft addon. Download locations: [CurseForge](https://www.cursefor
 
 [![](https://media.forgecdn.net/attachments/1439/398/buymeacoffee-png.png)](https://www.buymeacoffee.com/Slackluster)
 
-**Watchtower** lets you keep a watchful eye on quests, tasks, currency, and more. It includes a fully customizable status tracker that lets you:
+**Watchtower (WT)** lets you keep a watchful eye on quests, tasks, currency, and more. It includes a fully customizable status tracker that lets you:
 - Track daily/weekly quest completion
 - Track if you've done your garrison invasion this week
 - Track if you've killed Rukhmar this week
