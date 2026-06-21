@@ -1,6 +1,7 @@
 ## Interface: 120007
 ## Title: |cff3FC7EBWatchtower|r
 ## Author: Slackluster
+## Notes: Keep a watchful eye on what's important by running code snippets
 ## IconTexture: Interface\AddOns\Watchtower\assets\icon.png
 ## Version: @project-version@
 ## X-Curse-Project-ID: 1416019
