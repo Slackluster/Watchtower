@@ -1092,15 +1092,11 @@ function app:SetSelected()
 	end
 
 	if app.FlagsList.Selected.icon then
-		app.EditPanel.DeleteButton:SetText(L.DELETE_FLAG)
-		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
-		app.EditPanel.ExportButton:SetText(L.EXPORT_FLAG)
-		app.EditPanel.ExportButton:SetWidth(app.EditPanel.ExportButton:GetTextWidth()+20)
+		app:UpdateButton(app.EditPanel.DeleteButton, L.DELETE_FLAG)
+		app:UpdateButton(app.EditPanel.ExportButton, L.EXPORT_FLAG)
 	else
-		app.EditPanel.DeleteButton:SetText(L.DELETE_GROUP)
-		app.EditPanel.DeleteButton:SetWidth(app.EditPanel.DeleteButton:GetTextWidth()+20)
-		app.EditPanel.ExportButton:SetText(L.EXPORT_GROUP)
-		app.EditPanel.ExportButton:SetWidth(app.EditPanel.ExportButton:GetTextWidth()+20)
+		app:UpdateButton(app.EditPanel.DeleteButton, L.DELETE_GROUP)
+		app:UpdateButton(app.EditPanel.ExportButton, L.EXPORT_GROUP)
 	end
 
 	-- Pages

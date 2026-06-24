@@ -181,6 +181,11 @@ function app:MakeButton(parent, text)
 	return frame
 end
 
+function app:UpdateButton(button, text)
+	button:SetText(text)
+	button:SetWidth(button:GetTextWidth()+20)
+end
+
 ------------------
 -- SHARED MEDIA --
 ------------------
