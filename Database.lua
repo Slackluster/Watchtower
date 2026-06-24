@@ -13,8 +13,7 @@ _G["BINDING_NAME_WATCHTOWER"] = app.Name
 _G["BINDING_NAME_SLACKWARE"] = "Slackware"
 
 -- Textures
-app.Texture = 236351
-app.Icon = "Interface\\AddOns\\Watchtower\\assets\\icon.png"
+app.Icon = "Interface\\Icons\\achievement_bg_defendxtowers_av"
 app.IconReady = "|TInterface\\RaidFrame\\ReadyCheck-Ready:0|t"
 app.IconNotReady = "Interface\\RaidFrame\\ReadyCheck-NotReady"
 app.IconLMB = "|TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283|t"

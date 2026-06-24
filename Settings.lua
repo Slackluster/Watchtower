@@ -53,7 +53,7 @@ function app:CreateMinimapButton()
 	local miniButton = LibStub("LibDataBroker-1.1"):NewDataObject(app.NameLong, {
 		type = "data source",
 		text = app.NameLong,
-		icon = app.Texture,
+		icon = app.Icon,
 
 		OnClick = Watchtower_Click,
 
@@ -154,6 +154,8 @@ function app:CreateSettings()
 		self.LeftText:SetTextToFit(data.leftText)
 		self.MiddleText:SetTextToFit(data.middleText)
 		self.RightText:SetTextToFit(data.rightText)
+
+		SettingsPanel.Container.SettingsList.Header.Title:SetText(CreateSimpleTextureMarkup(app.Icon) .. " " .. app.NameLong)
 	end
 
 	Watchtower_SettingsExpandMixin = CreateFromMixins(SettingsExpandableSectionMixin)
