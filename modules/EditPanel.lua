@@ -36,7 +36,7 @@ function app:CreateEditPanel()
 
 	-- Main panel
 	app.EditPanel = CreateFrame("Frame", nil, UIParent, "PortraitFrameTexturedBaseTemplate")
-	app.EditPanel:SetPortraitToAsset(app.Texture)
+	app.EditPanel:SetPortraitToAsset(app.Icon)
 	app.EditPanel:SetSize(800,500)
 	app.EditPanel:SetPoint("CENTER")
 	app.EditPanel:SetFrameStrata("HIGH")
