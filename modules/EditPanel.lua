@@ -215,7 +215,7 @@ function app:CreateEditPanel()
 		local data = node:GetData()
 
 		if data.icon then
-			listItem.LeftText1:SetText("|T" .. data.icon .. ":18|t")
+			listItem.LeftText1:SetText(CreateSimpleTextureMarkup(data.icon, 18, 18))
 			if listItem.iconButton then listItem.iconButton:Hide() end
 		elseif data.flagID == 0 then -- Header
 			listItem.LeftText1:SetText("")

@@ -191,9 +191,9 @@ function app:UpdateTracker(id)
 		end
 
 		if alignRight then
-			row.Text:SetText(flag.title .. " |T" .. flag.icon .. ":24:24|t")
+			row.Text:SetText(flag.title .. " " .. CreateSimpleTextureMarkup(flag.icon, 24, 24))
 		else
-			row.Text:SetText("|T" .. flag.icon .. ":24:24|t " .. flag.title)
+			row.Text:SetText(CreateSimpleTextureMarkup(flag.icon, 24, 24) .. " " .. flag.title)
 		end
 
 		for _, font in ipairs(app.Fonts) do
