@@ -18,7 +18,7 @@ app.IconReady = CreateSimpleTextureMarkup("Interface\\RaidFrame\\ReadyCheck-Read
 app.IconNotReady = CreateSimpleTextureMarkup("Interface\\RaidFrame\\ReadyCheck-NotReady")
 app.IconLMB = CreateAtlasMarkup("housing-hotkey-icon-leftclick")
 app.IconRMB = CreateAtlasMarkup("housing-hotkey-icon-rightclick")
-app.IconNew = CreateAtlasMarkup("UI-Journeys-GreatVault-Tag-new")
+app.IconNew = CreateAtlasMarkup("UI-Journeys-GreatVault-Tag-new", 40, 30)
 
 app.Blocked = {
 	AcceptTrade = true,
