@@ -126,7 +126,7 @@ function api:Import(importString)
 
 		local id = #Watchtower_Flags
 		app:CreateTracker(id)
-		if app.EditPanel:IsShown() then
+		if app.EditPanel:IsVisible() then
 			app.Tracker[id].window:EnableMouse(true)
 			app.Tracker[id].window.corner:Show()
 			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0.5)

@@ -23,7 +23,7 @@ end)
 ----------------
 
 function api:ToggleEditPanel()
-	if app.EditPanel:IsShown() then
+	if app.EditPanel:IsVisible() then
 		app.EditPanel:Hide()
 	else
 		app.EditPanel:Show()

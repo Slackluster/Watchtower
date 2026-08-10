@@ -71,7 +71,7 @@ function app:ShowTracker(id)
 end
 
 function app:ToggleTracker(id)
-	if app.Tracker[id].window:IsShown() then
+	if app.Tracker[id].window:IsVisible() then
 		app.Tracker[id].window:Hide()
 	else
 		app:ShowTracker(id)
@@ -101,7 +101,7 @@ function app:CreateTracker(id)
 	app.Tracker[id].window:SetScript("OnDragStart", function() app:MoveTracker(id) end)
 	app.Tracker[id].window:SetScript("OnDragStop", function() app:SaveTracker(id) end)
 	app.Tracker[id].window:SetScript("OnMouseDown", function()
-		if app.EditPanel:IsShown() then
+		if app.EditPanel:IsVisible() then
 			app.FlagsList.SelFlag = 0
 			app.FlagsList.SelGroup = id
 			app:SetSelected()
