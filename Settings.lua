@@ -14,6 +14,7 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
 		Watchtower_Settings = Watchtower_Settings or {}
 		app.Settings = Watchtower_Settings
+		app.Settings.seenNew = app.Settings.seenNew or {}
 
 		Watchtower_Flags = Watchtower_Flags or {
 			{ ["groupID"] = 1, ["title"] = L.INACTIVE, ["flags"] = {
