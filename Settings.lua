@@ -18,16 +18,16 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 
 		Watchtower_Flags = Watchtower_Flags or {
 			{ ["groupID"] = 1, ["title"] = L.INACTIVE, ["flags"] = {
-				{ ["flagID"] = 1, ["events"] = { "GLOBAL_MOUSE_DOWN" }, ["lastResult"] = true, ["icon"] = 134400,
+				{ ["flagID"] = 1, ["events"] = { "GLOBAL_MOUSE_DOWN" }, ["lastResult"] = true, ["icon"] = 134400, load = {}, actions = {},
 				["title"] = L.TUTORIAL_EXAMPLE_TITLE1,
 				["trigger"] = "-- " .. L.TUTORIAL_EXPLAIN2 .. "\n\nprint(\"Click\")\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_INACTIVE, },
 			}, },
 			{ ["groupID"] = 2, ["scale"] = 100, ["anchor"] = 3, ["style"] = 1, ["font"] = "Friz Quadrata TT", ["title"] = L.NEW_GROUP, ["flags"] = {
-				{ ["flagID"] = 1, ["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = false, ["icon"] = 134400,
+				{ ["flagID"] = 1, ["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = false, ["icon"] = 134400, load = {}, actions = {},
 				["title"] = L.TUTORIAL_EXAMPLE_TITLE2,
 				["trigger"] = "-- " .. L.TUTORIAL_TRIGGER1 .. "\nlocal event, isInitialLogin, isReloadingUi = ...\n\nif event == \"PLAYER_ENTERING_WORLD\" then\n   print(\"|cff3FC7EBWatchtower|R " .. TEST_STRING_IGNORE_1 .. "\")\nend\n\n-- " .. L.TUTORIAL_VISIBILITY1 .. "\nreturn false", },
 				{ ["flagID"] = 2,
-				["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = true, ["icon"] = 134400,
+				["events"] = { "PLAYER_ENTERING_WORLD" }, ["lastResult"] = true, ["icon"] = 134400, load = {}, actions = {},
 				["title"] = L.TUTORIAL_EXAMPLE_SETTINGS,
 				["trigger"] = "-- " .. L.TUTORIAL_VISIBILITY2 .. "\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_MOVE,
 				},
