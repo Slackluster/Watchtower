@@ -31,9 +31,6 @@ app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 				["title"] = L.TUTORIAL_EXAMPLE_SETTINGS,
 				["trigger"] = "-- " .. L.TUTORIAL_VISIBILITY2 .. "\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_MOVE,
 				},
-				{ ["flagID"] = 3, ["events"] = { "PLAYER_ENTERING_WORLD", "CHAT_MSG_CURRENCY", "BAG_UPDATE_DELAYED", "MERCHANT_CLOSED" }, ["lastResult"] = true, ["icon"] = 4696085,
-				["title"] = "Tendies",
-				["trigger"] = "local quantity = C_CurrencyInfo.GetCurrencyInfo(2032).quantity\nlocal name = C_CurrencyInfo.GetCurrencyInfo(2032).name\n\nif quantity == 0 then\n   return false\nelse\n   -- " .. L.TUTORIAL_TITLE1 .. "\n   return quantity .. \" \" .. name\nend" },
 			}, },
 		}
 
