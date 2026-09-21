@@ -112,19 +112,19 @@ function api:Import(importString)
 	end
 
 	if importType == "flag" then
-		table.insert(Watchtower_Flags[1].flags, data)
-		Watchtower_Flags[1].flags[#Watchtower_Flags[1].flags].flagID = #Watchtower_Flags[1].flags
+		table.insert(app.Flags[1].flags, data)
+		app.Flags[1].flags[#app.Flags[1].flags].flagID = #app.Flags[1].flags
 		app.FlagsList.SelGroup = 1
-		app.FlagsList.SelFlag = #Watchtower_Flags[1].flags
+		app.FlagsList.SelFlag = #app.Flags[1].flags
 
-		Watchtower_Flags[1].collapsed = false
+		app.Flags[1].collapsed = false
 	elseif importType == "group" then
-		table.insert(Watchtower_Flags, data)
-		Watchtower_Flags[#Watchtower_Flags].groupID = #Watchtower_Flags
-		app.FlagsList.SelGroup = #Watchtower_Flags
+		table.insert(app.Flags, data)
+		app.Flags[#app.Flags].groupID = #app.Flags
+		app.FlagsList.SelGroup = #app.Flags
 		app.FlagsList.SelFlag = 0
 
-		local id = #Watchtower_Flags
+		local id = #app.Flags
 		app:CreateTracker(id)
 		if app.EditPanel:IsVisible() then
 			app.Tracker[id].window:EnableMouse(true)

@@ -56,7 +56,7 @@ function app:CreateEditPanel()
 	end)
 
 	app.EditPanel:SetScript("OnShow", function()
-		for id = 2, #Watchtower_Flags do
+		for id = 2, #app.Flags do
 			app.Tracker[id].window:EnableMouse(true)
 			app.Tracker[id].window.corner:Show()
 			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0.5)
@@ -65,7 +65,7 @@ function app:CreateEditPanel()
 	end)
 	app.EditPanel:SetScript("OnHide", function()
 		app.CodeBox:Hide()
-		for id = 2, #Watchtower_Flags do
+		for id = 2, #app.Flags do
 			app.Tracker[id].window:EnableMouse(false)
 			app.Tracker[id].window.corner:Hide()
 			app.Tracker[id].window:SetBackdropColor(0, 0, 0, 0)
@@ -82,28 +82,28 @@ function app:CreateEditPanel()
 	app.EditPanel.StatusList.Background:SetAtlas("Professions-background-summarylist")
 
 	local function newFlag()
-		table.insert(Watchtower_Flags[app.FlagsList.SelGroup].flags, { flagID = #Watchtower_Flags[app.FlagsList.SelGroup].flags + 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true, load = {}, actions = {} })
-		app.FlagsList.SelFlag = #Watchtower_Flags[app.FlagsList.SelGroup].flags
+		table.insert(app.Flags[app.FlagsList.SelGroup].flags, { flagID = #app.Flags[app.FlagsList.SelGroup].flags + 1, title = L.NEW_FLAG, icon = 134400, trigger = "return true", events = { "PLAYER_ENTERING_WORLD" }, lastResult = true, load = {}, actions = {} })
+		app.FlagsList.SelFlag = #app.Flags[app.FlagsList.SelGroup].flags
 		app:SetSelected()
 		app:UpdateStatusList()
 	end
 
 	local function deleteFlag()
 		app:DeRegisterEvents(app.FlagsList.Selected)
-		table.remove(Watchtower_Flags[app.FlagsList.SelGroup].flags, app.FlagsList.SelFlag)
+		table.remove(app.Flags[app.FlagsList.SelGroup].flags, app.FlagsList.SelFlag)
 		app.FlagsList.SelFlag = app.FlagsList.SelFlag - 1
 		app:SetSelected()
-		app:ReIndexTable(Watchtower_Flags[app.FlagsList.SelGroup].flags)
+		app:ReIndexTable(app.Flags[app.FlagsList.SelGroup].flags)
 	end
 
 	local function deleteGroup()
 		app.Tracker[app.FlagsList.SelGroup].window:Hide()
-		table.remove(Watchtower_Flags, app.FlagsList.SelGroup)
+		table.remove(app.Flags, app.FlagsList.SelGroup)
 		table.remove(app.Tracker, app.FlagsList.SelGroup)
 		app.FlagsList.SelGroup = app.FlagsList.SelGroup - 1
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
-		app:ReIndexTable(Watchtower_Flags)
+		app:ReIndexTable(app.Flags)
 		app:ReIndexTable(app.Tracker)
 	end
 
@@ -144,7 +144,7 @@ function app:CreateEditPanel()
 
 	local function delete()
 		if app.FlagsList.SelFlag == 0 then
-			if #Watchtower_Flags[app.FlagsList.SelGroup].flags >= 1 then
+			if #app.Flags[app.FlagsList.SelGroup].flags >= 1 then
 				StaticPopup_Show("WATCHTOWER_CANTDELETE")
 			elseif IsShiftKeyDown() then
 				deleteGroup()
@@ -159,8 +159,8 @@ function app:CreateEditPanel()
 	end
 
 	local function newGroup()
-		table.insert(Watchtower_Flags, { groupID = #Watchtower_Flags + 1, title = L.NEW_GROUP, style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, flags = {} })
-		app.FlagsList.SelGroup = #Watchtower_Flags
+		table.insert(app.Flags, { groupID = #app.Flags + 1, title = L.NEW_GROUP, style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, flags = {} })
+		app.FlagsList.SelGroup = #app.Flags
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
 		app:UpdateStatusList()
@@ -239,7 +239,7 @@ function app:CreateEditPanel()
 			listItem.iconButton:SetScript("OnClick", function()
 				if data.flagID == 0 then
 					node:ToggleCollapsed()
-					Watchtower_Flags[data.groupID].collapsed = node:IsCollapsed()
+					app.Flags[data.groupID].collapsed = node:IsCollapsed()
 					app:UpdateStatusList()
 				end
 			end)
@@ -295,7 +295,7 @@ function app:CreateEditPanel()
 		end)
 		listItem:SetScript("OnLeave", function(self)
 			if app.Flag.Dragging then
-				if not (app.Flag.Hover.groupID == #Watchtower_Flags and app.Flag.Hover.flagID == #Watchtower_Flags[#Watchtower_Flags].flags and data.groupID == #Watchtower_Flags and data.flagID == #Watchtower_Flags[#Watchtower_Flags].flags) then
+				if not (app.Flag.Hover.groupID == #app.Flags and app.Flag.Hover.flagID == #app.Flags[#app.Flags].flags and data.groupID == #app.Flags and data.flagID == #app.Flags[#app.Flags].flags) then
 					divider:Hide()
 				end
 			end
@@ -1084,9 +1084,9 @@ end
 function app:SetSelected()
 	-- Buttons
 	if app.FlagsList.SelFlag == 0 then
-		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup]
+		app.FlagsList.Selected = app.Flags[app.FlagsList.SelGroup]
 	else
-		app.FlagsList.Selected = Watchtower_Flags[app.FlagsList.SelGroup].flags[app.FlagsList.SelFlag]
+		app.FlagsList.Selected = app.Flags[app.FlagsList.SelGroup].flags[app.FlagsList.SelFlag]
 	end
 	if app.FlagsList.SelGroup == 1 and app.FlagsList.SelFlag == 0 then
 		app.EditPanel.DeleteButton:Disable()
@@ -1188,30 +1188,30 @@ end
 
 function app:MoveTableEntry(old, target)
 	if target.groupID == 1 then
-		app:DeRegisterEvents(Watchtower_Flags[old.groupID].flags[old.flagID])
+		app:DeRegisterEvents(app.Flags[old.groupID].flags[old.flagID])
 	elseif old.groupID == 1 then
-		app:RegisterEvents(Watchtower_Flags[old.groupID].flags[old.flagID])
+		app:RegisterEvents(app.Flags[old.groupID].flags[old.flagID])
 	end
 
 	app.FlagsList.SelGroup = target.groupID
 	if old.flagID == 0 then
 		app.FlagsList.SelFlag = 0
-		Watchtower_Flags[old.groupID].groupID = target.groupID + 0.5
-		app:ReIndexTable(Watchtower_Flags)
+		app.Flags[old.groupID].groupID = target.groupID + 0.5
+		app:ReIndexTable(app.Flags)
 	elseif old.groupID == target.groupID then
 		app.FlagsList.SelFlag = target.flagID
-		Watchtower_Flags[old.groupID].flags[old.flagID].flagID = target.flagID + 0.5
-		app:ReIndexTable(Watchtower_Flags[old.groupID].flags)
+		app.Flags[old.groupID].flags[old.flagID].flagID = target.flagID + 0.5
+		app:ReIndexTable(app.Flags[old.groupID].flags)
 	else
 		app.FlagsList.SelFlag = target.flagID + 1
-		local flag = table.remove(Watchtower_Flags[old.groupID].flags, old.flagID)
-		table.insert(Watchtower_Flags[target.groupID].flags, flag)
-		Watchtower_Flags[target.groupID].flags[#Watchtower_Flags[target.groupID].flags].flagID = target.flagID + 0.5
-		app:ReIndexTable(Watchtower_Flags[old.groupID].flags)
-		app:ReIndexTable(Watchtower_Flags[target.groupID].flags)
+		local flag = table.remove(app.Flags[old.groupID].flags, old.flagID)
+		table.insert(app.Flags[target.groupID].flags, flag)
+		app.Flags[target.groupID].flags[#app.Flags[target.groupID].flags].flagID = target.flagID + 0.5
+		app:ReIndexTable(app.Flags[old.groupID].flags)
+		app:ReIndexTable(app.Flags[target.groupID].flags)
 	end
 
-	for i = 2, #Watchtower_Flags do
+	for i = 2, #app.Flags do
 		app:ShowTracker(i)
 	end
 end
@@ -1256,10 +1256,10 @@ end
 function app:UpdateStatusList()
 	local DataProvider = CreateTreeDataProvider()
 
-	for gID, group in ipairs(Watchtower_Flags) do
+	for gID, group in ipairs(app.Flags) do
 		local groupNode = DataProvider:Insert({ groupID = group.groupID, flagID = 0, title = group.title })
 		if group.collapsed then groupNode:ToggleCollapsed() end
-		for fID, flag in ipairs (Watchtower_Flags[gID].flags) do
+		for fID, flag in ipairs (app.Flags[gID].flags) do
 			groupNode:Insert({ groupID = group.groupID, flagID = flag.flagID, icon = flag.icon, title = flag.title })
 		end
 	end
@@ -1288,8 +1288,8 @@ function app:ValidateFlagIntegrity(flag)
 		validate(flag)
 	else
 		local allFlags = {}
-		for i = 2, #Watchtower_Flags do
-			for _, flg in ipairs(Watchtower_Flags[i].flags) do
+		for i = 2, #app.Flags do
+			for _, flg in ipairs(app.Flags[i].flags) do
 				validate(flg)
 			end
 		end

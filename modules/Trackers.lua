@@ -12,7 +12,7 @@ local L = app.locales
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
 	if addOnName == appName then
-		for id = 2, #Watchtower_Flags do
+		for id = 2, #app.Flags do
 			app:CreateTracker(id)
 		end
 		app.EditPanel:GetScript("OnHide")(app.EditPanel) -- I have zero clue why this is needed when the same code runs in window creation, but fuck it, this fixes the windows being draggable when they shouldn't be
@@ -26,7 +26,7 @@ end)
 app.Tracker = {}
 
 function app:UpdateAllTrackers()
-	for i = 2, #Watchtower_Flags do
+	for i = 2, #app.Flags do
 		if app.Tracker[i] then app:UpdateTracker(i) end
 	end
 end
@@ -40,24 +40,24 @@ function app:SaveTracker(id)
 
 	local left, right, top, bottom = app.Tracker[id].window:GetLeft(), app.Tracker[id].window:GetRight(), app.Tracker[id].window:GetTop(), app.Tracker[id].window:GetBottom()
 	local width, height = app.Tracker[id].window:GetSize()
-	Watchtower_Flags[id].position = { left = left, right = right, top = top, bottom = bottom, width = width, height = height }
+	app.Flags[id].position = { left = left, right = right, top = top, bottom = bottom, width = width, height = height }
 end
 
 function app:ShowTracker(id)
 	local w = app.Tracker[id].window
-	local p = Watchtower_Flags[id].position
+	local p = app.Flags[id].position
 
-	w:SetScale(Watchtower_Flags[id].scale/100)
+	w:SetScale(app.Flags[id].scale/100)
 	w:ClearAllPoints()
-	if Watchtower_Flags[id].position then
+	if app.Flags[id].position then
 		w:SetSize(p.width, p.height)
-		if Watchtower_Flags[id].anchor == 1 then
+		if app.Flags[id].anchor == 1 then
 			w:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", p.left, p.top)
-		elseif Watchtower_Flags[id].anchor == 2 then
+		elseif app.Flags[id].anchor == 2 then
 			w:SetPoint("TOPRIGHT", UIParent, "BOTTOMLEFT", p.right, p.top)
-		elseif Watchtower_Flags[id].anchor == 3 then
+		elseif app.Flags[id].anchor == 3 then
 			w:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", p.left, p.bottom)
-		elseif Watchtower_Flags[id].anchor == 4 then
+		elseif app.Flags[id].anchor == 4 then
 			w:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", p.right, p.bottom)
 		end
 	else
@@ -134,28 +134,28 @@ end
 function app:UpdateTracker(id)
 	if app.Flag.UpdatingAll then return end
 
-	if Watchtower_Flags[id].anchor == 1 then
+	if app.Flags[id].anchor == 1 then
 		app.Tracker[id].window.corner:ClearAllPoints()
 		app.Tracker[id].window.corner:SetPoint("BOTTOMRIGHT")
 		app.Tracker[id].window.corner:SetScript("OnMouseDown", function() app.Tracker[id].window:StartSizing("BOTTOMRIGHT") end)
 		app.Tracker[id].window.corner:GetNormalTexture():SetRotation(0)
 		app.Tracker[id].window.corner:GetHighlightTexture():SetRotation(0)
 		app.Tracker[id].window.corner:GetPushedTexture():SetRotation(0)
-	elseif Watchtower_Flags[id].anchor == 2 then
+	elseif app.Flags[id].anchor == 2 then
 		app.Tracker[id].window.corner:ClearAllPoints()
 		app.Tracker[id].window.corner:SetPoint("BOTTOMLEFT")
 		app.Tracker[id].window.corner:SetScript("OnMouseDown", function() app.Tracker[id].window:StartSizing("BOTTOMLEFT") end)
 		app.Tracker[id].window.corner:GetNormalTexture():SetRotation(-math.pi/2)
 		app.Tracker[id].window.corner:GetHighlightTexture():SetRotation(-math.pi/2)
 		app.Tracker[id].window.corner:GetPushedTexture():SetRotation(-math.pi/2)
-	elseif Watchtower_Flags[id].anchor == 3 then
+	elseif app.Flags[id].anchor == 3 then
 		app.Tracker[id].window.corner:ClearAllPoints()
 		app.Tracker[id].window.corner:SetPoint("TOPRIGHT")
 		app.Tracker[id].window.corner:SetScript("OnMouseDown", function() app.Tracker[id].window:StartSizing("TOPRIGHT") end)
 		app.Tracker[id].window.corner:GetNormalTexture():SetRotation(math.pi / 2)
 		app.Tracker[id].window.corner:GetHighlightTexture():SetRotation(math.pi / 2)
 		app.Tracker[id].window.corner:GetPushedTexture():SetRotation(math.pi / 2)
-	elseif Watchtower_Flags[id].anchor == 4 then
+	elseif app.Flags[id].anchor == 4 then
 		app.Tracker[id].window.corner:ClearAllPoints()
 		app.Tracker[id].window.corner:SetPoint("TOPLEFT")
 		app.Tracker[id].window.corner:SetScript("OnMouseDown", function() app.Tracker[id].window:StartSizing("TOPLEFT") end)
@@ -165,7 +165,7 @@ function app:UpdateTracker(id)
 	end
 
 	local flags = {}
-	for _, flag in ipairs(Watchtower_Flags[id].flags) do
+	for _, flag in ipairs(app.Flags[id].flags) do
 		if flag.lastResult == true then
 			table.insert(flags, flag)
 		end
@@ -174,8 +174,8 @@ function app:UpdateTracker(id)
 	app.Tracker[id].pool:ReleaseAll()
 	app.Tracker[id].content.children = {}
 
-	local growUp = Watchtower_Flags[id].anchor >= 3
-	local alignRight = Watchtower_Flags[id].anchor == 2 or Watchtower_Flags[id].anchor == 4
+	local growUp = app.Flags[id].anchor >= 3
+	local alignRight = app.Flags[id].anchor == 2 or app.Flags[id].anchor == 4
 	local yOffset = 0
 	local spacing = 6
 	local rowHeight = 26
@@ -197,7 +197,7 @@ function app:UpdateTracker(id)
 		end
 
 		for _, font in ipairs(app.Fonts) do
-			if font.name == Watchtower_Flags[id].font then
+			if font.name == app.Flags[id].font then
 				row.Text:SetFont(font.path, 16)
 				break
 			end

@@ -134,8 +134,8 @@ function app:RegisterEvents(flag)
 		handleEvents(flag)
 	else
 		local allFlags = {}
-		for i = 2, #Watchtower_Flags do
-			for _, flg in ipairs(Watchtower_Flags[i].flags) do
+		for i = 2, #app.Flags do
+			for _, flg in ipairs(app.Flags[i].flags) do
 				table.insert(allFlags, flg)
 			end
 		end
