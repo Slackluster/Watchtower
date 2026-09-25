@@ -243,7 +243,7 @@ function app:IsTriggerValid(flag, debug)
 	local safe, func, result, ok = app:IsTriggerSafe(flag)
 	if not safe then
 		if debug then
-			app:Print(L.FUNCTION_ERROR .. " " .. tostring(result))
+			app:Print(L.FUNCTION_ERROR, tostring(result))
 		end
 		return false
 	elseif not func then
@@ -251,10 +251,10 @@ function app:IsTriggerValid(flag, debug)
 	end
 
 	if not ok then
-		if debug then app:Print(L.FUNCTION_ERROR .. " " .. tostring(result)) end
+		if debug then app:Print(L.FUNCTION_ERROR, tostring(result)) end
 		return false
 	end
 
-	if debug then app:Print(L.FUNCTION_OUTPUT .. " " .. tostring(result)) end
+	if debug then app:Print(L.FUNCTION_OUTPUT, tostring(result)) end
 	return true, func, result
 end

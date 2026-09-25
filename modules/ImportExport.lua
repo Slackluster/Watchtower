@@ -61,7 +61,7 @@ function api:Import(importString)
 	assert(self == api, "Call api:Import(), not api.Import()")
 
 	if type(importString) ~= "string" or not importString:match("^WT1:") then
-		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_INVALID_IMPORT_STRING)
+		app:Print(L.IMPORT_ERROR, L.ERROR_INVALID_IMPORT_STRING)
 		return false
 	end
 
@@ -69,19 +69,19 @@ function api:Import(importString)
 
 	local ok, compressed = pcall(C_EncodingUtil.DecodeBase64, payload, Enum.Base64Variant.Standard)
 	if not ok or not compressed then
-		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_DECODE .. 1)
+		app:Print(L.IMPORT_ERROR, string.format(L.ERROR_DECODE, 1))
 		return false
 	end
 
 	local ok2, cbor = pcall(C_EncodingUtil.DecompressString, compressed, Enum.CompressionMethod.Deflate)
 	if not ok2 or not cbor then
-		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_DECODE .. 2)
+		app:Print(L.IMPORT_ERROR, string.format(L.ERROR_DECODE, 2))
 		return false
 	end
 
 	local ok3, data = pcall(C_EncodingUtil.DeserializeCBOR, cbor)
 	if not ok3 or type(data) ~= "table" then
-		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_DECODE .. 3)
+		app:Print(L.IMPORT_ERROR, string.format(L.ERROR_DECODE, 3))
 		return false
 	end
 
@@ -89,7 +89,7 @@ function api:Import(importString)
 	local function checkFlag(flg)
 		local safe = app:IsTriggerSafe(flg)
 		if not safe then
-			local err = L.IMPORT_ERROR .. " " .. string.format(L.ERROR_BLOCKED, flg.title)
+			local err = L.IMPORT_ERROR, string.format(L.ERROR_BLOCKED, flg.title)
 			return false, err
 		end
 		return true
@@ -102,7 +102,7 @@ function api:Import(importString)
 			_, error = checkFlag(flag)
 		end
 	else
-		app:Print(L.IMPORT_ERROR .. " " .. L.ERROR_INVALID_IMPORT_STRING)
+		app:Print(L.IMPORT_ERROR, L.ERROR_INVALID_IMPORT_STRING)
 		return false
 	end
 

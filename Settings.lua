@@ -325,5 +325,5 @@ function app:CreateSettings()
 
 	header(L.GENERAL)
 
-	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, L.SETTINGS_MINIMAP_DESC, true, function() app:ToggleMinimapIcon() end)
+	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, string.format(L.SETTINGS_MINIMAP_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
 end

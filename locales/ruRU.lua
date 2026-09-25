@@ -26,7 +26,7 @@ L.SLASH_TOGGLE_EDITPANEL =               "Включить панель реда
 L.SLASH_OPEN_SETTINGS =                  "Откройте настройки"
 
 L.SETTINGS_MINIMAP_TITLE =               "Показывать иконку на миникарте"
-L.SETTINGS_MINIMAP_DESC =                "Показывать иконку на миникарте. Если вы отключите это, " .. app.NameLong .. " все еще доступен из отсека аддонов."
+L.SETTINGS_MINIMAP_DESC =                "Показывать иконку на миникарте. Если вы отключите это, %s все еще доступен из отсека аддонов." -- %s becomes the addon name
 
 -- Edit Panel
 L.NEW_FLAG =                             "Новый флаг"
@@ -128,11 +128,11 @@ L.EXPORT_ERROR =                         "Ошибка экспорта:"
 L.ERROR_BLOCKED =                        "%s был заблокирован"
 L.ERROR_UNKNOWN =                        "Произошла неизвестная ошибка"
 L.ERROR_INVALID_IMPORT_STRING =          "Недопустимая строка импорта"
-L.ERROR_DECODE =                         "Неудачное декодирование #" -- Followed by a number
-L.FLAG_ERROR_LUA =                       "Флаг Watchtower [%s] вызвал ошибку в '%s':" -- The %s's are variable flag title and event name
+L.ERROR_DECODE =                         "Неудачное декодирование #%d" -- %d becomes a number
+L.FLAG_ERROR_LUA =                       "Флаг Watchtower [%s] вызвал ошибку в '%s':" -- %s becomes a flag name and event name
 
 -- General
-L.NEW_VERSION_AVAILABLE =                "Доступна новая версия " .. app.NameLong .. ":"
+L.NEW_VERSION_AVAILABLE =                "Доступна новая версия %s:" -- %s becomes the addon name
 L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
                                          app.IconLMB .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" ..
                                          app.IconRMB .. ": " .. L.SLASH_OPEN_SETTINGS

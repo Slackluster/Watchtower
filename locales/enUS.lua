@@ -26,7 +26,7 @@ L.SLASH_TOGGLE_EDITPANEL =               "Toggle the edit panel"
 L.SLASH_OPEN_SETTINGS =                  "Open the settings"
 
 L.SETTINGS_MINIMAP_TITLE =               "Show Minimap Icon"
-L.SETTINGS_MINIMAP_DESC =                "Show the minimap icon. If you disable this, " .. app.NameLong .. " is still available from the Addon Compartment."
+L.SETTINGS_MINIMAP_DESC =                "Show the minimap icon. If you disable this, %s is still available from the Addon Compartment." -- %s becomes the addon name
 
 -- Edit Panel
 L.NEW_FLAG =                             "New Flag"
@@ -128,11 +128,11 @@ L.EXPORT_ERROR =                         "Export error:"
 L.ERROR_BLOCKED =                        "%s was blocked"
 L.ERROR_UNKNOWN =                        "An unknown error occurred"
 L.ERROR_INVALID_IMPORT_STRING =          "Invalid import string"
-L.ERROR_DECODE =                         "Failed decode #" -- Followed by a number
-L.FLAG_ERROR_LUA =                       "Watchtower flag [%s] caused an error on '%s':" -- The %s's are variable flag title and event name
+L.ERROR_DECODE =                         "Failed decode #%d" -- %d becomes a number
+L.FLAG_ERROR_LUA =                       "Watchtower flag [%s] caused an error on '%s':" -- %s becomes a flag name and event name
 
 -- General
-L.NEW_VERSION_AVAILABLE =                "There is a newer version of " .. app.NameLong .. " available:"
+L.NEW_VERSION_AVAILABLE =                "There is a newer version of %s available:" -- %s becomes the addon name
 L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
                                          app.IconLMB .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" ..
                                          app.IconRMB .. ": " .. L.SLASH_OPEN_SETTINGS
