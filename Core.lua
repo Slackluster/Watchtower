@@ -160,7 +160,7 @@ end
 function Watchtower_Enter(self, button)
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
-	GameTooltip:AddLine(L.SETTINGS_TOOLTIP)
+	GameTooltip:AddLine(app.NameLong .. "\n|cffFFFFFF" .. app.IconLMB .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" .. app.IconRMB .. ": " .. L.SLASH_OPEN_SETTINGS)
 	GameTooltip:Show()
 end
 

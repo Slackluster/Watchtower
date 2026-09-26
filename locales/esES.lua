@@ -8,9 +8,15 @@ if GetLocale() ~= "esES" then return end
 local appName, app = ...
 local L = app.locales
 
+-- Core
+L.NEW_VERSION_AVAILABLE =                "Hay una versión más nueva de %s disponible:" -- %s becomes the addon name
+
+L.INVALID_COMMAND =                      "Comando no válido"
+
 -- Settings
 L.SETTINGS_VERSION =                     GAME_VERSION_LABEL .. ":" -- "Version"
-L.SETTINGS_SUPPORT_TEXTLONG =            "Desarrollar este addon requiere una cantidad significativa de tiempo y esfuerzo.\nPor favor, considera apoyar financieramente al desarrollador."
+L.SETTINGS_SUPPORT_TEXTLONG1 =           "Desarrollar este addon requiere una cantidad significativa de tiempo y esfuerzo."
+L.SETTINGS_SUPPORT_TEXTLONG2 =           "Por favor, considera apoyar financieramente al desarrollador."
 L.SETTINGS_SUPPORT_TEXT =                "Apoyar"
 L.SETTINGS_SUPPORT_BUTTON =              "Buy Me a Coffee" -- Brand name, if there isn't a localised version, keep it the way it is
 L.SETTINGS_SUPPORT_DESC =                "¡Gracias!"
@@ -20,13 +26,15 @@ L.SETTINGS_HELP_DESC =                   "Únete al servidor de Discord."
 L.SETTINGS_URL_COPY =                    "Ctrl+C para copiar:"
 L.SETTINGS_URL_COPIED =                  "Enlace copiado al portapapeles"
 
--- L.SETTINGS_KEYSLASH_TITLE =              SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands" -- "Keybindings"
+L.SETTINGS_KEYSLASH_TITLE =              SETTINGS_KEYBINDINGS_LABEL .. " y Comandos" -- "Keybindings"
 -- _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =   app.NameShort .. ": Toggle Edit Panel"
+-- L.SLASH_OR =                             "or"
 -- L.SLASH_TOGGLE_EDITPANEL =               "Toggle the edit panel"
--- L.SLASH_OPEN_SETTINGS =                  "Open the settings"
+L.SLASH_OPEN_SETTINGS =                  "Abrir opciones"
 
--- L.SETTINGS_MINIMAP_TITLE =               "Show Minimap Icon"
--- L.SETTINGS_MINIMAP_DESC =                "Show the minimap icon. If you disable this, %s is still available from the Addon Compartment." -- %s becomes the addon name
+L.GENERAL =                              GENERAL -- "General"
+L.SHOW_MINIMAP_ICON =                    "Mostrar icono de minimapa"
+L.SHOW_MINIMAP_ICON_DESC =               "Muestra el icono del minimapa. Si desactivas esto, %s sigue disponible en el apartado de Addons." -- %s becomes the addon name
 
 -- Edit Panel
 -- L.NEW_FLAG =                             "New Flag"
@@ -43,8 +51,6 @@ L.SETTINGS_URL_COPIED =                  "Enlace copiado al portapapeles"
 -- L.HOLD_SKIP =                            "Hold Shift to skip this confirmation."
 -- L.CANTDELETE_GROUP =                     "Can't delete a group with flags"
 -- L.CANTMOVE_GROUP =                       "Can't move this group"
-
--- L.GENERAL =                              GENERAL -- "General"
 
 -- L.TUTORIAL_HEADER =                      "Readme.txt"
 -- L.TUTORIAL_EXPLAIN1 =                    "Flags run code on events and can be made visible via an icon and title."
@@ -119,23 +125,14 @@ L.SETTINGS_URL_COPIED =                  "Enlace copiado al portapapeles"
 
 -- Debugging
 -- L.ERROR_UNKNOWN_EVENT =                  "Unknown event:"
--- L.ERROR_BLOCKED1 =                       "Access to \"%s\" is blocked"
--- L.ERROR_BLOCKED2 =                       "Assignment to \"%s\" is blocked"
+-- L.ERROR_BLOCKED1 =                       "Access to \"%s\" is blocked" -- %s becomes a function name
+-- L.ERROR_BLOCKED2 =                       "Assignment to \"%s\" is blocked" -- %s becomes a function name
 -- L.FUNCTION_ERROR =                       "Function error:"
 -- L.FUNCTION_OUTPUT =                      "Function output:"
 -- L.IMPORT_ERROR =                         "Import error:"
 -- L.EXPORT_ERROR =                         "Export error:"
--- L.ERROR_BLOCKED =                        "%s was blocked"
+-- L.ERROR_BLOCKED =                        "%s was blocked" -- %s becomes a flag name
 -- L.ERROR_UNKNOWN =                        "An unknown error occurred"
 -- L.ERROR_INVALID_IMPORT_STRING =          "Invalid import string"
 -- L.ERROR_DECODE =                         "Failed decode #%d" -- %d becomes a number
 -- L.FLAG_ERROR_LUA =                       "Watchtower flag [%s] caused an error on '%s':" -- %s becomes a flag name and event name
-
--- General
--- L.NEW_VERSION_AVAILABLE =                "There is a newer version of %s available:" -- %s becomes the addon name
--- L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
---                                          app.IconLMB .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" ..
---                                          app.IconRMB .. ": " .. L.SLASH_OPEN_SETTINGS
-
--- L.INVALID_COMMAND =                      "Invalid command"
--- L.OR =                                   "or"

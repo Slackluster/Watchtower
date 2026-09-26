@@ -38,11 +38,8 @@ function app:CreateMinimapButton()
 		icon = app.Icon,
 
 		OnClick = Watchtower_Click,
-
-		OnTooltipShow = function(tooltip)
-			if not tooltip or not tooltip.AddLine then return end
-			tooltip:AddLine(L.SETTINGS_TOOLTIP)
-		end,
+		OnEnter = Watchtower_Enter,
+		OnLeave = Watchtower_Leave,
 	})
 
 	app.MinimapIcon = LibStub("LibDBIcon-1.0", true)
@@ -305,7 +302,7 @@ function app:CreateSettings()
 	app.SettingsCategory = category
 
 	text(L.SETTINGS_VERSION .. " |cffFFFFFF" .. app.Version, nil, nil, 14)
-	text(L.SETTINGS_SUPPORT_TEXTLONG)
+	text(L.SETTINGS_SUPPORT_TEXTLONG1 .. "\n" .. L.SETTINGS_SUPPORT_TEXTLONG2)
 	button(L.SETTINGS_SUPPORT_TEXT, L.SETTINGS_SUPPORT_BUTTON, L.SETTINGS_SUPPORT_DESC, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://buymeacoffee.com/Slackluster") end)
 	button(L.SETTINGS_HELP_TEXT, L.SETTINGS_HELP_BUTTON, L.SETTINGS_HELP_DESC, function() StaticPopup_Show("WATCHTOWER_URL", nil, nil, "https://discord.gg/hGvF59hstx") end)
 
@@ -314,7 +311,7 @@ function app:CreateSettings()
 		keybind("WATCHTOWER_TOGGLE", isExpanded)
 
 		local leftText = { "|cffFFFFFF" ..
-			"/watch|r " .. L.OR .. " |cffFFFFFF/wt",
+			"/watch|r " .. L.SLASH_OR .. " |cffFFFFFF/wt",
 			"/watch settings" }
 		local middleText = {
 			L.SLASH_TOGGLE_EDITPANEL,
@@ -325,5 +322,5 @@ function app:CreateSettings()
 
 	header(L.GENERAL)
 
-	checkbox("minimapIcon", L.SETTINGS_MINIMAP_TITLE, string.format(L.SETTINGS_MINIMAP_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
+	checkbox("minimapIcon", L.SHOW_MINIMAP_ICON, string.format(L.SHOW_MINIMAP_ICON_DESC, app.NameShort), true, function() app:ToggleMinimapIcon() end)
 end

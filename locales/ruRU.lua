@@ -8,9 +8,15 @@ if GetLocale() ~= "ruRU" then return end
 local appName, app = ...
 local L = app.locales
 
+-- Core
+L.NEW_VERSION_AVAILABLE =                "Доступна новая версия %s:" -- %s becomes the addon name
+
+L.INVALID_COMMAND =                      "Неверная команда"
+
 -- Settings
 L.SETTINGS_VERSION =                     GAME_VERSION_LABEL .. ":" -- "Version"
-L.SETTINGS_SUPPORT_TEXTLONG =            "Разработка этого аддона требует значительного времени и усилий.\nПожалуйста, рассмотрите возможность финансовой поддержки разработчика."
+L.SETTINGS_SUPPORT_TEXTLONG1 =           "Разработка этого аддона требует значительного времени и усилий."
+L.SETTINGS_SUPPORT_TEXTLONG2 =           "Пожалуйста, рассмотрите возможность финансовой поддержки разработчика."
 L.SETTINGS_SUPPORT_TEXT =                "Поддержать"
 L.SETTINGS_SUPPORT_BUTTON =              "Buy Me a Coffee" -- Brand name, if there isn't a localised version, keep it the way it is
 L.SETTINGS_SUPPORT_DESC =                "Спасибо!"
@@ -22,11 +28,13 @@ L.SETTINGS_URL_COPIED =                  "Ссылка скопирована в
 
 L.SETTINGS_KEYSLASH_TITLE =              SETTINGS_KEYBINDINGS_LABEL .. " & Слэш-команды" -- "Keybindings"
 _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =   app.NameShort .. ": Включить панель редактирования"
+L.SLASH_OR =                             "или"
 L.SLASH_TOGGLE_EDITPANEL =               "Включить панель редактирования"
 L.SLASH_OPEN_SETTINGS =                  "Откройте настройки"
 
-L.SETTINGS_MINIMAP_TITLE =               "Показывать иконку на миникарте"
-L.SETTINGS_MINIMAP_DESC =                "Показывать иконку на миникарте. Если вы отключите это, %s все еще доступен из отсека аддонов." -- %s becomes the addon name
+L.GENERAL =                              GENERAL -- "General"
+L.SHOW_MINIMAP_ICON =                    "Показывать иконку на миникарте"
+L.SHOW_MINIMAP_ICON_DESC =               "Показывать иконку на миникарте. Если вы отключите это, %s все еще доступен из отсека аддонов." -- %s becomes the addon name
 
 -- Edit Panel
 L.NEW_FLAG =                             "Новый флаг"
@@ -43,8 +51,6 @@ L.DELETE_GROUP_Q =                       "Удалить эту группу?"
 L.HOLD_SKIP =                            "Удерживайте Shift, чтобы не спрашивать подтверждение."
 L.CANTDELETE_GROUP =                     "Нельзя удалить группу с флагами внутри"
 L.CANTMOVE_GROUP =                       "Невозможно переместить эту группу"
-
-L.GENERAL =                              GENERAL -- "General"
 
 L.TUTORIAL_HEADER =                      "Readme.txt"
 L.TUTORIAL_EXPLAIN1 =                    "Флаги запускают код при возникновении событий и могут быть отображены с помощью значка и заголовка."
@@ -130,12 +136,3 @@ L.ERROR_UNKNOWN =                        "Произошла неизвестн�
 L.ERROR_INVALID_IMPORT_STRING =          "Недопустимая строка импорта"
 L.ERROR_DECODE =                         "Неудачное декодирование #%d" -- %d becomes a number
 L.FLAG_ERROR_LUA =                       "Флаг Watchtower [%s] вызвал ошибку в '%s':" -- %s becomes a flag name and event name
-
--- General
-L.NEW_VERSION_AVAILABLE =                "Доступна новая версия %s:" -- %s becomes the addon name
-L.SETTINGS_TOOLTIP =                     app.NameLong .. "\n|cffFFFFFF" ..
-                                         app.IconLMB .. ": " .. L.SLASH_TOGGLE_EDITPANEL .. "\n" ..
-                                         app.IconRMB .. ": " .. L.SLASH_OPEN_SETTINGS
-
-L.INVALID_COMMAND =                      "Неверная команда"
-L.OR =                                   "или"
