@@ -37,40 +37,40 @@ end)
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-			app.Retail = true
-		elseif WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
-			app.Forever = true
-		end
+	if addOnName ~= appName then return end
 
-		Watchtower_Flags = Watchtower_Flags or {
-			{ groupID = 1, title = L.INACTIVE, flags = {
-				{ flagID = 1, events = { "GLOBAL_MOUSE_DOWN" }, lastResult = true, icon = 134400, load = {}, actions = {},
-				title = L.TUTORIAL_EXAMPLE_TITLE1,
-				trigger = "-- " .. L.TUTORIAL_EXPLAIN2 .. "\n\nprint(\"Click\")\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_INACTIVE, },
-			}, },
-			{ groupID = 2, scale = 100, anchor = 3, style = 1, font = "Friz Quadrata TT", title = L.NEW_GROUP, flags = {
-				{ flagID = 1, events = { "PLAYER_ENTERING_WORLD" }, lastResult = false, icon = 134400, load = {}, actions = {},
-				title = L.TUTORIAL_EXAMPLE_TITLE2,
-				trigger = "-- " .. L.TUTORIAL_TRIGGER1 .. "\nlocal event, isInitialLogin, isReloadingUi = ...\n\nif event == \"PLAYER_ENTERING_WORLD\" then\n   print(\"|cff3FC7EBWatchtower|r " .. L.TEST .. "\")\nend\n\n-- " .. L.TUTORIAL_VISIBILITY1 .. "\nreturn false", },
-				{ flagID = 2,
-				events = { "PLAYER_ENTERING_WORLD" }, lastResult = true, icon = 134400, load = {}, actions = {},
-				title = L.TUTORIAL_EXAMPLE_SETTINGS,
-				trigger = "-- " .. L.TUTORIAL_VISIBILITY2 .. "\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_MOVE,
-				},
-			}, },
-		}
-		Watchtower_Settings = Watchtower_Settings or {}
-
-		app.Flags = Watchtower_Flags
-		app.Settings = Watchtower_Settings
-		app.Flag = {}
-		app.Version = C_AddOns.GetAddOnMetadata(appName, "Version")
-
-		C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
-		app:CreateSlashCommands()
+	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+		app.Retail = true
+	elseif WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
+		app.Forever = true
 	end
+
+	Watchtower_Flags = Watchtower_Flags or {
+		{ groupID = 1, title = L.INACTIVE, flags = {
+			{ flagID = 1, events = { "GLOBAL_MOUSE_DOWN" }, lastResult = true, icon = 134400, load = {}, actions = {},
+			title = L.TUTORIAL_EXAMPLE_TITLE1,
+			trigger = "-- " .. L.TUTORIAL_EXPLAIN2 .. "\n\nprint(\"Click\")\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_INACTIVE, },
+		}, },
+		{ groupID = 2, scale = 100, anchor = 3, style = 1, font = "Friz Quadrata TT", title = L.NEW_GROUP, flags = {
+			{ flagID = 1, events = { "PLAYER_ENTERING_WORLD" }, lastResult = false, icon = 134400, load = {}, actions = {},
+			title = L.TUTORIAL_EXAMPLE_TITLE2,
+			trigger = "-- " .. L.TUTORIAL_TRIGGER1 .. "\nlocal event, isInitialLogin, isReloadingUi = ...\n\nif event == \"PLAYER_ENTERING_WORLD\" then\n   print(\"|cff3FC7EBWatchtower|r " .. L.TEST .. "\")\nend\n\n-- " .. L.TUTORIAL_VISIBILITY1 .. "\nreturn false", },
+			{ flagID = 2,
+			events = { "PLAYER_ENTERING_WORLD" }, lastResult = true, icon = 134400, load = {}, actions = {},
+			title = L.TUTORIAL_EXAMPLE_SETTINGS,
+			trigger = "-- " .. L.TUTORIAL_VISIBILITY2 .. "\nreturn true\n\n-- " .. L.TUTORIAL_EXAMPLE_MOVE,
+			},
+		}, },
+	}
+	Watchtower_Settings = Watchtower_Settings or {}
+
+	app.Flags = Watchtower_Flags
+	app.Settings = Watchtower_Settings
+	app.Flag = {}
+	app.Version = C_AddOns.GetAddOnMetadata(appName, "Version")
+
+	C_ChatInfo.RegisterAddonMessagePrefix(app.NamePrefix)
+	app:CreateSlashCommands()
 end)
 
 -------------------

@@ -11,10 +11,10 @@ local L = app.locales
 -------------
 
 app.Event:Register("ADDON_LOADED", function(addOnName, containsBindings)
-	if addOnName == appName then
-		app:CreateImportPopup()
-		app:CreateExportPopup()
-	end
+	if addOnName ~= appName then return end
+
+	app:CreateImportPopup()
+	app:CreateExportPopup()
 end)
 
 ------------
