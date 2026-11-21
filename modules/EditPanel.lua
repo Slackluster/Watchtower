@@ -296,7 +296,9 @@ function app:CreateEditPanel()
 		end)
 		listItem:SetScript("OnLeave", function(self)
 			if app.Flag.Dragging then
-				if not (app.Flag.Hover.groupID == #app.Flags and app.Flag.Hover.flagID == #app.Flags[#app.Flags].flags and data.groupID == #app.Flags and data.flagID == #app.Flags[#app.Flags].flags) then
+				local lastGroup = app.Flags[#app.Flags]
+				local lastVisibleFlag = lastGroup.collapsed and 0 or #lastGroup.flags
+				if data.groupID ~= lastGroup.groupID or data.flagID ~= lastVisibleFlag then
 					divider:Hide()
 				end
 			end
