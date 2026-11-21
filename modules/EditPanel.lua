@@ -750,7 +750,7 @@ function app:CreateEditPanel()
 	app.EditPanel.Pages[12].Expand:SetScript("OnClick", function() app.CodeBox:Show() end)
 
 	app.CodeBox = CreateFrame("Frame", "Watchtower_CodeBox", UIParent, "DefaultPanelTemplate")
-	app.CodeBox:SetFrameStrata("HIGH")
+	app.CodeBox:SetFrameStrata("DIALOG")
 	app.CodeBox:SetSize(1000, 700)
 	app.CodeBox:SetPoint("CENTER")
 	app.CodeBox:EnableMouse(true)
