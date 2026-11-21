@@ -68,10 +68,7 @@ function app:RegisterEvents(flag)
 	end
 
 	local function runWhenTruthy(flg, result)
-		flg.lastResult = true
-		if type(result) == "string" or type(result) == "number" then
-			flg.title = result
-		end
+		flg.lastResult = result
 
 		if flg.actions then
 			if flg.actions.hideAfter and type(flg.actions.hideAfter) == "number" and flg.actions.hideAfter > 0 then

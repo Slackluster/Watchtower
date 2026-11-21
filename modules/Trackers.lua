@@ -164,7 +164,7 @@ function app:UpdateTracker(id)
 
 	local flags = {}
 	for _, flag in ipairs(app.Flags[id].flags) do
-		if flag.lastResult == true then
+		if flag.lastResult then
 			table.insert(flags, flag)
 		end
 	end
@@ -188,10 +188,11 @@ function app:UpdateTracker(id)
 			row.Text = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 		end
 
+		local title = type(flag.lastResult) == "string" and flag.lastResult or flag.title
 		if alignRight then
-			row.Text:SetText(flag.title .. " " .. CreateSimpleTextureMarkup(flag.icon, 24, 24))
+			row.Text:SetText(title .. " " .. CreateSimpleTextureMarkup(flag.icon, 24, 24))
 		else
-			row.Text:SetText(CreateSimpleTextureMarkup(flag.icon, 24, 24) .. " " .. flag.title)
+			row.Text:SetText(CreateSimpleTextureMarkup(flag.icon, 24, 24) .. " " .. title)
 		end
 
 		for _, font in ipairs(app.Fonts) do
