@@ -62,7 +62,7 @@ function app:DeRegisterEvents(flag)
 	flag.handles = {}
 end
 
-function app:RegisterEvents(flag)
+function app:RegisterEvents(flag, silent)
 	local function triggerErrorHandler(err, flg, event)
 		return string.format(L.FLAG_ERROR_LUA .. " %s\n", flg.title or UNKNOWN, event or UNKNOWN, err)
 	end
@@ -80,20 +80,28 @@ function app:RegisterEvents(flag)
 		end
 	end
 
-	local debug = not not flag
-	local function handleEvents(flg)
+	local debug = not not flag and not silent
+	local function handleEvents(flg, group)
 		if not flg.trigger then return end
 
-		local valid, func, result = app:IsTriggerValid(flg, debug)
+		local matches = app:FlagMatchesLoadConditions(flg, group)
+		local valid, func, result = app:IsTriggerValid(flg, debug, not matches)
 		if not valid then return end
 
-		if result then
+		if matches and result then
 			runWhenTruthy(flg, result)
 		else
 			flg.lastResult = false
 		end
 
 		local wrapper = function(event, ...)
+			if not app:FlagMatchesLoadConditions(flg, group) then
+				if flg.lastResult then
+					flg.lastResult = false
+					RunNextFrame(function() app:UpdateAllTrackers() end)
+				end
+				return
+			end
 			local ok, result = xpcall(func, function(err) return triggerErrorHandler(err, flg, event) end, event, ...)
 			if not ok then
 				flg.lastResult = false
@@ -116,12 +124,16 @@ function app:RegisterEvents(flag)
 
 	if flag then
 		app:DeRegisterEvents(flag)
-		handleEvents(flag)
+		for i = 2, #app.Flags do
+			for _, flg in ipairs(app.Flags[i].flags) do
+				if flg == flag then handleEvents(flag, app.Flags[i]); return end
+			end
+		end
 	else
 		local allFlags = {}
 		for i = 2, #app.Flags do
 			for _, flg in ipairs(app.Flags[i].flags) do
-				table.insert(allFlags, flg)
+				table.insert(allFlags, { flag = flg, group = app.Flags[i] })
 			end
 		end
 
@@ -143,8 +155,8 @@ function app:RegisterEvents(flag)
 
 			for i = 1, #allFlags do
 				C_Timer.After(i/flagsPerSecond, function()
-					app:DeRegisterEvents(allFlags[i])
-					handleEvents(allFlags[i])
+					app:DeRegisterEvents(allFlags[i].flag)
+					handleEvents(allFlags[i].flag, allFlags[i].group)
 				end)
 			end
 		end)
@@ -198,7 +210,7 @@ function app:CreateTriggerEnv() -- Vibecoded, feedback appreciated
 	return env
 end
 
-function app:IsTriggerSafe(flag)
+function app:IsTriggerSafe(flag, skipExecution)
 	if not flag.trigger then
 		return true
 	end
@@ -210,6 +222,7 @@ function app:IsTriggerSafe(flag)
 
 	setfenv(func, app:CreateTriggerEnv())
 
+	if skipExecution then return true, func, nil, true end
 	local ok, result = pcall(func)
 	if not ok then
 		if type(result) == "table" and result.blocked then
@@ -220,12 +233,12 @@ function app:IsTriggerSafe(flag)
 	return true, func, result, ok
 end
 
-function app:IsTriggerValid(flag, debug)
+function app:IsTriggerValid(flag, debug, skipExecution)
 	if not flag.trigger then
 		return false
 	end
 
-	local safe, func, result, ok = app:IsTriggerSafe(flag)
+	local safe, func, result, ok = app:IsTriggerSafe(flag, skipExecution)
 	if not safe then
 		if debug then
 			app:Print(L.FUNCTION_ERROR, tostring(result))
@@ -240,6 +253,6 @@ function app:IsTriggerValid(flag, debug)
 		return false
 	end
 
-	if debug then app:Print(L.FUNCTION_OUTPUT, tostring(result)) end
+	if debug and not skipExecution then app:Print(L.FUNCTION_OUTPUT, tostring(result)) end
 	return true, func, result
 end

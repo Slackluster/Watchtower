@@ -160,7 +160,7 @@ function app:CreateEditPanel()
 	end
 
 	local function newGroup()
-		table.insert(app.Flags, { groupID = #app.Flags + 1, title = L.NEW_GROUP, style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, flags = {} })
+		table.insert(app.Flags, { groupID = #app.Flags + 1, title = L.NEW_GROUP, style = 1, font = "Friz Quadrata TT", scale = 100, anchor = 3, load = {}, flags = {} })
 		app.FlagsList.SelGroup = #app.Flags
 		app.FlagsList.SelFlag = 0
 		app:SetSelected()
@@ -255,12 +255,19 @@ function app:CreateEditPanel()
 		end
 		listItem.Highlight:Hide()
 
-		if data.groupID == 1 and data.flagID ~= 0 then
+		local loadInactive = false
+		if data.flagID == 0 then
+			if data.groupID > 1 then loadInactive = not app:MatchesLoadConditions(app.Flags[data.groupID].load) end
+		else
+			loadInactive = not app:FlagMatchesLoadConditions(app.Flags[data.groupID].flags[data.flagID], app.Flags[data.groupID])
+		end
+
+		if data.groupID == 1 and data.flagID ~= 0 or loadInactive then
 			listItem.LeftText2:SetText("|cff9D9D9D" .. data.title)
 		end
 
 		if app.FlagsList.SelGroup == data.groupID and app.FlagsList.SelFlag == data.flagID then
-			listItem.LeftText2:SetText("|cffFFFFFF" .. data.title)
+			if not loadInactive then listItem.LeftText2:SetText("|cffFFFFFF" .. data.title) end
 			listItem.Highlight:Show()
 		end
 
@@ -1007,30 +1014,20 @@ function app:CreateEditPanel()
 	MenuUtil.CreateButtonMenu(app.EditPanel.Pages[12].Templates, unpack(templates))
 
 	createTab(L.LOAD, 2)
+	app.EditPanel.Tabs[2]:HookScript("OnEnter", function(self)
+		if app.FlagsList.SelFlag ~= 0 and app:HasLoadConditions(app.Flags[app.FlagsList.SelGroup].load) then
+			GameTooltip:SetOwner(self, "ANCHOR_TOP")
+			GameTooltip:SetText(L.LOADCONDITION_GROUP_OVERRIDE)
+			GameTooltip:Show()
+		end
+	end)
+	app.EditPanel.Tabs[2]:HookScript("OnLeave", function(self)
+		if GameTooltip:IsOwned(self) then GameTooltip:Hide() end
+	end)
 
-	-- Inactive
-	app.EditPanel.Pages[20] = app.EditPanel.Pages[10]
-
-	-- Group
-	-- app.EditPanel.Pages[21] = CreateFrame("Frame", nil, app.EditPanel.Options)
-	-- app.EditPanel.Pages[21]:SetAllPoints(app.EditPanel.Options)
-
-	-- Flag
-	-- app.EditPanel.Pages[22] = CreateFrame("Frame", nil, app.EditPanel.Options)
-	-- app.EditPanel.Pages[22]:SetAllPoints(app.EditPanel.Options)
+	app:CreateLoadConditionsEditor()
 
 	createTab(L.ACTIONS, 3)
-
-	-- Inactive
-	app.EditPanel.Pages[30] = app.EditPanel.Pages[10]
-
-	-- Group
-	app.EditPanel.Pages[31] = CreateFrame("Frame", nil, app.EditPanel.Options)
-	app.EditPanel.Pages[31]:SetAllPoints(app.EditPanel.Options)
-
-	local string1 = app.EditPanel.Pages[31]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	string1:SetText("W.I.P. Can't do this for a group yet, but you can set this per flag.")
-	string1:SetPoint("TOPLEFT", app.EditPanel.Pages[31], 10, -12)
 
 	-- Flag
 	app.EditPanel.Pages[32] = CreateFrame("Frame", nil, app.EditPanel.Options)
@@ -1129,8 +1126,24 @@ function app:SetSelected()
 		PanelTemplates_DisableTab(app.EditPanel.Options, 2)
 		PanelTemplates_DisableTab(app.EditPanel.Options, 3)
 	else
-		--PanelTemplates_EnableTab(app.EditPanel.Options, 2)
-		PanelTemplates_EnableTab(app.EditPanel.Options, 3)
+		if app.FlagsList.SelFlag == 0 then
+			PanelTemplates_DisableTab(app.EditPanel.Options, 3)
+			if app.SelectedTab == 3 then
+				app.SelectedTab = 1
+				PanelTemplates_SetTab(app.EditPanel.Options, 1)
+			end
+		else
+			PanelTemplates_EnableTab(app.EditPanel.Options, 3)
+		end
+		if app.FlagsList.SelFlag ~= 0 and app:HasLoadConditions(app.Flags[app.FlagsList.SelGroup].load) then
+			PanelTemplates_DisableTab(app.EditPanel.Options, 2)
+			if app.SelectedTab == 2 then
+				app.SelectedTab = 1
+				PanelTemplates_SetTab(app.EditPanel.Options, 1)
+			end
+		else
+			PanelTemplates_EnableTab(app.EditPanel.Options, 2)
+		end
 
 		if app.SelectedTab == 1 then
 			if not app.FlagsList.Selected.icon then
@@ -1160,19 +1173,11 @@ function app:SetSelected()
 				app.EditPanel.Pages[12].Version:SetText(app.FlagsList.Selected.semver or "")
 			end
 		elseif app.SelectedTab == 2 then
-			if not app.FlagsList.Selected.icon then
-				app.EditPanel.Pages[21]:Show()
-			else
-				app.EditPanel.Pages[22]:Show()
-			end
+			app:ShowLoadConditionsEditor()
+			app.EditPanel.Pages[21]:Show()
 		elseif app.SelectedTab == 3 then
-			if not app.FlagsList.Selected.icon then
-				app.EditPanel.Pages[31]:Show()
-			else
-				app.EditPanel.Pages[32]:Show()
-
-				app.EditPanel.Pages[32].HideAfter:SetText(app.FlagsList.Selected.actions.hideAfter or 0)
-			end
+			app.EditPanel.Pages[32]:Show()
+			app.EditPanel.Pages[32].HideAfter:SetText(app.FlagsList.Selected.actions.hideAfter or 0)
 		end
 	end
 end
@@ -1200,10 +1205,8 @@ function app:ReIndexTable(tbl)
 end
 
 function app:MoveTableEntry(old, target)
-	if target.groupID == 1 then
+	if target.groupID == 1 and old.flagID ~= 0 then
 		app:DeRegisterEvents(app.Flags[old.groupID].flags[old.flagID])
-	elseif old.groupID == 1 then
-		app:RegisterEvents(app.Flags[old.groupID].flags[old.flagID])
 	end
 
 	app.FlagsList.SelGroup = target.groupID
@@ -1222,6 +1225,7 @@ function app:MoveTableEntry(old, target)
 		app.Flags[target.groupID].flags[#app.Flags[target.groupID].flags].flagID = target.flagID + 0.5
 		app:ReIndexTable(app.Flags[old.groupID].flags)
 		app:ReIndexTable(app.Flags[target.groupID].flags)
+		if target.groupID ~= 1 then app:RegisterEvents(flag, true) end
 	end
 
 	for i = 2, #app.Flags do
@@ -1300,8 +1304,8 @@ function app:ValidateFlagIntegrity(flag)
 	if flag then
 		validate(flag)
 	else
-		local allFlags = {}
 		for i = 2, #app.Flags do
+			if not app.Flags[i].load then app.Flags[i].load = {} end
 			for _, flg in ipairs(app.Flags[i].flags) do
 				validate(flg)
 			end

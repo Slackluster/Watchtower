@@ -97,6 +97,54 @@ local L = app.locales
 
 -- L.LOAD =                                 "Load"
 
+-- L.LOADCONDITION_MATCH1 =                 "Match" -- followed by an any/all dropdown
+-- L.LOADCONDITION_MATCH2 =                 "of these conditions for %s:" -- preceded by an any/all dropdown, %s becomes a flag or group name
+-- L.LOADCONDITION_VALID =                  "Load condition is valid."
+-- L.LOADCONDITION_INCOMPLETE =             "Load condition is incomplete."
+-- L.LOADCONDITION_GROUP_HELP =             "Only load this group when it matches these conditions:"
+-- L.LOADCONDITION_FLAG_HELP =              "Only load this flag when it matches these conditions:"
+-- L.LOADCONDITION_GROUP_OVERRIDE =         "Load conditions controlled by group."
+-- L.REVERT =                               COOLDOWN_VIEWER_SETTINGS_BUTTON_REVERT_CHANGES -- "Revert"
+-- L.APPLY_CHANGES =                        TRANSMOG_SITUATIONS_APPLY -- "Apply Changes"
+
+-- L.CONDITION = {}
+-- L.CONDITION[1] =                         CHARACTER -- "Character"
+-- L.CONDITION[2] =                         NAME -- "Name"
+-- L.CONDITION[3] =                         LEVEL -- "Level"
+-- L.CONDITION[4] =                         "Realm"
+-- L.CONDITION[5] =                         TRANSMOG_SOURCE_6 -- "Profession"
+-- L.CONDITION[6] =                         CLASS -- "Class"
+-- L.CONDITION[7] =                         "Ruleset"
+-- L.CONDITIONSTATE = {}
+-- L.CONDITIONSTATE[1] =                    "any"
+-- L.CONDITIONSTATE[2] =                    "all"
+-- L.CONDITIONSTATE[3] =                    "is less than"
+-- L.CONDITIONSTATE[4] =                    "is"
+-- L.CONDITIONSTATE[5] =                    "is any of"
+-- L.CONDITIONSTATE[6] =                    "is greater than"
+-- L.CONDITIONSTATE[7] =                    "is not"
+-- L.CONDITIONSTATE[8] =                    "is not any of"
+-- L.CONDITIONSTATE[9] =                    "starts with"
+-- L.CONDITIONSTATE[10] =                   "ends with"
+-- L.CONDITIONSTATE[11] =                   "contains"
+-- L.CONDITIONSTATE[12] =                   "does not contain"
+-- L.RULESET = {}
+-- L.RULESET[1] =                           GDAPI_REALMTYPE_NORMAL -- "Normal"
+-- L.RULESET[2] =                           GDAPI_REALMTYPE_PVP -- "PvP"
+-- L.RULESET[3] =                           "Roleplay"
+-- L.RULESET[4] =                           "Roleplay PvP"
+-- L.RULESET[5] =                           GUILD_PLAYSTYLE_HARDCORE -- "Hardcore"
+
+-- L.LOADCONDITION_MATCH1 =                 "Match" -- followed by an any/all dropdown
+-- L.LOADCONDITION_MATCH2 =                 "of these conditions for %s:" -- preceded by an any/all dropdown, %s becomes a flag or group name
+-- L.LOADCONDITION_VALID =                  "Load condition is valid."
+-- L.LOADCONDITION_INCOMPLETE =             "Load condition is incomplete."
+-- L.LOADCONDITION_GROUP_HELP =             "Only load this group when it matches these conditions:"
+-- L.LOADCONDITION_FLAG_HELP =              "Only load this flag when it matches these conditions:"
+-- L.LOADCONDITION_GROUP_OVERRIDE =         "Load conditions controlled by group."
+-- L.REVERT =                               COOLDOWN_VIEWER_SETTINGS_BUTTON_REVERT_CHANGES -- "Revert"
+-- L.APPLY_CHANGES =                        TRANSMOG_SITUATIONS_APPLY -- "Apply Changes"
+
 -- L.ACTIONS =                              DAMAGE_METER_CATEGORY_ACTIONS -- "Actions"
 
 -- L.HIDE_AFTER =                           "Hide after X seconds "

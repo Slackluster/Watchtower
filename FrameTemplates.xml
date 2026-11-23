@@ -61,4 +61,70 @@
 			</Layer>
 		</Layers>
 	</Button>
+
+	<Button name="Watchtower_LoadCondition" virtual="true">
+		<Size x="200" y="40" />
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Icon" inherits="GameFontNormalHuge" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="LEFT" x="0" />
+					</Anchors>
+					<Size x="40" y="40" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<DropdownButton parentKey="Dropdown1" inherits="WowStyle1DropdownTemplate">
+				<Size x="100" y="25" />
+				<Anchors>
+					<Anchor point="LEFT" x="25" y="0" />
+				</Anchors>
+			</DropdownButton>
+			<DropdownButton parentKey="Dropdown2" inherits="WowStyle1DropdownTemplate">
+				<Size x="140" y="25" />
+				<Anchors>
+					<Anchor point="LEFT" x="135" y="0" />
+				</Anchors>
+			</DropdownButton>
+			<DropdownButton parentKey="Dropdown3" inherits="WowStyle1DropdownTemplate">
+				<Size x="135" y="25" />
+				<Anchors>
+					<Anchor point="LEFT" x="285" y="0" />
+				</Anchors>
+			</DropdownButton>
+			<EditBox parentKey="Editbox1" inherits="InputBoxTemplate" autoFocus="false" letters="30">
+				<Size x="130" y="30"/>
+				<Anchors>
+					<Anchor point="LEFT" x="290" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnEnterPressed>
+						self:ClearFocus()
+					</OnEnterPressed>
+					<OnEscapePressed>
+						self:ClearFocus()
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+			<Button parentKey="AddButton" inherits="UIButtonTemplate">
+				<Size x="30" y="30"/>
+				<Anchors>
+					<Anchor point="RIGHT" x="-10" y="0"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="buttonArtKit" value="128-redbutton-plus" type="string"/>
+				</KeyValues>
+			</Button>
+			<Button parentKey="RemoveButton" inherits="UIButtonTemplate">
+				<Size x="30" y="30"/>
+				<Anchors>
+					<Anchor point="RIGHT" x="-45" y="0"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="buttonArtKit" value="128-redbutton-minus" type="string"/>
+				</KeyValues>
+			</Button>
+		</Frames>
+	</Button>
 </Ui>

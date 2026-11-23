@@ -165,7 +165,11 @@ function app:UpdateTracker(id)
 	local flags = {}
 	for _, flag in ipairs(app.Flags[id].flags) do
 		if flag.lastResult then
-			table.insert(flags, flag)
+			if app:FlagMatchesLoadConditions(flag, app.Flags[id]) then
+				table.insert(flags, flag)
+			else
+				flag.lastResult = false
+			end
 		end
 	end
 
