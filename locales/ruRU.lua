@@ -61,7 +61,7 @@ L.TUTORIAL_TRIGGER2 =                    "Код выполняется неза
 L.TUTORIAL_VISIBILITY =                  "Видимость"
 L.TUTORIAL_VISIBILITY1 =                 "Код, возвращающий ложное значение, скрывает флаг:"
 L.TUTORIAL_VISIBILITY2 =                 "Код, возвращающий истинное значение, отображает флаг:"
--- L.TEST =                                 TEST_STRING_IGNORE_1 -- "Test"
+L.TEST =                                 TEST_STRING_IGNORE_1 -- "Test"
 L.TUTORIAL_TITLE =                       "Название флага"
 L.TUTORIAL_TITLE1 =                      "Код, возвращающий число или строку, установит заголовок флага в это значение."
 L.TUTORIAL_WHAT =                        "Я ничего из этого не понимаю! D:"
@@ -101,9 +101,9 @@ L.LOADCONDITION_MATCH1 =                 "Соответствие" -- followed 
 L.LOADCONDITION_MATCH2 =                 "из этих условий для %s:" -- preceded by an any/all dropdown, %s becomes a flag or group name
 L.LOADCONDITION_VALID =                  "Условие загрузки корректно."
 L.LOADCONDITION_INCOMPLETE =             "Условие загрузки заполнено не полностью."
--- L.LOADCONDITION_GROUP_HELP =             "Only load this group when it matches these conditions:"
--- L.LOADCONDITION_FLAG_HELP =              "Only load this flag when it matches these conditions:"
--- L.LOADCONDITION_GROUP_OVERRIDE =         "Load conditions controlled by group."
+L.LOADCONDITION_GROUP_HELP =             "Загружать эту группу только при выполнении следующих условий:"
+L.LOADCONDITION_FLAG_HELP =              "Загружать этот флаг только при выполнении следующих условий:"
+L.LOADCONDITION_GROUP_OVERRIDE =         "Условия загрузки задаются группой."
 L.REVERT =                               COOLDOWN_VIEWER_SETTINGS_BUTTON_REVERT_CHANGES -- "Revert"
 L.APPLY_CHANGES =                        TRANSMOG_SITUATIONS_APPLY -- "Apply Changes"
 
@@ -135,15 +135,6 @@ L.RULESET[3] =                           "Ролевой"
 L.RULESET[4] =                           "Ролевой PvP"
 L.RULESET[5] =                           GUILD_PLAYSTYLE_HARDCORE -- "Hardcore"
 
--- L.LOADCONDITION_MATCH1 =                 "Match" -- followed by an any/all dropdown
--- L.LOADCONDITION_MATCH2 =                 "of these conditions for %s:" -- preceded by an any/all dropdown, %s becomes a flag or group name
--- L.LOADCONDITION_VALID =                  "Load condition is valid."
--- L.LOADCONDITION_INCOMPLETE =             "Load condition is incomplete."
--- L.LOADCONDITION_GROUP_HELP =             "Only load this group when it matches these conditions:"
--- L.LOADCONDITION_FLAG_HELP =              "Only load this flag when it matches these conditions:"
--- L.LOADCONDITION_GROUP_OVERRIDE =         "Load conditions controlled by group."
--- L.REVERT =                               COOLDOWN_VIEWER_SETTINGS_BUTTON_REVERT_CHANGES -- "Revert"
--- L.APPLY_CHANGES =                        TRANSMOG_SITUATIONS_APPLY -- "Apply Changes"
 
 L.ACTIONS =                              DAMAGE_METER_CATEGORY_ACTIONS -- "Actions"
 
