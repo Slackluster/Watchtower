@@ -87,11 +87,11 @@ L.SHOW_MINIMAP_ICON_DESC =               "Afficher le bouton de la mini-carte. S
 -- L.GROUP_STYLE[1] =                       "Icons and Text"
 -- L.GROUP_STYLE[2] =                       "|cff9D9D9DIcons Only (Soon™)"
 -- L.ANCHOR =                               "Anchor"
--- L.GROUP_ANCHOR = {}
--- L.GROUP_ANCHOR[1] =                      "Top Left"
--- L.GROUP_ANCHOR[2] =                      "Top Right"
--- L.GROUP_ANCHOR[3] =                      "Bottom Left"
--- L.GROUP_ANCHOR[4] =                      "Bottom Right"
+L.GROUP_ANCHOR = {}
+L.GROUP_ANCHOR[1] =                      "Haut gauche"
+L.GROUP_ANCHOR[2] =                      "Haut droite"
+L.GROUP_ANCHOR[3] =                      "Bas gauche"
+L.GROUP_ANCHOR[4] =                      "Bas droite"
 -- L.FONT =                                 "Font"
 -- L.SCALE =                                HOUSING_EXPERT_DECOR_SUBMODE_SCALE -- "Scale"
 

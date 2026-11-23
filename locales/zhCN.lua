@@ -87,11 +87,11 @@ L.SHOW_MINIMAP_ICON_DESC =               "显示小地图图标。禁用后仍�
 -- L.GROUP_STYLE[1] =                       "Icons and Text"
 -- L.GROUP_STYLE[2] =                       "|cff9D9D9DIcons Only (Soon™)"
 -- L.ANCHOR =                               "Anchor"
--- L.GROUP_ANCHOR = {}
--- L.GROUP_ANCHOR[1] =                      "Top Left"
--- L.GROUP_ANCHOR[2] =                      "Top Right"
--- L.GROUP_ANCHOR[3] =                      "Bottom Left"
--- L.GROUP_ANCHOR[4] =                      "Bottom Right"
+L.GROUP_ANCHOR = {}
+L.GROUP_ANCHOR[1] =                      "左上"
+L.GROUP_ANCHOR[2] =                      "右上"
+L.GROUP_ANCHOR[3] =                      "左下"
+L.GROUP_ANCHOR[4] =                      "右下"
 -- L.FONT =                                 "Font"
 -- L.SCALE =                                HOUSING_EXPERT_DECOR_SUBMODE_SCALE -- "Scale"
 

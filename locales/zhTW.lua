@@ -9,32 +9,32 @@ local appName, app = ...
 local L = app.locales
 
 -- Core
--- L.NEW_VERSION_AVAILABLE =                "There is a newer version of %s available:" -- %s becomes the addon name
+L.NEW_VERSION_AVAILABLE =                "%s 有新版本可用：" -- %s becomes the addon name
 
--- L.INVALID_COMMAND =                      "Invalid command"
+L.INVALID_COMMAND =                      "指令無效"
 
 -- Settings
--- L.VERSION =                              GAME_VERSION_LABEL .. ":" -- "Version"
--- L.SUPPORT_TEXTLONG1 =                    "Developing this addon takes a significant amount of time and effort."
--- L.SUPPORT_TEXTLONG2 =                    "Please consider financially supporting the developer."
--- L.SUPPORT =                              "Support"
--- L.BUY_ME_A_COFFEE =                      "Buy Me a Coffee" -- Brand name, if there isn't a localised version, keep it the way it is
--- L.THANK_YOU =                            "Thank you!"
--- L.FEEDBACK_AND_HELP =                    "Feedback & Help"
--- L.DISCORD =                              "Discord" -- Brand name, if there isn't a localised version, keep it the way it is
--- L.JOIN_DISCORD_SERVER =                  "Join the Discord server."
--- L.CTRL_C_COPY =                          "Ctrl+C to copy:"
--- L.LINK_COPIED =                          "Link copied to clipboard"
+L.VERSION =                              GAME_VERSION_LABEL .. "：" -- "Version"
+L.SUPPORT_TEXTLONG1 =                    "開發這個插件需要投入大量的時間與心力。"
+L.SUPPORT_TEXTLONG2 =                    "歡迎考慮以金錢支持開發者。"
+L.SUPPORT =                              "支持"
+L.BUY_ME_A_COFFEE =                      "Buy Me a Coffee" -- Brand name, if there isn't a localised version, keep it the way it is
+L.THANK_YOU =                            "謝謝！"
+L.FEEDBACK_AND_HELP =                    "意見回饋與協助"
+L.DISCORD =                              "Discord" -- Brand name, if there isn't a localised version, keep it the way it is
+L.JOIN_DISCORD_SERVER =                  "加入 Discord 伺服器。"
+L.CTRL_C_COPY =                          "按 Ctrl+C 複製："
+L.LINK_COPIED =                          "連結已複製到剪貼簿"
 
--- L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & Slash Commands" -- "Keybindings"
+L.KEYBINDINGS_AND_SLASH_COMMANDS =       SETTINGS_KEYBINDINGS_LABEL .. " & 斜線指令" -- "Keybindings"
 -- _G["BINDING_NAME_WATCHTOWER_TOGGLE"] =   app.NameShort .. ": Toggle Edit Panel"
 -- L.OR =                                   "or"
 -- L.TOGGLE_EDIT_PANEL =                    "Toggle the edit panel"
--- L.OPEN_SETTINGS =                        "Open the settings"
+L.OPEN_SETTINGS =                        "開啟設定"
 
--- L.GENERAL =                              GENERAL -- "General"
--- L.SHOW_MINIMAP_ICON =                    "Show Minimap Icon"
--- L.SHOW_MINIMAP_ICON_DESC =               "Show the minimap icon. If you disable this, %s is still available from the Addon Compartment." -- %s becomes the addon name
+L.GENERAL =                              GENERAL -- "General"
+L.SHOW_MINIMAP_ICON =                    "顯示小地圖圖示"
+L.SHOW_MINIMAP_ICON_DESC =               "顯示小地圖圖示。即使停用，仍可從插件選單開啟 %s。" -- %s becomes the addon name
 
 -- Edit Panel
 -- L.NEW_FLAG =                             "New Flag"
