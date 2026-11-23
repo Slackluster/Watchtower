@@ -373,7 +373,7 @@ function app:CreateEditPanel()
 
 	local string3 = app.EditPanel.Pages[10]:CreateFontString(nil, "ARTWORK", "SystemFont_Shadow_Med2_Outline")
 	string3:SetPoint("TOPLEFT", string2, "BOTTOMLEFT", -3, -14)
-	string3:SetText(L.TUTORIAL_TRIGGERE)
+	string3:SetText(L.TUTORIAL_TRIGGER)
 
 	local string4 = app.EditPanel.Pages[10]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	string4:SetPoint("TOPLEFT", string3, "BOTTOMLEFT", 3, -4)
