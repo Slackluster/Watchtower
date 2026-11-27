@@ -178,12 +178,12 @@ function app:CreateEditPanel()
 	app.EditPanel.NewGroupButton:SetPoint("TOPRIGHT", app.EditPanel.NewFlagButton, "TOPLEFT", -2, 0)
 	app.EditPanel.NewGroupButton:SetScript("OnClick", newGroup)
 
-	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, L.DELETE_GROUP)
+	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, L.DELETE)
 	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewFlagButton)
 	app.EditPanel.DeleteButton:SetPoint("RIGHT", app.EditPanel, -6, 0)
 	app.EditPanel.DeleteButton:SetScript("OnClick", delete)
 
-	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, L.EXPORT_GROUP)
+	app.EditPanel.ExportButton = app:MakeButton(app.EditPanel, L.EXPORT)
 	app.EditPanel.ExportButton:SetPoint("TOPRIGHT", app.EditPanel.DeleteButton, "TOPLEFT", -2, 0)
 	app.EditPanel.ExportButton:SetScript("OnClick", function() StaticPopup_Show("WATCHTOWER_EXPORT") end)
 
@@ -1104,14 +1104,6 @@ function app:SetSelected()
 	else
 		app.EditPanel.DeleteButton:Enable()
 		app.EditPanel.ExportButton:Enable()
-	end
-
-	if app.FlagsList.Selected.icon then
-		app:UpdateButton(app.EditPanel.DeleteButton, L.DELETE_FLAG)
-		app:UpdateButton(app.EditPanel.ExportButton, L.EXPORT_FLAG)
-	else
-		app:UpdateButton(app.EditPanel.DeleteButton, L.DELETE_GROUP)
-		app:UpdateButton(app.EditPanel.ExportButton, L.EXPORT_GROUP)
 	end
 
 	-- Pages

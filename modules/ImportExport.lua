@@ -146,7 +146,7 @@ end
 
 function app:CreateExportPopup()
 	StaticPopupDialogs["WATCHTOWER_EXPORT"] = {
-		text = app.NameLong,
+		text = app.NameLong .. ": " .. L.EXPORT,
 		button1 = CLOSE,
 		whileDead = true,
 		hasEditBox = true,
@@ -154,7 +154,6 @@ function app:CreateExportPopup()
 		OnShow = function(dialog)
 			dialog:ClearAllPoints()
 			dialog:SetPoint("CENTER", UIParent)
-			StaticPopup1Text:SetText(app.NameLong .. ": " .. app.EditPanel.ExportButton:GetText())
 
 			local exportType = (app.FlagsList.SelFlag == 0) and "group" or "flag"
 			local exportString = api:Export(app.FlagsList.Selected, exportType)
