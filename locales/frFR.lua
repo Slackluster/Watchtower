@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "Afficher le bouton de la mini-carte"
 L.SHOW_MINIMAP_ICON_DESC =               "Afficher le bouton de la mini-carte. Si vous désactivez cette fonction, %s sera toujours disponible dans le panneau des addons." -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "Indicateur"
+L.GROUP =                                "Groupe"
 L.NEW_FLAG =                             "Nouvel indicateur"
 L.NEW_GROUP =                            "Nouveau groupe"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "Minikartensymbol anzeigen"
 L.SHOW_MINIMAP_ICON_DESC =               "Zeigt das Minikartensymbol an. Wenn du dies deaktivierst, bleibt %s über das Addon-Fach erreichbar." -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "Flag"
+L.GROUP =                                "Gruppe"
 L.NEW_FLAG =                             "Neue Flag"
 L.NEW_GROUP =                            "Neue Gruppe"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

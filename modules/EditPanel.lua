@@ -170,16 +170,21 @@ function app:CreateEditPanel()
 		app.EditPanel:GetScript("OnShow")(app.EditPanel)
 	end
 
-	app.EditPanel.NewFlagButton = app:MakeButton(app.EditPanel, L.NEW_FLAG)
-	app.EditPanel.NewFlagButton:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, "TOPRIGHT", 0, 2)
-	app.EditPanel.NewFlagButton:SetScript("OnClick", newFlag)
-
-	app.EditPanel.NewGroupButton = app:MakeButton(app.EditPanel, L.NEW_GROUP)
-	app.EditPanel.NewGroupButton:SetPoint("TOPRIGHT", app.EditPanel.NewFlagButton, "TOPLEFT", -2, 0)
-	app.EditPanel.NewGroupButton:SetScript("OnClick", newGroup)
+	app.EditPanel.NewButton = app:MakeButton(app.EditPanel, L.NEW)
+	app.EditPanel.NewButton:SetPoint("BOTTOMRIGHT", app.EditPanel.StatusList, "TOPRIGHT", 0, 2)
+	app.EditPanel.NewButton:SetScript("OnClick", function(self)
+		local menu = MenuUtil.CreateContextMenu(self, function(owner, rootDescription)
+			rootDescription:CreateButton(L.FLAG, newFlag)
+			rootDescription:CreateButton(L.GROUP, newGroup)
+		end)
+		if menu then
+			menu:ClearAllPoints()
+			menu:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+		end
+	end)
 
 	app.EditPanel.DeleteButton = app:MakeButton(app.EditPanel, L.DELETE)
-	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewFlagButton)
+	app.EditPanel.DeleteButton:SetPoint("TOP", app.EditPanel.NewButton)
 	app.EditPanel.DeleteButton:SetPoint("RIGHT", app.EditPanel, -6, 0)
 	app.EditPanel.DeleteButton:SetScript("OnClick", delete)
 

@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "Mostra icona minimappa"
 L.SHOW_MINIMAP_ICON_DESC =               "Mostra l'icona sulla minimappa. Se disattivata, %s rimane disponibile dal Comparto addon." -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "Segnale"
+L.GROUP =                                "Gruppo"
 L.NEW_FLAG =                             "Nuovo segnale"
 L.NEW_GROUP =                            "Nuovo gruppo"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

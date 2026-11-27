@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "显示小地图图标"
 L.SHOW_MINIMAP_ICON_DESC =               "显示小地图图标。如果您禁用此选项，仍可通过插件目录访问 %s。" -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "标记"
+L.GROUP =                                "分组"
 L.NEW_FLAG =                             "新建标记"
 L.NEW_GROUP =                            "新建分组"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

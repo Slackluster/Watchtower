@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "미니맵 아이콘 표시"
 L.SHOW_MINIMAP_ICON_DESC =               "미니맵 아이콘을 표시합니다. 비활성화해도 애드온 메뉴에서 %s을(를) 사용할 수 있습니다." -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "플래그"
+L.GROUP =                                "그룹"
 L.NEW_FLAG =                             "새 플래그"
 L.NEW_GROUP =                            "새 그룹"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

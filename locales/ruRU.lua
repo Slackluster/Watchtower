@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "Показывать иконку на
 L.SHOW_MINIMAP_ICON_DESC =               "Показывать иконку на миникарте. Если вы отключите это, %s все еще доступен из отсека аддонов." -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "Флаг"
+L.GROUP =                                "Группа"
 L.NEW_FLAG =                             "Новый флаг"
 L.NEW_GROUP =                            "Новая группа"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

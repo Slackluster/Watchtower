@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "顯示小地圖圖示"
 L.SHOW_MINIMAP_ICON_DESC =               "顯示小地圖圖示。即使停用，仍可從插件選單開啟 %s。" -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "旗標"
+L.GROUP =                                "群組"
 L.NEW_FLAG =                             "新旗標"
 L.NEW_GROUP =                            "新群組"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"

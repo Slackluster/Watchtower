@@ -37,6 +37,9 @@ L.SHOW_MINIMAP_ICON =                    "Show Minimap Icon"
 L.SHOW_MINIMAP_ICON_DESC =               "Show the minimap icon. If you disable this, %s is still available from the Addon Compartment." -- %s becomes the addon name
 
 -- Edit Panel
+L.NEW =                                  NEW -- "New"
+L.FLAG =                                 "Flag"
+L.GROUP =                                "Group"
 L.NEW_FLAG =                             "New Flag"
 L.NEW_GROUP =                            "New Group"
 L.INACTIVE =                             FACTION_INACTIVE -- "Inactive"
